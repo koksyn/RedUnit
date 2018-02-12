@@ -4,7 +4,7 @@ Pack of varied **tools** for **Red** language.
 
 ## Objects
 
-### IoC Container
+### Prototype's Container
 
 Collects objects under identifiers as `key-value` map.
 

@@ -1,5 +1,5 @@
 Red [
-    Title: "Inversion of Control container for Red Lang"
+    Title: "Prototype objects container"
     Author: "Mateusz Palichleb"
     File: %ioc-container.red
 ]
