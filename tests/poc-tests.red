@@ -15,7 +15,7 @@ tests: context [
     ]
 
     test-add-not-allowed-types: func [
-        "Initialize context before each test"
+        "Test register an not allowed types will throw an error"
     ] [
         not-allowed-types: [
             "string" 
