@@ -5,7 +5,7 @@ Red [
     File: %poc-example.red
 ]
 
-do %poc.red
+do %../src/poc.red
 
 ; ------------------------------------------------------
 ; Example 1: Adding and getting book by ISBN
