@@ -6,9 +6,7 @@ Pack of varied **tools** for **Red** language.
 
 ### Prototype objects container 
 
-*File*
-
-`src/poc.red`
+*File* `src/poc.red`
 
 *Purpose*
 
