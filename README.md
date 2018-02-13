@@ -68,7 +68,7 @@ tester/run tests
 
 Console output:
 
-```
+```bash
 ./red -s test.red 
 --------- Tester ----------
 Version 0.0.1
