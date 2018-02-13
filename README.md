@@ -2,7 +2,12 @@
 
 Pack of varied **tools** for **Red** language.
 
-## Running tests
+### Tools
+
+- **POC** - Prototype objects container 
+- **Tester** - Testing tool
+
+### Tests for tools
 
 To run tests simply execute script `run-all-tests.red` from project main directory through **Red** binary.
 This script will detect and execute all test files like `***-tests.red` under `/tests` directory.
@@ -11,9 +16,7 @@ This script will detect and execute all test files like `***-tests.red` under `/
 ./red -s run-all-tests.red
 ```
 
-## Tools
-
-### Prototype objects container 
+## Prototype objects container 
 
 `src/poc.red`
 
@@ -21,7 +24,7 @@ This script will detect and execute all test files like `***-tests.red` under `/
 
 Ability to store objects safely in a *key-value* map, with access control and type checking. Currently `map!` can store anything, so *POC* will guarantee, that only objects will be stored. Fetching chosen element will return a clone of object prototype. 
 
-### "Tester" testing tool 
+## "Tester" testing tool 
 
 `src/tester.red`
 
