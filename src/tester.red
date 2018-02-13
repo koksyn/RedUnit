@@ -3,7 +3,7 @@ Red [
     Description: "Tool for running tests of Red scripts like in xUnit, nUnit and other similar libs."
     Purpose: "Be able to test Red language scripts"
     Author: "Mateusz Palichleb"
-    File: %poc-example.red
+    File: %tester.red
     Version: "0.0.1"
 ]
 
