@@ -6,8 +6,10 @@ Pack of varied **tools** for **Red** language.
 
 ### Prototype objects container 
 
-Path: `src/poc.red`
+*File*
 
-Purpose: ability to store objects safely in a map, with access control and type checking. Currently `map!` can store anything, so *POC* will guarantee, that only objects will be stored.
+`src/poc.red`
 
-Collects objects under identifiers as `key-value` map. Fetching chosen element will return a clone of object prototype. 
+*Purpose*
+
+ability to store objects safely in a *key-value* map, with access control and type checking. Currently `map!` can store anything, so *POC* will guarantee, that only objects will be stored. Fetching chosen element will return a clone of object prototype. 
