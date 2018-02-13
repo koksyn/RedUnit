@@ -15,25 +15,25 @@ This script will detect and execute all test files like `***-tests.red` under `/
 
 ### Prototype objects container 
 
-**File** `src/poc.red`
+`src/poc.red`
 
-**Purpose**
+#### Purpose
 
 Ability to store objects safely in a *key-value* map, with access control and type checking. Currently `map!` can store anything, so *POC* will guarantee, that only objects will be stored. Fetching chosen element will return a clone of object prototype. 
 
 ### "Tester" testing tool 
 
-**File** `src/tester.red`
+`src/tester.red`
 
-**Purpose**
+#### Purpose
 
 Tool for running tests of Red language scripts inspired by *PhpUnit*, *xUnit*, *nUnit* and other similar libraries.
 
-**Description**
+#### Description
 
-"Tester" expects that you will give him a `object!`, which will contain test methods. Each test method name should be started with "test-". Also `startup` method is executed before each test separately - optionally (only if `object!` consist method with name `startup`).
+"Tester" expects that you will give him a `object!`, which will contain test methods. Each test method name should be started with `test-`. Optionally `setup` method will be executed before each test separately (only if `object!` consist method with name `setup`).
 
-Example:
+#### Example:
 
 ```red
 Red [
@@ -63,7 +63,7 @@ tests: context [
 tester/run tests
 ```
 
-Execution & output in console:
+Console output:
 
 ```
 ./red -s test.red 
