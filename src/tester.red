@@ -41,6 +41,7 @@ tester: context [
         foreach test tests [
 	    prin rejoin ["[test] " test " "]
 	    errors-before: length? errors
+            error-expected: false
             actual-test-name: to string! test
 
             if execute-setup [
@@ -68,11 +69,11 @@ tester: context [
         end-time: now/time/precise/utc
 
         diff: to float! end-time - start-time
-        print rejoin ["^/Execution time: " diff " sec^/"] 
+        print rejoin ["^/Execution time: " diff " sec"] 
 
         errors-count: length? errors
 	if errors-count > 0 [
-            print "---- Errors ----^/"
+            print "^/---- Errors ----^/"
 
             keys: reflect errors 'words
             foreach key keys [
@@ -89,15 +90,15 @@ tester: context [
             tests-passed: tests-passed + 1
         ] [
             size: length? errors
-	    issue: make error! [
-		code: none
-		type: 'user
-		id: 'message
-		arg1: "Expected value was 'true', but 'false' given."
+            issue: make error! [
+                code: none
+                type: 'user
+                id: 'message
+                arg1: "Expected value was 'true', but 'false' given."
                 where: 'assert-true
-	    ]
+            ]
             assertion: rejoin [actual-test-name "-assert-true-"]
-	    key: append assertion size
+            key: append assertion size
             put errors key issue
         ]
     ]
