@@ -33,11 +33,8 @@ tests: context [
             name: append "name-" counter
             counter: counter + 1
 
-            was-error: error? result: try [
-                poc/register name not-allowed-type
-            ]
-
-            tester/assert-true was-error result
+            tester/expect-error
+            poc/register name not-allowed-type
         ]
     ]
 ]

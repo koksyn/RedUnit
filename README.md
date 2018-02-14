@@ -59,7 +59,7 @@ tests: context [
         poc/register "my-book" book
         
         result: poc/registered "my-book"
-        tester/assert-true result none
+        tester/assert-true result
     ]
 ]
 
@@ -71,7 +71,7 @@ Console output:
 ```bash
 ./red -s test.red 
 --------- Tester ----------
-Version 0.0.1
+Version 0.0.2
 
 [test] test-registered-item [Success]
 
