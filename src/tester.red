@@ -4,13 +4,15 @@ Red [
     Purpose: "Be able to test Red language scripts"
     Author: "Mateusz Palichleb"
     File: %tester.red
-    Version: "0.0.1"
+    Version: "0.0.2"
 ]
 
 tester: context [
     /local tests-passed: 0
-    /local errors: make series![]
+    /local errors: make map![]
     /local execute-setup: false
+    /local error-expected: false
+    /local actual-test-name: ""
 
     run: func [
         testable[object!]
@@ -18,6 +20,7 @@ tester: context [
         print-title
 
         methods: words-of testable
+
         tests: []
         
         foreach method methods [
@@ -37,18 +40,29 @@ tester: context [
 
         foreach test tests [
 	    prin rejoin ["[test] " test " "]
-	    passed-before: tests-passed
+	    errors-before: length? errors
+            error-expected: false
+            actual-test-name: to string! test
 
             if execute-setup [
                 do testable/setup
             ]
 
-            do test
-	    
-            either passed-before <> tests-passed [
-                print "[Success]"
+            was-error: error? result: try [
+                do test
+            ]
+
+	    either was-error and (not error-expected) [
+                put errors test result
             ] [
+                tests-passed: tests-passed + 1
+            ]
+            
+	    errors-after: length? errors
+            either errors-before <> errors-after [
                 print "[Failure]"
+            ] [
+                print "[Success]"
             ]
         ]
 
@@ -56,17 +70,41 @@ tester: context [
 
         diff: to float! end-time - start-time
         print rejoin ["^/Execution time: " diff " sec"] 
+
+        errors-count: length? errors
+	if errors-count > 0 [
+            print "^/---- Errors ----^/"
+
+            keys: reflect errors 'words
+            foreach key keys [
+                print rejoin [key ":^/" select errors key "^/"]
+            ]
+        ]
 	print "---------------------------"
     ]
 
     assert-true: func [
-        value[logic!] error 
+        value[logic!] 
     ] [
         either value [
             tests-passed: tests-passed + 1
         ] [
-            put errors error
+            size: length? errors
+            issue: make error! [
+                code: none
+                type: 'user
+                id: 'message
+                arg1: "Expected value was 'true', but 'false' given."
+                where: 'assert-true
+            ]
+            assertion: rejoin [actual-test-name "-assert-true-"]
+            key: append assertion size
+            put errors key issue
         ]
+    ]
+
+    expect-error: does [
+        error-expected: true
     ]
 
     print-title: does [
