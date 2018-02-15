@@ -81,11 +81,11 @@ tester: context [
         ; define actually executed test name
         actual-test-name: to string! test
 
+        errors-before: length? errors
+        
         was-error: error? result: try [
             do test
         ]
-
-        errors-before: length? errors
 
         case [
             was-error and (not error-expected) [
