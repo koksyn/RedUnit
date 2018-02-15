@@ -156,7 +156,7 @@ tester: context [
     ]
 
     assert-true: func [
-        "Does value is true?"
+        "Value is true?"
         value[logic!] 
     ] [
         if not value [
@@ -166,7 +166,7 @@ tester: context [
     ]
 
     assert-false: func [
-        "Does value is false?"
+        "Value is false?"
         value[logic!] 
     ] [
         if value [
@@ -182,7 +182,7 @@ tester: context [
         different-data: not (strict-equal? expected actual)
         
         if different-data [
-            message: "Expected values are equivalent, but they are different."
+            message: "Expected equivalent values, but they are different."
             fail-test message "equals"
         ]
     ]
@@ -194,7 +194,7 @@ tester: context [
         same-data: strict-equal? expected actual
         
         if same-data [
-            message: "Expected values are different, but they are equivalent."
+            message: "Expected different values, but they are equivalent."
             fail-test message "not-equals"
         ]
     ]
@@ -206,7 +206,7 @@ tester: context [
         different-memory-location: not (same? expected actual)
         
         if different-memory-location [
-            message: "Expected values are identical, regarding memory location, but they are different."
+            message: "Expected identical values, regarding memory location, but they are different."
             fail-test message "identical"
         ]
     ]
@@ -218,7 +218,7 @@ tester: context [
         identical-memory-location: same? expected actual
         
         if identical-memory-location [
-            message: "Expected values are different, regarding memory location, but they are identical."
+            message: "Expected different values, regarding memory location, but they are identical."
             fail-test message "not-identical"
         ]
     ]
