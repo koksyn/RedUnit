@@ -10,7 +10,9 @@ files: read %tests/
 foreach file files [	
     if find file "-tests.red" [
         test-file-path: rejoin ["tests/" file]
+        print rejoin [ "^/>> " test-file-path "^/"]
+
         test-file: to file! test-file-path
-	do test-file
+        do test-file
     ]
 ]

@@ -14,7 +14,7 @@ poc: context [
         name[string!] prototype[object!]
     ] [
         if registered name [
-            logic-error "There is already registered object with this name"
+            user-error "There is already registered object with this name"
         ]
 
         put registry name prototype
@@ -43,7 +43,7 @@ poc: context [
         name[string!] prototype[object!]
     ] [
 	if not registered name [
-            logic-error "Can not replace an unregistered object"
+            user-error "Can not replace an unregistered object"
         ]
 
         put registry name prototype
@@ -54,7 +54,7 @@ poc: context [
         name[string!]
     ] [
         if not registered name [
-            logic-error "Can not resolve an unregistered object"
+            user-error "Can not resolve an unregistered object"
         ]
 
         prototype: select registry name
@@ -66,13 +66,13 @@ poc: context [
         name[string!]
     ] [
         if not registered name [
-            logic-error "Can not remove an unregistered object"
+            user-error "Can not remove an unregistered object"
         ]
 
         put registry name none
     ]
 
-    /local logic-error: func [
+    /local user-error: func [
         "Causing user error with provided message"
         message[string!]
     ] [
