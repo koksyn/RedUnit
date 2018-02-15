@@ -195,7 +195,7 @@ tester: context [
         
         if same-data [
             message: "Expected values are different, but they are equivalent."
-            fail-test message "equals"
+            fail-test message "not-equals"
         ]
     ]
 
