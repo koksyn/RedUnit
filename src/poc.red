@@ -42,7 +42,7 @@ poc: context [
         "Replace object in container"
         name[string!] prototype[object!]
     ] [
-	if not registered name [
+        if not registered name [
             user-error "Can not replace an unregistered object"
         ]
 

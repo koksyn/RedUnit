@@ -34,7 +34,7 @@ tester: context [
         show-execution-time started ended
         show-catched-errors
 
-	print "---------------------------"
+        print "---------------------------"
     ]
 
     ;------------------------ INTERNAL METHODS -------------------------
@@ -50,7 +50,7 @@ tester: context [
         methods: words-of testable   
 
         foreach method methods [
-	        method-name: to string! method
+            method-name: to string! method
 
             case [
                 method-name = "setup" [
@@ -119,7 +119,7 @@ tester: context [
     /local show-catched-errors: does [
         were-errors: (length? errors) > 0
 
-	    if were-errors [
+        if were-errors [
             print "^/---- Errors ----^/"
 
             keys: reflect errors 'words
