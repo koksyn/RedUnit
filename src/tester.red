@@ -39,8 +39,8 @@ tester: context [
         start-time: now/time/precise/utc
 
         foreach test tests [
-	    prin rejoin ["[test] " test " "]
-	    errors-before: length? errors
+	        prin rejoin ["[test] " test " "]
+	        errors-before: length? errors
             error-expected: false
             actual-test-name: to string! test
 
@@ -52,13 +52,29 @@ tester: context [
                 do test
             ]
 
-	    either was-error and (not error-expected) [
-                put errors test result
-            ] [
-                tests-passed: tests-passed + 1
+            case [
+                was-error and (not error-expected) [
+                    put errors test result
+                ]
+                (not was-error) and error-expected [
+                    size: length? errors
+                    issue: make error! [
+                        code: none
+                        type: 'user
+                        id: 'message
+                        arg1: "Expected error, but nothing happen."
+                        where: 'expect-error
+                    ]
+                    assertion: rejoin [actual-test-name "-error-expected-"]
+                    key: append assertion size
+                    put errors key issue
+                ]
+                true [
+                    tests-passed: tests-passed + 1
+                ]
             ]
             
-	    errors-after: length? errors
+	        errors-after: length? errors
             either errors-before <> errors-after [
                 print "[Failure]"
             ] [
@@ -72,7 +88,7 @@ tester: context [
         print rejoin ["^/Execution time: " diff " sec"] 
 
         errors-count: length? errors
-	if errors-count > 0 [
+	    if errors-count > 0 [
             print "^/---- Errors ----^/"
 
             keys: reflect errors 'words
@@ -80,7 +96,7 @@ tester: context [
                 print rejoin [key ":^/" select errors key "^/"]
             ]
         ]
-	print "---------------------------"
+	    print "---------------------------"
     ]
 
     assert-true: func [
@@ -102,6 +118,8 @@ tester: context [
             put errors key issue
         ]
     ]
+
+    assert-false: func [value[logic!]] [assert-true not value]
 
     expect-error: does [
         error-expected: true
