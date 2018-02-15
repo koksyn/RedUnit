@@ -108,11 +108,8 @@ tests: context [
         poc/register "my-point" point
         result: poc/resolve "my-point"
 
-        different-memory-locations: not (same? point result)
-        tester/assert-true different-memory-locations
-
-        are-identical: strict-equal? point result
-        tester/assert-true are-identical
+        tester/assert-equals point result
+        tester/assert-not-identical point result
     ]
 
     test-remove-registered-name: func [

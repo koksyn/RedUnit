@@ -4,7 +4,7 @@ Red [
     Purpose: "Be able to test Red language scripts"
     Author: "Mateusz Palichleb"
     File: %tester.red
-    Version: "0.0.2"
+    Version: "0.0.3"
 ]
 
 tester: context [
@@ -111,9 +111,9 @@ tester: context [
                 type: 'user
                 id: 'message
                 arg1: "Expected value was 'true', but 'false' given."
-                where: 'assert-true
+                where: 'assert
             ]
-            assertion: rejoin [actual-test-name "-assert-true-"]
+            assertion: rejoin [actual-test-name "-logic-"]
             key: append assertion size
             put errors key issue
         ]
@@ -121,12 +121,59 @@ tester: context [
 
     assert-false: func [value[logic!]] [assert-true not value]
 
+    assert-equals: func [
+        "Does arguments have the same data?"
+        expected actual
+    ] [
+        identical-data: strict-equal? expected actual
+        
+        either identical-data [
+            tests-passed: tests-passed + 1
+        ] [
+            size: length? errors
+            issue: make error! [
+                code: none
+                type: 'user
+                id: 'message
+                arg1: "Expected values are equivalent, but they're not."
+                where: 'assert-equals
+            ]
+            assertion: rejoin [actual-test-name "-equals-"]
+            key: append assertion size
+            put errors key issue
+        ]
+    ]
+
+    assert-not-identical: func [
+        "Does arguments have different addresses in memory?"
+        expected actual
+    ] [
+        identical-memory-location: same? point result
+        
+        either not (identical-memory-location) [
+            tests-passed: tests-passed + 1
+        ] [
+            size: length? errors
+            issue: make error! [
+                code: none
+                type: 'user
+                id: 'message
+                arg1: "Expected values are identical, regarding memory location, but they're not."
+                where: 'assert-identical
+            ]
+            assertion: rejoin [actual-test-name "-identical-"]
+            key: append assertion size
+            put errors key issue
+        ]
+    ]
+
     expect-error: does [
+        "Mark that only actually executed test function should throw an error. Other test functions will not be affected."
         error-expected: true
     ]
 
     print-title: does [
         print "--------- Tester ----------"
-        print "Version 0.0.2^/"
+        print "Version 0.0.3^/"
     ]
 ]
