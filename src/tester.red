@@ -34,7 +34,7 @@ tester: context [
         show-execution-time started ended
         show-catched-errors
 
-	    print "---------------------------"
+	print "---------------------------"
     ]
 
     ;------------------------ INTERNAL METHODS -------------------------
