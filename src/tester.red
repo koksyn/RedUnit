@@ -8,87 +8,118 @@ Red [
 ]
 
 tester: context [
-    /local tests-passed: 0
     /local errors: make map![]
-    /local execute-setup: false
+    /local setup-detected: false
     /local error-expected: false
     /local actual-test-name: ""
 
     run: func [
+        "Run all tests from provided object, should consist at least one test method"
         testable[object!]
     ] [
-        print-title
+        print "--------- Tester ----------"
+        print "Version 0.0.3^/"
 
-        methods: words-of testable
-
-        tests: []
+        tests: process-testable-methods testable
         
-        foreach method methods [
-	    method-name: to string! method
-
-            if method-name = "setup" [
-                execute-setup: true
-            ]
-
-	    test-method: find method-name "test"
-            if test-method [
-                insert tests method
-            ]
-        ]
-
-        start-time: now/time/precise/utc
+        started: now/time/precise/utc
 
         foreach test tests [
-	        prin rejoin ["[test] " test " "]
-	        errors-before: length? errors
-            error-expected: false
-            actual-test-name: to string! test
+            if setup-detected [do testable/setup]
+            execute-test test
+        ]
 
-            if execute-setup [
-                do testable/setup
-            ]
+        ended: now/time/precise/utc
 
-            was-error: error? result: try [
-                do test
-            ]
+        show-execution-time started ended
+        show-catched-errors
+
+	    print "---------------------------"
+    ]
+
+    ;------------------------ INTERNAL METHODS -------------------------
+    ;-- Please do not use them outside this script!
+
+    /local process-testable-methods: func [
+        "Will detect 'setup' and 'test***' methods - and prepare them to execution"
+        testable[object!]
+    ] [
+        setup-detected: false
+        tests: []
+                
+        methods: words-of testable   
+
+        foreach method methods [
+	        method-name: to string! method
 
             case [
-                was-error and (not error-expected) [
-                    put errors test result
+                method-name = "setup" [
+                    setup-detected: true
                 ]
-                (not was-error) and error-expected [
-                    size: length? errors
-                    issue: make error! [
-                        code: none
-                        type: 'user
-                        id: 'message
-                        arg1: "Expected error, but nothing happen."
-                        where: 'expect-error
-                    ]
-                    assertion: rejoin [actual-test-name "-error-expected-"]
-                    key: append assertion size
-                    put errors key issue
+                find method-name "test" [
+                    insert tests method
                 ]
-                true [
-                    tests-passed: tests-passed + 1
-                ]
-            ]
-            
-	        errors-after: length? errors
-            either errors-before <> errors-after [
-                print "[Failure]"
-            ] [
-                print "[Success]"
             ]
         ]
 
-        end-time: now/time/precise/utc
+        if (length? tests) = 0 [
+            print "[Error] Provided object does not have any test method!"
+            halt
+        ]
 
-        diff: to float! end-time - start-time
-        print rejoin ["^/Execution time: " diff " sec"] 
+        tests
+    ]
 
-        errors-count: length? errors
-	    if errors-count > 0 [
+    /local execute-test: func [
+        "Executes one test method"
+        test
+    ] [
+        prin rejoin ["[test] " test " "]
+
+        ; reset context of expected error for each test
+        error-expected: false
+        ; define actually executed test name
+        actual-test-name: to string! test
+
+        was-error: error? result: try [
+            do test
+        ]
+
+        errors-before: length? errors
+
+        case [
+            was-error and (not error-expected) [
+                put errors test result
+            ]
+            (not was-error) and error-expected [
+                message: "Expected error, but nothing happen."
+                fail-test message "error-expected"
+            ]
+        ]
+        
+        errors-after: length? errors
+
+        either errors-before <> errors-after [
+            print "[Failure]"
+        ] [
+            print "[Success]"
+        ]
+    ]
+
+    /local show-execution-time: func [
+        "Print interval of execution time (in seconds) in Console"
+        started[time!] ended[time!]
+    ] [
+        interval: to float! ended - started
+
+        print rejoin ["^/Execution time: " interval " sec"] 
+    ]
+
+    ;-- Print all catched errors in Console
+    /local show-catched-errors: does [
+        were-errors: (length? errors) > 0
+
+	    if were-errors [
             print "^/---- Errors ----^/"
 
             keys: reflect errors 'words
@@ -96,51 +127,87 @@ tester: context [
                 print rejoin [key ":^/" select errors key "^/"]
             ]
         ]
-	    print "---------------------------"
+    ]
+
+    /local fail-test: func [
+        "Cause actual test failure - internally from assertions"
+        message[string!] assertion[string!]
+    ] [
+        issue: make error! [
+            code: none
+            type: 'user
+            id: 'message
+            arg1: message
+            where: append "assert-" assertion
+        ]
+
+        issue-number: (length? errors) + 1
+        issue-key: rejoin [actual-test-name "-" assertion "-" issue-number]
+
+        put errors issue-key issue
+    ]
+
+    ;------------------------ ASSERTIONS -------------------------
+    ;-- You can use this methods to test your code
+
+    expect-error: does [
+        "Mark that actually executed test should throw an error. Other tests will not be affected."
+        error-expected: true
     ]
 
     assert-true: func [
+        "Does value is true?"
         value[logic!] 
     ] [
-        either value [
-            tests-passed: tests-passed + 1
-        ] [
-            size: length? errors
-            issue: make error! [
-                code: none
-                type: 'user
-                id: 'message
-                arg1: "Expected value was 'true', but 'false' given."
-                where: 'assert
-            ]
-            assertion: rejoin [actual-test-name "-logic-"]
-            key: append assertion size
-            put errors key issue
+        if not value [
+            message: "Expected value was 'true', but 'false' given."
+            fail-test message "true"
         ]
     ]
 
-    assert-false: func [value[logic!]] [assert-true not value]
+    assert-false: func [
+        "Does value is false?"
+        value[logic!] 
+    ] [
+        if value [
+            message: "Expected value was 'false', but 'true' given."
+            fail-test message "false"
+        ]
+    ]
 
     assert-equals: func [
         "Does arguments have the same data?"
         expected actual
     ] [
-        identical-data: strict-equal? expected actual
+        different-data: not (strict-equal? expected actual)
         
-        either identical-data [
-            tests-passed: tests-passed + 1
-        ] [
-            size: length? errors
-            issue: make error! [
-                code: none
-                type: 'user
-                id: 'message
-                arg1: "Expected values are equivalent, but they're not."
-                where: 'assert-equals
-            ]
-            assertion: rejoin [actual-test-name "-equals-"]
-            key: append assertion size
-            put errors key issue
+        if different-data [
+            message: "Expected values are equivalent, but they are different."
+            fail-test message "equals"
+        ]
+    ]
+
+    assert-not-equals: func [
+        "Does arguments have a different data?"
+        expected actual
+    ] [
+        same-data: strict-equal? expected actual
+        
+        if same-data [
+            message: "Expected values are different, but they are equivalent."
+            fail-test message "equals"
+        ]
+    ]
+
+    assert-identical: func [
+        "Does arguments have identical addresses in memory?"
+        expected actual
+    ] [
+        different-memory-location: not (same? expected actual)
+        
+        if different-memory-location [
+            message: "Expected values are identical, regarding memory location, but they are different."
+            fail-test message "identical"
         ]
     ]
 
@@ -148,32 +215,11 @@ tester: context [
         "Does arguments have different addresses in memory?"
         expected actual
     ] [
-        identical-memory-location: same? point result
+        identical-memory-location: same? expected actual
         
-        either not (identical-memory-location) [
-            tests-passed: tests-passed + 1
-        ] [
-            size: length? errors
-            issue: make error! [
-                code: none
-                type: 'user
-                id: 'message
-                arg1: "Expected values are identical, regarding memory location, but they're not."
-                where: 'assert-identical
-            ]
-            assertion: rejoin [actual-test-name "-identical-"]
-            key: append assertion size
-            put errors key issue
+        if identical-memory-location [
+            message: "Expected values are different, regarding memory location, but they are identical."
+            fail-test message "not-identical"
         ]
-    ]
-
-    expect-error: does [
-        "Mark that only actually executed test function should throw an error. Other test functions will not be affected."
-        error-expected: true
-    ]
-
-    print-title: does [
-        print "--------- Tester ----------"
-        print "Version 0.0.3^/"
     ]
 ]
