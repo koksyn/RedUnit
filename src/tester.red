@@ -4,21 +4,25 @@ Red [
     Purpose: "Be able to test Red language scripts"
     Author: "Mateusz Palichleb"
     File: %tester.red
-    Version: "0.0.3"
+    Version: "0.0.4"
 ]
+
+do %tester-string-buffer.red
 
 tester: context [
     /local errors: make map![]
     /local setup-detected: false
     /local error-expected: false
     /local actual-test-name: ""
+    /local buffer: tester-string-buffer
 
     run: func [
         "Run all tests from provided object, should consist at least one test method"
         testable[object!]
     ] [
-        print "--------- Tester ----------"
-        print "Version 0.0.3^/"
+        buffer/clear
+        buffer/put-line "--------- Tester ----------"
+        buffer/put-line "Version 0.0.4^/"
 
         tests: process-testable-methods testable
         
@@ -34,7 +38,8 @@ tester: context [
         show-execution-time started ended
         show-catched-errors
 
-        print "---------------------------"
+        buffer/put "---------------------------"
+        print buffer/flush
     ]
 
     ;------------------------ INTERNAL METHODS -------------------------
@@ -74,7 +79,7 @@ tester: context [
         "Executes one test method"
         test
     ] [
-        prin rejoin ["[test] " test " "]
+        buffer/put rejoin ["[test] " test " "]
 
         ; reset context of expected error for each test
         error-expected: false
@@ -100,9 +105,9 @@ tester: context [
         errors-after: length? errors
 
         either errors-before <> errors-after [
-            print "[Failure]"
+            buffer/put-line "[Failure]"
         ] [
-            print "[Success]"
+            buffer/put-line "[Success]"
         ]
     ]
 
@@ -112,7 +117,7 @@ tester: context [
     ] [
         interval: to float! ended - started
 
-        print rejoin ["^/Execution time: " interval " sec"] 
+        buffer/put-line rejoin ["^/Execution time: " interval " sec"] 
     ]
 
     ;-- Print all catched errors in Console
@@ -120,11 +125,11 @@ tester: context [
         were-errors: (length? errors) > 0
 
         if were-errors [
-            print "^/---- Errors ----^/"
+            buffer/put-line "^/---- Errors ----^/"
 
             keys: reflect errors 'words
             foreach key keys [
-                print rejoin [key ":^/" select errors key "^/"]
+                buffer/put-line rejoin [key ":^/" select errors key "^/"]
             ]
         ]
     ]
