@@ -1,10 +1,14 @@
 Red [
-    Title: "[Tester] String Buffer"
-    Description: "Part of Tester tool, which is a buffer for string! values."
+    Package: "Tester"
+    Title: "String Buffer"
+    Description: "Buffer for string! values."
     Purpose: "Reducing tests execution time. Using string buffer instead of console output will speed up execution."
     Author: "Mateusz Palichleb"
-    File: %tester-string-buffer.red
+    File: %string-buffer.red
 ]
+
+;------------------------ INTERNAL Tester Tool library -------------------------
+;-- Please do NOT use that in your tests
 
 tester-string-buffer: context [
     /local buffer: ""
