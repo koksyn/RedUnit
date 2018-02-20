@@ -71,7 +71,7 @@ Console output:
 ```bash
 ./red -s test.red 
 --------- Tester ----------
-Version 0.0.4
+Version 0.0.5
 
 [test] test-registered-item [Success]
 
