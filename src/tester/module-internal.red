@@ -1,6 +1,5 @@
 Red [
     Package: "Tester"
-    Type: "Module"
     Title: "Internal"
     Description: "Internal methods and fields for Tester tool."
     Purpose: "Encapsulating internal source of Tester."
@@ -17,7 +16,7 @@ tester-internal: context [
     /local setup-detected: false
     /local error-expected: false
     /local actual-test-name: ""
-    /local buffer: tester-string-buffer
+    /local buffer: string-buffer
 
     /local process-testable-methods: func [
         "Will detect 'setup' and 'test***' methods - and prepare them to execution"
@@ -79,9 +78,9 @@ tester-internal: context [
         errors-after: length? errors
 
         either errors-before <> errors-after [
-            buffer/put-line "[Failure]"
+            buffer/putline "[Failure]"
         ] [
-            buffer/put-line "[Success]"
+            buffer/putline "[Success]"
         ]
     ]
 
@@ -91,7 +90,7 @@ tester-internal: context [
     ] [
         interval: to float! ended - started
 
-        buffer/put-line rejoin ["^/Execution time: " interval " sec"] 
+        buffer/putline rejoin ["^/Execution time: " interval " sec"] 
     ]
 
     ;-- Print all catched errors in Console
@@ -99,11 +98,11 @@ tester-internal: context [
         were-errors: (length? errors) > 0
 
         if were-errors [
-            buffer/put-line "^/---- Errors ----^/"
+            buffer/putline "^/---- Errors ----^/"
 
             keys: reflect errors 'words
             foreach key keys [
-                buffer/put-line rejoin [key ":^/" select errors key "^/"]
+                buffer/putline rejoin [key ":^/" select errors key "^/"]
             ]
         ]
     ]

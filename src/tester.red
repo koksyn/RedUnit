@@ -15,8 +15,8 @@ tester: make tester-modules context [
         testable[object!]
     ] [
         buffer/clear
-        buffer/put-line "--------- Tester ----------"
-        buffer/put-line "Version 0.0.5^/"
+        buffer/putline "--------- Tester ----------"
+        buffer/putline "Version 0.0.5^/"
 
         tests: process-testable-methods testable
         

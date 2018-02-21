@@ -7,20 +7,18 @@ Red [
     File: %string-buffer.red
 ]
 
-;-- Please do NOT use that in your tests
-
-tester-string-buffer: context [
+string-buffer: context [
     /local buffer: ""
 
     put: func [
-        "Will put value to the buffer tail"
+        "Will append value to the buffer tail"
         value[string!]
     ] [
         buffer: append buffer value
     ]
 
-    put-line: func [
-        "Will put value with EOL to the buffer tail"
+    putline: func [
+        "Will put value with EOL (new line) to the buffer tail"
         value[string!]
     ] [
         buffer: rejoin [buffer value "^/"]
@@ -30,7 +28,6 @@ tester-string-buffer: context [
     flush: does [
         /local output: buffer
         clear
-
         output
     ]
 
