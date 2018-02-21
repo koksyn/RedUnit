@@ -7,23 +7,9 @@ Red [
     Version: "0.0.5"
 ]
 
-do %tester/string-buffer.red
+do %tester/modules.red
 
-;------------------------ EXTENSIONS -------------------------
-
-;-- Internal methods and fields
-
-do %tester/internal.red
-tester-extensions: tester-internal
-
-;-- Assertions (use assertions to test your code)
-
-do %tester/assertions.red
-tester-extensions: make tester-extensions tester-assertions
-
-;------------------------ TESTER TOOL -------------------------
-
-tester: make tester-extensions context [
+tester: make tester-modules context [
     run: func [
         "Run all tests from provided object, should consist at least one test method"
         testable[object!]

@@ -1,13 +1,13 @@
 Red [
     Package: "Tester"
+    Type: "Module"
     Title: "Assertions"
     Description: "Available assertions to test your code."
     Purpose: "Registering errors from failed assertions"
     Author: "Mateusz Palichleb"
-    File: %assertions.red
+    File: %module-assertions.red
 ]
 
-;------------------------ PUBLIC Tester Tool library -------------------------
 ;-- You can use this assertions to test your code
 
 tester-assertions: context [

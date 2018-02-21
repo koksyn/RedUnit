@@ -1,13 +1,15 @@
 Red [
     Package: "Tester"
+    Type: "Module"
     Title: "Internal"
     Description: "Internal methods and fields for Tester tool."
     Purpose: "Encapsulating internal source of Tester."
     Author: "Mateusz Palichleb"
-    File: %internal.red
+    File: %module-internal.red
 ]
 
-;------------------------ INTERNAL Tester Tool library -------------------------
+do %string-buffer.red
+
 ;-- Please do NOT use that in your tests
 
 tester-internal: context [

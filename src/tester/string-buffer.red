@@ -7,7 +7,6 @@ Red [
     File: %string-buffer.red
 ]
 
-;------------------------ INTERNAL Tester Tool library -------------------------
 ;-- Please do NOT use that in your tests
 
 tester-string-buffer: context [
