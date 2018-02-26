@@ -1,8 +1,8 @@
 Red [
-    Title: "VAT EU validator tests"
-    Description: "Testing functionality of VAT EU validator using Tester script"
+    Title: "VAT validator tests"
+    Description: "Testing functionality of VAT validator using Tester script"
     Author: "Mateusz Palichleb"
-    File: %valid-vat-eu-tests.red
+    File: %valid-vat-tests.red
 ]
 
 do %../src/tester.red
@@ -11,14 +11,14 @@ tests: context [
     setup: func [
         "Initialize/Reload context before each test"
     ] [
-        do %../src/valid-vat-eu.red
+        do %../src/valid-vat.red
     ]
-    
+
     test-hungary-valid-vat: does [
         vat-numbers: ["HU12345678" "HU87654321" "HU33344455"]
 
         foreach vat vat-numbers [
-            tester/assert-true valid-vat-eu/check vat
+            tester/assert-true valid-vat/check vat
         ]
     ]
 
@@ -26,7 +26,7 @@ tests: context [
         vat-numbers: ["HU1" "HU123" "HU123456"]
         
         foreach vat vat-numbers [
-            tester/assert-false valid-vat-eu/check vat
+            tester/assert-false valid-vat/check vat
         ]
     ]
 
@@ -46,7 +46,7 @@ tests: context [
         ]
 
         foreach vat vat-numbers [
-            tester/assert-true valid-vat-eu/check vat
+            tester/assert-true valid-vat/check vat
         ]
     ]
 
@@ -67,7 +67,7 @@ tests: context [
         ]
 
         foreach vat vat-numbers [
-            tester/assert-false valid-vat-eu/check vat
+            tester/assert-false valid-vat/check vat
         ]
     ]
 ]
