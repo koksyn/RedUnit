@@ -31,6 +31,13 @@ tests: context [
         poc/register "twice" point
     ]
 
+    test-register-case-sensitive: func [
+        "Registering case sensitive names should be possible"
+    ] [
+        poc/register "point" point
+        poc/register "PoinT" point
+    ]
+
     test-register-not-allowed-types: func [
         "Registering not allowed types will throw an error"
     ] [

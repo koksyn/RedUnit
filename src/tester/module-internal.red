@@ -34,7 +34,7 @@ tester-internal: context [
                 method-name = "setup" [
                     setup-detected: true
                 ]
-                find method-name "test" [
+                find/case method-name "test" [
                     insert tail tests method
                 ]
             ]

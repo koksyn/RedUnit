@@ -15,75 +15,72 @@ comment {
 valid-vat: context [
     /local rules: make map![
         ; ------ European Union (EU) countries
-        ;"AT" "U[A-Z\d]{8}" ;austria
-        ;"BE" "0\d{9}" ;belgium
-        ;"BG" "\d{9,10}" ;bulgaria
+        "AT" generate-rule-austria
+        "BE" generate-rule-belgium
+        "BG" generate-rule-bulgaria
         "HR" generate-rule-croatia
-        ;"CY" "\d{8}[A-Z]" ;cyprus
-        ;"CZ" "\d{8,10}" ;czech republic
-        ;"DK" "(\d{2} ?){3}\d{2}" ;denmark
+        "CY" generate-rule-cyprus
+        "CZ" generate-rule-czech-republic
+        "DK" generate-rule-denmark
         "EE" generate-rule-estonia
         "FI" generate-rule-finland
-        ;"FR" "([A-Z]{2}|\d{2})\d{9}" ;france and monaco
+        "FR" generate-rule-france-monaco
         "DE" generate-rule-germany
         "EL" generate-rule-greece
         "GR" generate-rule-greece ;-- alternatively for Greece
         "HU" generate-rule-hungary
-        ; IE: Seven digits and one last letter or six digits and two letters (second & last)
-        ;"IE" "\d{7}[A-Z]|\d[A-Z]\d{5}[A-Z]" ireland
+        "IE" generate-rule-ireland
         "IT" generate-rule-italy
         "LV" generate-rule-latvia
-        ;"LT" "(\d{9}|\d{12})" ;lithuania
+        "LT" generate-rule-lithuania
         "LU" generate-rule-luxembourg
         "MT" generate-rule-malta
-        ; NL: The 10th position following the prefix is always "B".
-        ;"NL" "\d{9}B\d{2}" ; netherlands
+        "NL" generate-rule-netherlands
         "PL" generate-rule-poland
         "PT" generate-rule-portugal
-        ;"RO" "\d{2,10}" ;romania
+        "RO" generate-rule-romania
         "SK" generate-rule-slovakia
         "SI" generate-rule-slovenia
-        ; ES: The first and last characters may be alpha or numeric; but they may not both be numeric:
-        ;"ES" "[A-Z]\d{7}[A-Z]|\d{8}[A-Z]|[A-Z]\d{8}" ;spain
+        "ES" generate-rule-spain
         "SE" generate-rule-sweden
-        ;"GB" "\d{9}|\d{12}|(GD|HA)\d{3}" ; United Kingdom and Isle of Man
+        "GB" generate-rule-united-kingdom-isle-of-man
 
         ; ------ Latin American countries
         "AR" generate-rule-argentina
         ;"BO" ;bolivia
         ;"BR" ;brazil
-        ;"CL" "\d{8}-\d" ;chile
+        "CL" generate-rule-chile
         "CO" generate-rule-colombia
         ;"CR" ;Costa Rica
         "EC" generate-rule-ecuador
         ;"SV" ;El Salvador
-        ;"GT" "\d{7}-\d" ;Guatemala
+        "GT" generate-rule-guatemala
         ;"HN" ;Honduras
-        ;"MX" "\d{3} \d{6} \d{3}" ;Mexico
+        "MX" generate-rule-mexico
         ;"NI" ;Nicaragua
         ;"PA" ;Panama
         ;"PY" ;Paraguay
         ;"PE" ;Peru
         ;"DO" ;Dominican Republic
         ;"UY" ;Uruguay
-        ;"VE" "[JGVE]-\d{8}-?\d" ;Venezuela
+        "VE" generate-rule-venezuela
 
         ; ------ other countries
-        ;"AL" "[KJ]\d{8}L" ;Albania
+        "AL" generate-rule-albania
         "AU" generate-rule-australia
         "BY" generate-rule-belarus
-        ;"CA" "[A-Z\d]{15}" ;Canada
+        "CA" generate-rule-canada
         ;"IS" ;Iceland
         ;"IN" ;india
         ;"ID" ;indonesia
         ;"IL" ;israel
         ;"NZ" ;new zealand
-        ;"NO" "\d{9}MVA" ;norway
+        "NO" generate-rule-norway
         "PH" generate-rule-philippines
-        ;"RU" "(\d{10}|\d{12})" ;Russia
+        "RU" generate-rule-russia
         ;"SM" ;San Marino
         ;"RS" ;Serbia
-        ;"CH" "(\d{6}|E\d{9}(TVA|MWST|IVA))" ;Switzerland
+        "CH" generate-rule-switzerland
         "TR" generate-rule-turkey
         "UA" generate-rule-ukraine
         ;"UZ" ;Uzbekistan
@@ -96,17 +93,20 @@ valid-vat: context [
         if (empty? vat) or ((length? vat) < 3) [return false]
 
         ; country code validation
-        country-code: uppercase copy/part vat 2
+        country-code: copy/part vat 2
         if is-invalid-country-code country-code [return false]
 
-        ; vat numbers
+        ; vat tail without country code
         numbers-amount: -1 * (length? vat) + 2
-        vat-numbers: at tail vat numbers-amount
+        vat-tail: at tail vat numbers-amount
 
-        ; generating rule
+        remove-whitespaces vat-tail
+
+        ; generate rule
         rule: do (select rules country-code)
 
-        return parse vat-numbers rule
+        ; execute rule
+        return parse vat-tail rule
     ]
 
     /local is-invalid-country-code: func [
@@ -114,53 +114,131 @@ valid-vat: context [
         code[string!]
     ] [
         country-codes: words-of rules
-        found: find country-codes code
+        found: find/case country-codes code
 
         return empty? found
     ]
 
+    /local remove-whitespaces: func [
+        "Removes all whitespaces from provided subject"
+        subject[string!]
+    ] [
+        parse subject [any [to whitespace change whitespace ""]]
+    ]
+
     ;---------------- RULES GENERATORS -------------------
-    /local numeric: charset "0123456789"
+    /local whitespace: charset reduce [space tab cr lf]
+    /local letter: charset [#"A" - #"Z"]
+    /local digit: charset "0123456789"
+    /local alphanum: union letter digit
+    /local dash: charset "-"
 
     ; ------ European Union (EU) countries
+
+    /local generate-rule-austria: does [
+        return [
+            "U" 8 [alphanum]
+        ]
+    ]
+
+    /local generate-rule-belgium: does [
+        return [
+            "0" 9 [digit]
+        ]
+    ]
+
+    /local generate-rule-bulgaria: does [
+        return [
+            [9 [digit]]
+            | [10 [digit]]
+        ]
+    ]
+
     /local generate-rule-croatia: does [
-        return [11 [numeric]]
+        return [11 [digit]]
+    ]
+
+    /local generate-rule-cyprus: does [
+        return [
+            8 [digit] letter
+        ]
+    ]
+
+    /local generate-rule-czech-republic: does [
+        return [
+            [8 [digit]]
+            | [9 [digit]]
+            | [10 [digit]]
+        ]
+    ]
+
+    /local generate-rule-denmark: does [
+        return [8 [digit]]
     ]
 
     /local generate-rule-estonia: does [
-        return [9 [numeric]]
+        return [9 [digit]]
     ]
 
     /local generate-rule-finland: does [
-        return [8 [numeric]]
+        return [8 [digit]]
+    ]
+
+    /local generate-rule-france-monaco: does [
+        return [
+            [2 [letter] | 2 [digit]]
+            9 [digit]
+        ]
     ]
 
     /local generate-rule-germany: does [
-        return [9 [numeric]]
+        return [9 [digit]]
     ]
 
     /local generate-rule-greece: does [
-        return [9 [numeric]]
+        return [9 [digit]]
     ]
 
     /local generate-rule-hungary: does [
-        return [8 [numeric]]
+        return [8 [digit]]
+    ]
+
+    /local generate-rule-ireland: func [
+        "7 digits + letter OR digit + letter + 5 digits + letter"
+    ] [
+        return [
+            [7 [digit] letter]
+            | [digit letter 5 [digit] letter]
+        ]
     ]
 
     /local generate-rule-italy: does [
-        return [11 [numeric]]
+        return [11 [digit]]
     ]
 
     /local generate-rule-latvia: does [
-        return [11 [numeric]]
+        return [11 [digit]]
+    ]
+
+    /local generate-rule-lithuania: does [
+        return [
+            [9 [digit]]
+            | [12 [digit]]
+        ]
     ]
 
     /local generate-rule-luxembourg: does [
-        return [8 [numeric]]
+        return [8 [digit]]
     ]
 
     /local generate-rule-malta: does [
-        return [8 [numeric]]
+        return [8 [digit]]
+    ]
+
+    /local generate-rule-netherlands: does [
+        return [
+            9 [digit] "B" 2 [digit]
+        ]
     ]
 
     ; based by weights MOD-11 algorithm
@@ -172,7 +250,7 @@ valid-vat: context [
 
         put-input-to-actual-number: [
             copy actual-number
-            numeric
+            digit
             (actual-number: to integer! actual-number)
         ]
 
@@ -190,55 +268,149 @@ valid-vat: context [
     ]
 
     /local generate-rule-portugal: does [
-        return [9 [numeric]]
+        return [9 [digit]]
+    ]
+
+    /local generate-rule-romania: does [
+        return [
+            [2 [digit]]
+            | [3 [digit]]
+            | [4 [digit]]
+            | [5 [digit]]
+            | [6 [digit]]
+            | [7 [digit]]
+            | [8 [digit]]
+            | [9 [digit]]
+            | [10 [digit]]
+        ]
     ]
 
     /local generate-rule-slovakia: does [
-        return [10 [numeric]]
+        return [10 [digit]]
     ]
 
     /local generate-rule-slovenia: does [
-        return [8 [numeric]]
+        return [8 [digit]]
+    ]
+
+    /local generate-rule-spain: does [
+        return [
+            [letter 7 [digit] letter]
+            | [8 [digit] letter]
+            | [letter 8 [digit]]
+        ]
     ]
 
     /local generate-rule-sweden: does [
-        return [12 [numeric]]
+        return [12 [digit]]
+    ]
+
+    /local generate-rule-united-kingdom-isle-of-man: does [
+        return [
+            [9 [digit]]
+            | [12 [digit]]
+            | [
+              [["G" "D"] | ["H" "A"]] 3 [digit]
+            ]
+        ]
     ]
 
     ; ------ Latin American countries
     
     /local generate-rule-argentina: does [
-        return [11 [numeric]]
+        return [11 [digit]]
+    ]
+
+    /local generate-rule-chile: does [
+        return [
+            8 [digit] dash digit
+        ]
     ]
 
     /local generate-rule-colombia: does [
-        return [10 [numeric]]
+        return [10 [digit]]
     ]
 
     /local generate-rule-ecuador: does [
-        return [13 [numeric]]
+        return [13 [digit]]
+    ]
+
+    /local generate-rule-guatemala: does [
+        return [
+            7 [digit] dash digit
+        ]
+    ]
+
+    /local generate-rule-mexico: does [
+        return [
+            3 [digit] space 6 [digit] space 3 [digit]
+        ]
+    ]
+
+    /local generate-rule-venezuela: does [
+        return [
+            "JGVE" dash 
+            [9 [digit]] | [8 [digit] dash digit]
+        ]
     ]
 
     ; ------ other countries
 
+    /local generate-rule-albania: does [
+        return [
+            "KJ" 8 [digit] letter
+        ]
+    ]
+
     /local generate-rule-australia: does [
-        return [9 [numeric]]
+        return [9 [digit]]
     ]
 
     /local generate-rule-belarus: does [
-        return [9 [numeric]]
+        return [9 [digit]]
+    ]
+
+    /local generate-rule-canada: does [
+        return [
+            15 [alphanum]
+        ]
+    ]
+
+    /local generate-rule-norway: does [
+        return [9 [digit] "M" "V" "A"]
     ]
 
     /local generate-rule-philippines: does [
-        return [12 [numeric]]
+        return [12 [digit]]
+    ]
+
+    /local generate-rule-russia: does [
+        return [
+            [10 [digit]]
+            | [12 [digit]]
+        ]
+    ]
+
+    /local generate-rule-switzerland: does [
+        return [
+            [6 [digit]]
+            | [
+                "E" 
+                9 [digit] 
+                [
+                    ["T" "V" "A"] 
+                    | ["M" "W" "S" "T"] 
+                    | ["I" "V" "A"]
+                ]
+            ]
+        ]
     ]
 
     /local generate-rule-turkey: does [
-        return [10 [numeric]]
+        return [10 [digit]]
     ]
 
     /local generate-rule-ukraine: does [
-        return [12 [numeric]]
+        return [12 [digit]]
     ]
 ]
-

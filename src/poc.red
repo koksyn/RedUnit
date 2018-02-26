@@ -27,7 +27,7 @@ poc: context [
         identifiers: words-of registry
 
         if not empty? identifiers [
-            found: find identifiers name
+            found: find/case identifiers name
             return not empty? found
         ]
 
