@@ -31,6 +31,8 @@ tests: context [
     ]
 
     test-poland-valid-vat: does [
+        ; tester/register-data-provider vat-numbers ??? przydaloby sie
+
         vat-numbers: [
             "PL4673742025"
             "PL4856949716"
@@ -49,7 +51,6 @@ tests: context [
             "EL123456789"
             "PT123456789"
             "BE0123456789"
-            "PL1234567890"
             "SK1234567890"
             "ATU12345678"
             "BG123456789"
@@ -92,6 +93,10 @@ tests: context [
         ]
 
         foreach vat vat-numbers [
+            probe vat
+            if (false == valid-vat/check vat) [
+                print "!!!! BYK!"
+            ]
             tester/assert-true valid-vat/check vat
         ]
     ]
@@ -175,10 +180,6 @@ tests: context [
         ]
 
         foreach vat vat-numbers [
-            probe vat
-            if (true == valid-vat/check vat) [
-                print "!!!! BYK!"
-            ]
             tester/assert-false valid-vat/check vat
         ]
     ]

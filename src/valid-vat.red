@@ -1,5 +1,5 @@
 Red [
-    Title: "Validator for VAT"
+    Title: "VAT validator"
     Description: "The Value Added Tax (VAT) in European Union, Latin American countries, and other countries."
     Purpose: "Checking, that VAT number is valid for specific country"
     Author: "Mateusz Palichleb"

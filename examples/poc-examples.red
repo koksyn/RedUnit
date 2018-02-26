@@ -1,8 +1,8 @@
 Red [
-    Title: "POC Example"
-    Description: "Examples for usage of Prototype objects container"
+    Title: "POC examples"
+    Description: "Usage of Prototype objects container (POC)"
     Author: "Mateusz Palichleb"
-    File: %poc-example.red
+    File: %poc-examples.red
 ]
 
 do %../src/poc.red
