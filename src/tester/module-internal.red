@@ -25,7 +25,7 @@ tester-internal: context [
         setup-detected: false
         tests: []
                 
-        methods: words-of testable   
+        methods: words-of testable  
 
         foreach method methods [
             method-name: to string! method
@@ -35,7 +35,7 @@ tester-internal: context [
                     setup-detected: true
                 ]
                 find method-name "test" [
-                    insert tests method
+                    insert tail tests method
                 ]
             ]
         ]
@@ -45,7 +45,7 @@ tester-internal: context [
             halt
         ]
 
-        tests
+        return tests
     ]
 
     /local execute-test: func [

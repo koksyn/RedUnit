@@ -13,6 +13,22 @@ tests: context [
     ] [
         do %../src/valid-vat-eu.red
     ]
+    
+    test-hungary-valid-vat: does [
+        vat-numbers: ["HU12345678" "HU87654321" "HU33344455"]
+
+        foreach vat vat-numbers [
+            tester/assert-true valid-vat-eu/check vat
+        ]
+    ]
+
+    test-hungary-invalid-vat: does [
+        vat-numbers: ["HU1" "HU123" "HU123456"]
+        
+        foreach vat vat-numbers [
+            tester/assert-false valid-vat-eu/check vat
+        ]
+    ]
 
     test-poland-valid-vat: does [
         vat-numbers: [
@@ -50,22 +66,6 @@ tests: context [
             "9924161648" ; number valid for PL + invalid country code
         ]
 
-        foreach vat vat-numbers [
-            tester/assert-false valid-vat-eu/check vat
-        ]
-    ]
-
-    test-hungary-valid-vat: does [
-        vat-numbers: ["HU12345678" "HU87654321" "HU33344455"]
-
-        foreach vat vat-numbers [
-            tester/assert-true valid-vat-eu/check vat
-        ]
-    ]
-
-    test-hungary-invalid-vat: does [
-        vat-numbers: ["HU1" "HU123" "HU123456"]
-        
         foreach vat vat-numbers [
             tester/assert-false valid-vat-eu/check vat
         ]

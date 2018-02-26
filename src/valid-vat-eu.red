@@ -51,6 +51,10 @@ valid-vat-eu: context [
     ;---------------- RULES GENERATORS -------------------
     /local numeric: charset "0123456789"
 
+    /local generate-rule-hungary: does [
+        return [8 [numeric]]
+    ]
+
     ; based by weights algorithm
     ; https://pl.wikibooks.org/wiki/Kody_%C5%BAr%C3%B3d%C5%82owe/Implementacja_NIP
     /local generate-rule-poland: does [
@@ -75,10 +79,6 @@ valid-vat-eu: context [
             put-input-to-actual-number
             if((sum % 11) == actual-number)
         ]
-    ]
-
-    /local generate-rule-hungary: does [
-        return [8 [numeric]]
     ]
 ]
 
