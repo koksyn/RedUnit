@@ -18,44 +18,44 @@ valid-vat: context [
         ;"AT" "U[A-Z\d]{8}" ;austria
         ;"BE" "0\d{9}" ;belgium
         ;"BG" "\d{9,10}" ;bulgaria
-        "HR" "\d{11}" ;croatia
+        "HR" generate-rule-croatia
         ;"CY" "\d{8}[A-Z]" ;cyprus
         ;"CZ" "\d{8,10}" ;czech republic
         ;"DK" "(\d{2} ?){3}\d{2}" ;denmark
-        "EE" "\d{9}" ;estonia
-        "FI" "\d{8}" ;finland
+        "EE" generate-rule-estonia
+        "FI" generate-rule-finland
         ;"FR" "([A-Z]{2}|\d{2})\d{9}" ;france and monaco
-        "DE" "\d{9}" ; germany
-        "EL" "\d{9}" ; greece
-        "GR" "\d{9}" ; greece second
+        "DE" generate-rule-germany
+        "EL" generate-rule-greece
+        "GR" generate-rule-greece ;-- alternatively for Greece
         "HU" generate-rule-hungary
         ; IE: Seven digits and one last letter or six digits and two letters (second & last)
         ;"IE" "\d{7}[A-Z]|\d[A-Z]\d{5}[A-Z]" ireland
-        "IT" "\d{11}" ;italy
-        "LV" "\d{11}" ;latvia
+        "IT" generate-rule-italy
+        "LV" generate-rule-latvia
         ;"LT" "(\d{9}|\d{12})" ;lithuania
-        "LU" "\d{8}" ; luxembourg
-        "MT" "\d{8}" ;malta
+        "LU" generate-rule-luxembourg
+        "MT" generate-rule-malta
         ; NL: The 10th position following the prefix is always "B".
         ;"NL" "\d{9}B\d{2}" ; netherlands
         "PL" generate-rule-poland
-        "PT" "\d{9}" ; portugal
+        "PT" generate-rule-portugal
         ;"RO" "\d{2,10}" ;romania
-        "SK" "\d{10}" ;slovakia
-        "SI" "\d{8}" ;slovenia
+        "SK" generate-rule-slovakia
+        "SI" generate-rule-slovenia
         ; ES: The first and last characters may be alpha or numeric; but they may not both be numeric:
         ;"ES" "[A-Z]\d{7}[A-Z]|\d{8}[A-Z]|[A-Z]\d{8}" ;spain
-        "SE" "\d{12}" ;sweden
+        "SE" generate-rule-sweden
         ;"GB" "\d{9}|\d{12}|(GD|HA)\d{3}" ; United Kingdom and Isle of Man
 
         ; ------ Latin American countries
-        "AR" "\d{11}" ; argentina
+        "AR" generate-rule-argentina
         ;"BO" ;bolivia
         ;"BR" ;brazil
         ;"CL" "\d{8}-\d" ;chile
-        "CO" "\d{10}" ;colombia
+        "CO" generate-rule-colombia
         ;"CR" ;Costa Rica
-        "EC" "\d{13}" ;Ecuador
+        "EC" generate-rule-ecuador
         ;"SV" ;El Salvador
         ;"GT" "\d{7}-\d" ;Guatemala
         ;"HN" ;Honduras
@@ -70,8 +70,8 @@ valid-vat: context [
 
         ; ------ other countries
         ;"AL" "[KJ]\d{8}L" ;Albania
-        "AU" "\d{9}" ;australia
-        "BY" "\d{9}" ;belarus
+        "AU" generate-rule-australia
+        "BY" generate-rule-belarus
         ;"CA" "[A-Z\d]{15}" ;Canada
         ;"IS" ;Iceland
         ;"IN" ;india
@@ -79,13 +79,13 @@ valid-vat: context [
         ;"IL" ;israel
         ;"NZ" ;new zealand
         ;"NO" "\d{9}MVA" ;norway
-        "PH" "\d{12}" ;Philippines
+        "PH" generate-rule-philippines
         ;"RU" "(\d{10}|\d{12})" ;Russia
         ;"SM" ;San Marino
         ;"RS" ;Serbia
         ;"CH" "(\d{6}|E\d{9}(TVA|MWST|IVA))" ;Switzerland
-        "TR" "\d{10}" ;Turkey
-        "UA" "\d{12}" ;Ukraine
+        "TR" generate-rule-turkey
+        "UA" generate-rule-ukraine
         ;"UZ" ;Uzbekistan
     ]
 
@@ -122,11 +122,48 @@ valid-vat: context [
     ;---------------- RULES GENERATORS -------------------
     /local numeric: charset "0123456789"
 
+    ; ------ European Union (EU) countries
+    /local generate-rule-croatia: does [
+        return [11 [numeric]]
+    ]
+
+    /local generate-rule-estonia: does [
+        return [9 [numeric]]
+    ]
+
+    /local generate-rule-finland: does [
+        return [8 [numeric]]
+    ]
+
+    /local generate-rule-germany: does [
+        return [9 [numeric]]
+    ]
+
+    /local generate-rule-greece: does [
+        return [9 [numeric]]
+    ]
+
     /local generate-rule-hungary: does [
         return [8 [numeric]]
     ]
 
-    ; based by weights algorithm
+    /local generate-rule-italy: does [
+        return [11 [numeric]]
+    ]
+
+    /local generate-rule-latvia: does [
+        return [11 [numeric]]
+    ]
+
+    /local generate-rule-luxembourg: does [
+        return [8 [numeric]]
+    ]
+
+    /local generate-rule-malta: does [
+        return [8 [numeric]]
+    ]
+
+    ; based by weights MOD-11 algorithm
     ; https://pl.wikibooks.org/wiki/Kody_%C5%BAr%C3%B3d%C5%82owe/Implementacja_NIP
     /local generate-rule-poland: does [
         weights: [6 5 7 2 3 4 5 6 7]
@@ -150,6 +187,58 @@ valid-vat: context [
             put-input-to-actual-number
             if((sum % 11) == actual-number)
         ]
+    ]
+
+    /local generate-rule-portugal: does [
+        return [9 [numeric]]
+    ]
+
+    /local generate-rule-slovakia: does [
+        return [10 [numeric]]
+    ]
+
+    /local generate-rule-slovenia: does [
+        return [8 [numeric]]
+    ]
+
+    /local generate-rule-sweden: does [
+        return [12 [numeric]]
+    ]
+
+    ; ------ Latin American countries
+    
+    /local generate-rule-argentina: does [
+        return [11 [numeric]]
+    ]
+
+    /local generate-rule-colombia: does [
+        return [10 [numeric]]
+    ]
+
+    /local generate-rule-ecuador: does [
+        return [13 [numeric]]
+    ]
+
+    ; ------ other countries
+
+    /local generate-rule-australia: does [
+        return [9 [numeric]]
+    ]
+
+    /local generate-rule-belarus: does [
+        return [9 [numeric]]
+    ]
+
+    /local generate-rule-philippines: does [
+        return [12 [numeric]]
+    ]
+
+    /local generate-rule-turkey: does [
+        return [10 [numeric]]
+    ]
+
+    /local generate-rule-ukraine: does [
+        return [12 [numeric]]
     ]
 ]
 
