@@ -56,25 +56,28 @@ tester-internal: context [
 
         ; reset context of expected error for each test
         error-expected: false
+        result: none
         ; define actually executed test name
         actual-test-name: to string! test
 
         errors-before: length? errors
-        
-        was-error: error? result: try [
-            do test
+
+        was-error: none? attempt [ 
+            result: try [do test] 
         ]
 
-        case [
-            was-error and (not error-expected) [
-                put errors test result
-            ]
-            (not was-error) and error-expected [
-                message: "Expected error, but nothing happen."
-                fail-test message "error-expected"
+        if not none? result [
+            case [
+                was-error and (not error-expected) [
+                    put errors test result
+                ]
+                (not was-error) and error-expected [
+                    message: "Expected error, but nothing happen."
+                    fail-test message "error-expected"
+                ]
             ]
         ]
-        
+
         errors-after: length? errors
 
         either errors-before <> errors-after [

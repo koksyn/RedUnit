@@ -1,9 +1,9 @@
 Red [
-    Title: "Validator - VAT EU"
+    Title: "Validator for VAT EU"
     Description: "The Value Added Tax (VAT) in European Union"
     Purpose: "Checking, that VAT number is valid for specific EU country"
     Author: "Mateusz Palichleb"
-    File: %validator-vat-eu.red
+    File: %valid-vat-eu.red
 ]
 
 comment {
@@ -12,7 +12,7 @@ comment {
     - http://ec.europa.eu/taxation_customs/vies/faq.html
 }
 
-validator-vat-eu: context [
+valid-vat-eu: context [
     /local rules: make map![
         "PL" generate-rule-poland
         "HU" generate-rule-hungary
@@ -51,6 +51,8 @@ validator-vat-eu: context [
     ;---------------- RULES GENERATORS -------------------
     /local numeric: charset "0123456789"
 
+    ; based by weights algorithm
+    ; https://pl.wikibooks.org/wiki/Kody_%C5%BAr%C3%B3d%C5%82owe/Implementacja_NIP
     /local generate-rule-poland: does [
         weights: [6 5 7 2 3 4 5 6 7]
         iteration: 1
@@ -80,5 +82,3 @@ validator-vat-eu: context [
     ]
 ]
 
-probe validator-vat-eu/check "PL1234567890"
-probe validator-vat-eu/check "PL4673742025"
