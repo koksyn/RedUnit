@@ -14,26 +14,31 @@ comment {
 
 validator-vat-eu: context [
     /local rules: make map![
-        "PL" "\d{10}"
-        "EN" "\d{6}"
+        "PL" generate-rule-poland
+        "HU" generate-rule-hungary
     ]
 
-    validate: func [
+    check: func [
         "Check, that provided string is a valid VAT EU number"
         vat[string!]
     ] [
         if (empty? vat) or ((length? vat) < 3) [return false]
 
-        country-code: copy/part vat 2
+        ; country code validation
+        country-code: uppercase copy/part vat 2
         if is-invalid-country-code country-code [return false]
 
-        rule: select rules country-code
-        probe rule
+        ; vat numbers
+        numbers-amount: -1 * (length? vat) + 2
+        vat-numbers: at tail vat numbers-amount
 
-        return true
+        ; generating rule
+        rule: do (select rules country-code)
+
+        return parse vat-numbers rule
     ]
 
-    is-invalid-country-code: func [
+    /local is-invalid-country-code: func [
         "Check, that country code is invalid or not known"
         code[string!]
     ] [
@@ -42,10 +47,38 @@ validator-vat-eu: context [
 
         return empty? found
     ]
+
+    ;---------------- RULES GENERATORS -------------------
+    /local numeric: charset "0123456789"
+
+    /local generate-rule-poland: does [
+        weights: [6 5 7 2 3 4 5 6 7]
+        iteration: 1
+        sum: 0
+
+        put-input-to-actual-number: [
+            copy actual-number
+            numeric
+            (actual-number: to integer! actual-number)
+        ]
+
+        return [
+            9 [
+                put-input-to-actual-number          
+                (weight: pick weights iteration)
+                (sum: sum + (actual-number * weight))
+                (iteration: iteration + 1)
+            ]
+
+            put-input-to-actual-number
+            if((sum % 11) == actual-number)
+        ]
+    ]
+
+    /local generate-rule-hungary: does [
+        return [8 [numeric]]
+    ]
 ]
 
-probe validator-vat-eu/validate ""
-probe validator-vat-eu/validate "Px"
-probe validator-vat-eu/validate "Px1"
-probe validator-vat-eu/validate "PL1"
-probe validator-vat-eu/validate "EN1"
+probe validator-vat-eu/check "PL1234567890"
+probe validator-vat-eu/check "PL4673742025"
