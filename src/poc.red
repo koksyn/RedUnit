@@ -26,16 +26,12 @@ poc: context [
     ] [
         identifiers: words-of registry
 
-        either not empty? identifiers [
-            foreach identifier identifiers [
-                result: identifier = name
-                if result [break]
-            ]
-
-            result
-        ] [
-            false
+        if not empty? identifiers [
+            found: find/case identifiers name
+            return not empty? found
         ]
+
+        return false
     ]
 
     replace: func [

@@ -4,7 +4,7 @@ Red [
     Purpose: "Be able to test Red language scripts"
     Author: "Mateusz Palichleb"
     File: %tester.red
-    Version: "0.0.5"
+    Version: "0.0.6"
 ]
 
 do %tester/modules.red
@@ -16,7 +16,7 @@ tester: make tester-modules context [
     ] [
         buffer/clear
         buffer/putline "--------- Tester ----------"
-        buffer/putline "Version 0.0.5^/"
+        buffer/putline "Version 0.0.6^/"
 
         tests: process-testable-methods testable
         
