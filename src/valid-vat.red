@@ -142,9 +142,13 @@ valid-vat: context [
 
     /local generate-rule-belgium: does [
         return [
-            ["0" 9 [digit]]
-            ; old format
+            [
+                ["0" | "1"] 
+                9 [digit]
+            ]
+            ; old formats
             | [9 [digit]]
+            | [3 [digit] dot 3[digit] dot 3 [digit]]
         ]
     ]
 
@@ -161,7 +165,7 @@ valid-vat: context [
 
     /local generate-rule-cyprus: does [
         return [
-            8 [digit] letter
+            9 [alphanum]
         ]
     ]
 

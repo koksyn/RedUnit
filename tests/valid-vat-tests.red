@@ -20,7 +20,9 @@ tests: context [
         "ATU13585626"
         ;-- belgium
         "BE0428759497"
+        "BE1187141811"
         "BE431150351"
+        "BE999.999.999"
         ;-- bulgaria
         "BG175074752"
         "BG7523169263"
@@ -33,10 +35,12 @@ tests: context [
         ;-- croatia
         "HR33392005961"
         "HR33392005962"
+        "HR12345678901"
         ;-- cyprus
         "CY10259033P"
         "CY10259033Z"
         "CY12051126A"
+        "CY1205Z12XS"
         ;-- czech-republic
         "CZ25123891"
         "CZ7103192745"
@@ -74,8 +78,9 @@ tests: context [
         ;-- ireland
         "IE6433435F"
         "IE6433435OA"
-        "IE8D79739I"
         "IE8D79738J"
+        "IE8+79738J"
+        "IE8*79738J"
         "IE1234567TW"
         ;-- italy
         "IT00743110157"
@@ -152,6 +157,8 @@ tests: context [
         "GB980780684"
         "GB802311781"
         "GB123456789012"
+        "GBGD123"
+        "GBHA456"
 
         ; ------ Latin American countries
         ;-- argentina
@@ -299,25 +306,64 @@ tests: context [
 
     /local invalid-vat-numbers: [
         ;-- austria
-        ;-- belgium
+        "ATU1358562"
+        "AT13585626"
+        ;-- belgium (invalid first digit 2-9)
+        "BE2428759497"
+        "BE3187141811"
+        "BE4131150351"
+        "BE5131150351"
+        "BE6131150351"
+        "BE7131150351"
+        "BE8131150351"
+        "BE9131150351"
+        "BE1999.999.999"
         ;-- bulgaria
+        "BG17507475"
+        "BG7523163"
         ;-- croatia
+        "HR12345671"
         ;-- cyprus
+        "CY102533P"
+        "CY10253Z"
         ;-- czech-republic
+        "CZ11034924145"
+        "CZ5901212"
         ;-- denmark
+        "DK13585X27"
+        "DK135856"
         ;-- estonia
+        "EE10059410"
         ;-- finland
+        "FI20774740Q"
         ;-- france-monaco
+        "FR4030326504"
+        "FR23334121"
         ;-- germany
+        "DE13669597"
         ;-- greece
+        "GR0234567680"
+        "EL09425216"
         ;-- hungary
+        "HU128923113"
         ;-- ireland
+        "IE12345678TW"
+        "IE8>79738J"
+        "IE8;79738J"
         ;-- italy
+        "IT007431101"
         ;-- latvia
+        "LV40003501"
         ;-- lithuania
+        "LT1195112515"
         ;-- luxembourg
+        "LU15027442X"
         ;-- malta
+        "MT1167911A"
         ;-- netherlands
+        "NL00449544501"
+        "NL123456789X90"
+        "NL12349B90"
         ;-- poland
         "PL1234567890"
         "PL0987654321"
@@ -327,15 +373,28 @@ tests: context [
         "PL2222222221"
         "PL000000001"
         "PL12332113"
-        "PLQWERTYUIOP"
-        "PL123"
         ;-- portugal
+        "PT501964"
         ;-- romania
+        "RO1"
+        "RO12X"
+        "RO12345678901"
         ;-- slovakia
+        "SK20749619"
         ;-- slovenia
+        "SI502254"
         ;-- spain
+        "ES543622315K"
+        "ES54362315"
+        "ESX4362315"
+        "ES2482300A"
         ;-- sweden
+        "SE123451101"
         ;-- united-kingdom-isle-of-man
+        "GB9800684"
+        "GB12345678011"
+        "GBGA123"
+        "GBDA13456"
 
         ; ------ Latin American countries
         ;-- argentina
@@ -511,9 +570,9 @@ tests: context [
     ] [
         foreach vat valid-vat-numbers [
             ; for debugging
-            if (false == valid-vat/check vat) [
-                print rejoin [ "Failure: " vat ]
-            ]
+            ;if (false == valid-vat/check vat) [
+            ;    print rejoin [ "Failure: " vat ]
+            ;]
 
             tester/assert-true valid-vat/check vat
         ]
@@ -524,9 +583,9 @@ tests: context [
     ] [
         foreach vat invalid-vat-numbers [
             ; for debugging
-            if (true == valid-vat/check vat) [
-                print rejoin [ "Failure: " vat ]
-            ]
+            ;if (true == valid-vat/check vat) [
+            ;    print rejoin [ "Failure: " vat ]
+            ;]
 
             tester/assert-false valid-vat/check vat
         ]
