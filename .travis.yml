@@ -17,4 +17,5 @@ branches:
 # which does not affect Red language script execution
 language: c
 
-script: ./red-063-linux -s run-all-tests.red
+script: ls -la
+script: red-063-linux -s run-all-tests.red
