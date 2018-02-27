@@ -1,4 +1,4 @@
-## Prototype objects container 
+# Prototype objects container 
 
 File: [poc.red](../src/poc.red)
 
@@ -6,14 +6,46 @@ Tests: [poc-tests.red](../tests/poc-tests.red)
 
 Code examples: [poc-examples.red](../examples/poc-examples.red)
 
-### Purpose
+## Purpose
 
 Ability to store objects safely in a *key-value* map, with access control and type checking. 
 
 Currently `map!` can store anything, so *POC* will guarantee, that only objects with type `object!` will be stored. 
 Identifiers are case sensitive and they should be unique for each object.
 
-### Usage
+## Methods
+
+* **Register** - put object to the container, identified by name
+
+```red
+poc/register <name> <object> 
+```
+
+* **Registered** - check, that identifier is already registered. Returns `logic!`
+
+```red
+poc/registered <name>
+```
+
+* **Replace** - replace object in the container to another prototype
+
+```red
+poc/replace <name> <object>
+```
+
+* **Resolve** - get a clone of object prototype from container
+
+```red
+poc/resolve <name>
+```
+
+* **Remove** - removes object and identifier from container
+
+```red
+poc/resolve <name>
+```
+
+## Usage
 
 ```red
 
@@ -76,36 +108,4 @@ either error? result: try [poc/resolve "unknown-identifier"] [
 ; Output:
 ; Error message:  Can not resolve an unregistered object
 
-```
-
-### Methods
-
-* **Register** - put object to the container, identified by name
-
-```red
-poc/register <name> <object> 
-```
-
-* **Registered** - check, that identifier is already registered. Returns `logic!`
-
-```red
-poc/registered <name>
-```
-
-* **Replace** - replace object in the container to another prototype
-
-```red
-poc/replace <name> <object>
-```
-
-* **Resolve** - get a clone of object prototype from container
-
-```red
-poc/resolve <name>
-```
-
-* **Remove** - removes object and identifier from container
-
-```red
-poc/resolve <name>
 ```
