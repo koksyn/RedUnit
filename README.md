@@ -2,7 +2,7 @@
 
 Pack of varied **tools** for **Red language**.
 
-## Genesis
+### Why?
 
 The main reason is the possibility to building your own projects faster and easier.
 

@@ -4,7 +4,7 @@ File: [poc.red](../src/poc.red)
 
 Tests: [poc-tests.red](../tests/poc-tests.red)
 
-Code examples: [poc-examples.red](../examples/poc-examples.red)
+Usage: [poc-examples.red](../examples/poc-examples.red)
 
 ## Purpose
 
@@ -27,7 +27,7 @@ poc/register <name> <object>
 poc/registered <name>
 ```
 
-* **Replace** - replace object in the container to another prototype
+* **Replace** - replace object in the container to another
 
 ```red
 poc/replace <name> <object>
