@@ -14,43 +14,67 @@ Currently `map!` can store anything, so *POC* will guarantee, that only objects 
 
 #### Usage
 
-##### Example 1: Adding and getting book by ISBN
-
 ```red
 
-ISBN: "999-8-76-543210-1"
-book: object [title: "Red cookbook"]
+do %../src/poc.red
 
-poc/register ISBN book
+; ------------------------------------------------------
+; Example 1: Adding and getting book by ISBN
+; ------------------------------------------------------
+ 
+    ISBN: "999-8-76-543210-1"
+    book: object [title: "Red cookbook"]
 
-result: poc/resolve ISBN
-probe result/title
+    poc/register ISBN book
 
-```
+    result: poc/resolve ISBN
+    probe result/title
 
-Output:
+; Output:
+; "Red cookbook"
 
-```bash
-"Red cookbook"
-```
+; ------------------------------------------------------
+; Example 2: Replacing book by the same ISBN
+; ------------------------------------------------------
+ 
+    green-book: object [title: "Green book"]
 
-##### Example 2: Replacing book by the same ISBN
+    poc/replace ISBN green-book
 
-```red
+    result: poc/resolve ISBN
+    probe result/title
 
-green-book: object [title: "Green book"]
+; Output:
+; "Green book"
 
-poc/replace ISBN green-book
+; ------------------------------------------------------
+; Example 3: Removing book and checking it does exist
+; ------------------------------------------------------
 
-result: poc/resolve ISBN
-probe result/title
+    probe poc/registered ISBN
 
-```
+; Output:
+; true
 
-Output:
+    poc/remove ISBN
+    probe poc/registered ISBN
 
-```bash
-"Red cookbook"
+; Output:
+; false
+
+; ------------------------------------------------------
+; Handling errors
+; ------------------------------------------------------
+ 
+    either error? result: try [poc/resolve "unknown-identifier"] [
+        print ["Error message: " result/arg1]
+    ] [
+        print ["Everything fine! Your object: " result]
+    ]
+
+; Output:
+; Error message:  Can not resolve an unregistered object
+
 ```
 
 #### Methods
@@ -59,58 +83,44 @@ Output:
 
 ```red
 poc/register <name> <prototype> 
+
+; name - string! - unique identifier (case sensitive)
+; prototype - object! - will be stored in the container
 ```
-
-Params:
-
-* `name` - type: `string!`, unique identifier (case sensitive)
-* `prototype` - type: `object!`, object, which will be stored in the container
 
 ##### **Registered** - check, that identifier is already registered
 
 ```red
 poc/registered <name> 
+
+; name - string! - unique identifier
 ```
 
-Params:
-
-* `name` - type: `string!`, unique identifier (case sensitive)
-
-Returns:
-
-* `logic!` - is true when identifier already exists, false otherwise
+Returns `logic!`. Is true when identifier already exists, false otherwise.
 
 ##### **Replace** - replace object in the container
 
 ```red
 poc/replace <name> <prototype>
+
+; name - string! - unique identifier
+; prototype - object! - will be replaced in the container
 ```
-
-Params:
-
-* `name` - type: `string!`, unique identifier (case sensitive)
-* `prototype` - type: `object!`, object, which will be stored in the container
 
 ##### **Resolve** - get a clone of object prototype from container
 
 ```red
 poc/resolve <name>
+
+; name - string! - unique identifier
 ```
 
-Params:
-
-* `name` - type: `string!`, unique identifier (case sensitive)
-
-Returns:
-
-* `object!` - a clone of object prototype
+Returns `object!` - a clone of object prototype
 
 ##### **Remove** - remove object and identifier from container
 
 ```red
 poc/resolve <name>
+
+; name - string! - unique identifier
 ```
-
-Params:
-
-* `name` - type: `string!`, unique identifier (case sensitive)
