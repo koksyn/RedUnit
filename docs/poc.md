@@ -79,17 +79,17 @@ do %../src/poc.red
 
 ### Methods
 
-#### **Register** - put object to the container, identified by name
+**Register** - put object to the container, identified by name
 
 ```red
 poc/register <name> <prototype> 
 
 ```
 
-- **name**: `string!` - unique identifier (case sensitive)
-- **prototype**: `object!` - will be stored in the container
+- name: `string!` - unique identifier (case sensitive)
+- prototype: `object!` - will be stored in the container
 
-#### **Registered** - check, that identifier is already registered
+**Registered** - check, that identifier is already registered
 
 ```red
 poc/registered <name> 
@@ -99,7 +99,7 @@ poc/registered <name>
 
 Returns `logic!`. Is true when identifier already exists, false otherwise.
 
-#### **Replace** - replace object in the container
+**Replace** - replace object in the container
 
 ```red
 poc/replace <name> <prototype>
@@ -108,7 +108,7 @@ poc/replace <name> <prototype>
 ; prototype - object! - will be replaced in the container
 ```
 
-#### **Resolve** - get a clone of object prototype from container
+**Resolve** - get a clone of object prototype from container
 
 ```red
 poc/resolve <name>
@@ -118,7 +118,7 @@ poc/resolve <name>
 
 Returns `object!` - a clone of object prototype
 
-#### **Remove** - remove object and identifier from container
+**Remove** - remove object and identifier from container
 
 ```red
 poc/resolve <name>
