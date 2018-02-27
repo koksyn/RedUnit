@@ -42,7 +42,7 @@ poc/resolve <name>
 * **Remove** - removes object and identifier from container
 
 ```red
-poc/resolve <name>
+poc/remove <name>
 ```
 
 ## Usage
