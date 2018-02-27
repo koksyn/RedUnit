@@ -1,8 +1,25 @@
-# Red particles
+# Particles
 
-Pack of varied **tools** for **Red** language.
+Pack of varied **tools** for **Red language**.
 
-### Tests for tools
+The main reason is the possibility to building your own projects faster and easier.
+
+By using **validators** for specific data you don't need to create them on you own. Moreover the TDD (test driven-development) approach is now possible using the **Tester** tool, so you can eliminate bad cases at the early stage. 
+
+## Tools 
+
+##### General-purpose
+
+* [Tester](docs/tester.md) - Test framework with assertions and error handling. Inspired by xUnit, PhpUnit and other similar libraries.
+* [POC](docs/poc.md) - Prototype objects container
+
+##### Validators
+
+* [VAT](docs/validators.md) - The Value Added Tax (VAT) in European Union, Latin American and other countries.
+
+## Running the tests
+
+### All tools at once
 
 To run tests simply execute script `run-all-tests.red` from project main directory through **Red** binary.
 This script will detect and execute all test files like `***-tests.red` under `/tests` directory.
@@ -11,41 +28,17 @@ This script will detect and execute all test files like `***-tests.red` under `/
 ./red -s run-all-tests.red
 ```
 
-## Tools 
+### One tool
+
+All tests for specific tools are located under `/tests` directory.
+Each tool have a file `TOOL-tests.red`, where `TOOL` should be replaced by tool name.
+
+For example (VAT validator):
  
-### **Tester** - Testing tool
+```bash
+./red -s tests/valid-vat-tests.red
+```
 
-File: `src/tester.red`
+## Compatibility
 
-Documentation: `docs/tester.md`
-
-Tool for running tests of Red language scripts inspired by PhpUnit, xUnit, nUnit and other similar libraries. Offers:
-
-- assertions
-- special assertions for expected errors
-- data providers for testing a huge sets of data
-- running tests from many files at once
-
-### **Validators** - Check provided code is valid
-
-Files: `src/valid-***.red`
-
-Documentation: `docs/validators.md`
-
-Tool for checking codes:
-
-- VAT numbers from EU, Latin America and other countires - `src/valid-vat.red`
-- Phone numbers for various countries - `src/valid-phone.red`
-
-### **POC** - Prototype objects container
-
-File: `src/poc.red`
-
-Documentation: `docs/poc.md`
-
-Tool for running tests of Red language scripts inspired by PhpUnit, xUnit, nUnit and other similar libraries. Offers:
-
-- assertions
-- special assertions for expected errors
-- data providers for testing a huge sets of data
-- running tests from many files at once
+Tools were created and tested under **0.6.3** version of Red. Older versions were not tested.
