@@ -84,9 +84,10 @@ do %../src/poc.red
 ```red
 poc/register <name> <prototype> 
 
-; name - string! - unique identifier (case sensitive)
-; prototype - object! - will be stored in the container
 ```
+
+- **name**: `string!` - unique identifier (case sensitive)
+- **prototype**: `object!` - will be stored in the container
 
 #### **Registered** - check, that identifier is already registered
 
