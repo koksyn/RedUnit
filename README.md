@@ -1,3 +1,5 @@
+[![Travis build](https://travis-ci.org/koksyn/particles.svg?branch=master)](https://travis-ci.org/koksyn/particles)
+
 # Particles
 
 Pack of varied **tools** for **Red language**.
