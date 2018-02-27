@@ -2,7 +2,7 @@
 
 Pack of varied **tools** for **Red language**.
 
-### Why?
+### Motivation
 
 The main reason is the possibility to building your own projects faster and easier.
 
@@ -10,12 +10,12 @@ By using **validators** for specific data you don't need to create them on you o
 
 ## Tools 
 
-##### General-purpose
+#### General-purpose
 
 * [Tester](docs/tester.md) - Test framework with assertions and error handling. Inspired by xUnit, PhpUnit and other similar libraries.
 * [POC](docs/poc.md) - Prototype objects container
 
-##### Validators
+#### Validators
 
 * [VAT](docs/validators.md) - The Value Added Tax (VAT) in European Union, Latin American and other countries.
 

@@ -6,9 +6,9 @@ Tests: [poc-tests.red](../tests/poc-tests.red)
 
 Usage: [poc-examples.red](../examples/poc-examples.red)
 
-## Purpose
+## Description
 
-Ability to store objects safely in a *key-value* map, with access control and type checking. 
+The main goal was ability to store objects safely in a *key-value* map, with access control and type checking. 
 
 Currently `map!` can store anything, so *POC* will guarantee, that only objects with type `object!` will be stored. 
 Identifiers are case sensitive and they should be unique for each object.
