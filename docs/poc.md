@@ -11,24 +11,25 @@ Code examples: [poc-examples.red](../examples/poc-examples.red)
 Ability to store objects safely in a *key-value* map, with access control and type checking. 
 
 Currently `map!` can store anything, so *POC* will guarantee, that only objects with type `object!` will be stored. 
+Identifiers are case sensitive and they should be unique for each object.
 
 ### Usage
 
 ```red
 
-do %../src/poc.red
+do %src/poc.red
 
 ; ------------------------------------------------------
 ; Example 1: Adding and getting book by ISBN
 ; ------------------------------------------------------
  
-    ISBN: "999-8-76-543210-1"
-    book: object [title: "Red cookbook"]
+ISBN: "999-8-76-543210-1"
+book: object [title: "Red cookbook"]
 
-    poc/register ISBN book
+poc/register ISBN book
 
-    result: poc/resolve ISBN
-    probe result/title
+result: poc/resolve ISBN
+probe result/title
 
 ; Output:
 ; "Red cookbook"
@@ -37,12 +38,12 @@ do %../src/poc.red
 ; Example 2: Replacing book by the same ISBN
 ; ------------------------------------------------------
  
-    green-book: object [title: "Green book"]
+green-book: object [title: "Green book"]
 
-    poc/replace ISBN green-book
+poc/replace ISBN green-book
 
-    result: poc/resolve ISBN
-    probe result/title
+result: poc/resolve ISBN
+probe result/title
 
 ; Output:
 ; "Green book"
@@ -51,13 +52,13 @@ do %../src/poc.red
 ; Example 3: Removing book and checking it does exist
 ; ------------------------------------------------------
 
-    probe poc/registered ISBN
+probe poc/registered ISBN
 
 ; Output:
 ; true
 
-    poc/remove ISBN
-    probe poc/registered ISBN
+poc/remove ISBN
+probe poc/registered ISBN
 
 ; Output:
 ; false
@@ -66,11 +67,11 @@ do %../src/poc.red
 ; Handling errors
 ; ------------------------------------------------------
  
-    either error? result: try [poc/resolve "unknown-identifier"] [
-        print ["Error message: " result/arg1]
-    ] [
-        print ["Everything fine! Your object: " result]
-    ]
+either error? result: try [poc/resolve "unknown-identifier"] [
+    print ["Error message: " result/arg1]
+] [
+    print ["Everything fine! Your object: " result]
+]
 
 ; Output:
 ; Error message:  Can not resolve an unregistered object
@@ -79,49 +80,32 @@ do %../src/poc.red
 
 ### Methods
 
-**Register** - put object to the container, identified by name
+* **Register** - put object to the container, identified by name
 
 ```red
-poc/register <name> <prototype> 
-
+poc/register <name> <object> 
 ```
 
-- name: `string!` - unique identifier (case sensitive)
-- prototype: `object!` - will be stored in the container
-
-**Registered** - check, that identifier is already registered
+* **Registered** - check, that identifier is already registered. Returns `logic!`
 
 ```red
-poc/registered <name> 
-
-; name - string! - unique identifier
+poc/registered <name>
 ```
 
-Returns `logic!`. Is true when identifier already exists, false otherwise.
-
-**Replace** - replace object in the container
+* **Replace** - replace object in the container to another prototype
 
 ```red
-poc/replace <name> <prototype>
-
-; name - string! - unique identifier
-; prototype - object! - will be replaced in the container
+poc/replace <name> <object>
 ```
 
-**Resolve** - get a clone of object prototype from container
+* **Resolve** - get a clone of object prototype from container
 
 ```red
 poc/resolve <name>
-
-; name - string! - unique identifier
 ```
 
-Returns `object!` - a clone of object prototype
-
-**Remove** - remove object and identifier from container
+* **Remove** - removes object and identifier from container
 
 ```red
 poc/resolve <name>
-
-; name - string! - unique identifier
 ```
