@@ -6,13 +6,13 @@ Tests: [poc-tests.red](../tests/poc-tests.red)
 
 Code examples: [poc-examples.red](../examples/poc-examples.red)
 
-#### Purpose
+### Purpose
 
 Ability to store objects safely in a *key-value* map, with access control and type checking. 
 
 Currently `map!` can store anything, so *POC* will guarantee, that only objects with type `object!` will be stored. 
 
-#### Usage
+### Usage
 
 ```red
 
@@ -77,9 +77,9 @@ do %../src/poc.red
 
 ```
 
-#### Methods
+### Methods
 
-##### **Register** - put object to the container, identified by name
+#### **Register** - put object to the container, identified by name
 
 ```red
 poc/register <name> <prototype> 
@@ -88,7 +88,7 @@ poc/register <name> <prototype>
 ; prototype - object! - will be stored in the container
 ```
 
-##### **Registered** - check, that identifier is already registered
+#### **Registered** - check, that identifier is already registered
 
 ```red
 poc/registered <name> 
@@ -98,7 +98,7 @@ poc/registered <name>
 
 Returns `logic!`. Is true when identifier already exists, false otherwise.
 
-##### **Replace** - replace object in the container
+#### **Replace** - replace object in the container
 
 ```red
 poc/replace <name> <prototype>
@@ -107,7 +107,7 @@ poc/replace <name> <prototype>
 ; prototype - object! - will be replaced in the container
 ```
 
-##### **Resolve** - get a clone of object prototype from container
+#### **Resolve** - get a clone of object prototype from container
 
 ```red
 poc/resolve <name>
@@ -117,7 +117,7 @@ poc/resolve <name>
 
 Returns `object!` - a clone of object prototype
 
-##### **Remove** - remove object and identifier from container
+#### **Remove** - remove object and identifier from container
 
 ```red
 poc/resolve <name>
