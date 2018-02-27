@@ -47,43 +47,40 @@ valid-vat: context [
 
         ; ------ Latin American countries
         "AR" generate-rule-argentina
-        ;"BO" ;bolivia
-        ;"BR" ;brazil
+        "BO" generate-rule-bolivia
+        "BR" generate-rule-brazil
         "CL" generate-rule-chile
         "CO" generate-rule-colombia
-        ;"CR" ;Costa Rica
+        "CR" generate-rule-costa-rica
         "EC" generate-rule-ecuador
-        ;"SV" ;El Salvador
         "GT" generate-rule-guatemala
-        ;"HN" ;Honduras
         "MX" generate-rule-mexico
-        ;"NI" ;Nicaragua
-        ;"PA" ;Panama
-        ;"PY" ;Paraguay
-        ;"PE" ;Peru
-        ;"DO" ;Dominican Republic
-        ;"UY" ;Uruguay
+        "NI" generate-rule-nicaragua
+        "PY" generate-rule-paraguay
+        "PE" generate-rule-peru
+        "DO" generate-rule-dominican-republic
+        "UY" generate-rule-uruguay
         "VE" generate-rule-venezuela
 
-        ; ------ other countries
+        ; ------ Other countries
         "AL" generate-rule-albania
         "AU" generate-rule-australia
         "BY" generate-rule-belarus
         "CA" generate-rule-canada
-        ;"IS" ;Iceland
-        ;"IN" ;india
-        ;"ID" ;indonesia
-        ;"IL" ;israel
-        ;"NZ" ;new zealand
+        "IS" generate-rule-iceland
+        "IN" generate-rule-india
+        "ID" generate-rule-indonesia
+        "IL" generate-rule-israel
+        "NZ" generate-rule-new-zealand
         "NO" generate-rule-norway
         "PH" generate-rule-philippines
         "RU" generate-rule-russia
-        ;"SM" ;San Marino
-        ;"RS" ;Serbia
+        "SM" generate-rule-san-marino
+        "RS" generate-rule-serbia
         "CH" generate-rule-switzerland
         "TR" generate-rule-turkey
         "UA" generate-rule-ukraine
-        ;"UZ" ;Uzbekistan
+        "UZ" generate-rule-uzbekistan
     ]
 
     check: func [
@@ -149,8 +146,8 @@ valid-vat: context [
 
     /local generate-rule-bulgaria: does [
         return [
-            [9 [digit]]
-            | [10 [digit]]
+            [10 [digit]]
+            | [9 [digit]]
         ]
     ]
 
@@ -166,9 +163,9 @@ valid-vat: context [
 
     /local generate-rule-czech-republic: does [
         return [
-            [8 [digit]]
+            [10 [digit]]
             | [9 [digit]]
-            | [10 [digit]]
+            | [8 [digit]]
         ]
     ]
 
@@ -222,8 +219,8 @@ valid-vat: context [
 
     /local generate-rule-lithuania: does [
         return [
-            [9 [digit]]
-            | [12 [digit]]
+            [12 [digit]]
+            | [9 [digit]]
         ]
     ]
 
@@ -273,15 +270,15 @@ valid-vat: context [
 
     /local generate-rule-romania: does [
         return [
-            [2 [digit]]
-            | [3 [digit]]
-            | [4 [digit]]
-            | [5 [digit]]
-            | [6 [digit]]
-            | [7 [digit]]
-            | [8 [digit]]
+            [10 [digit]]
             | [9 [digit]]
-            | [10 [digit]]
+            | [8 [digit]]
+            | [7 [digit]]
+            | [6 [digit]]
+            | [5 [digit]]
+            | [4 [digit]]
+            | [3 [digit]]
+            | [2 [digit]]
         ]
     ]
 
@@ -307,8 +304,8 @@ valid-vat: context [
 
     /local generate-rule-united-kingdom-isle-of-man: does [
         return [
-            [9 [digit]]
-            | [12 [digit]]
+            [12 [digit]]
+            | [9 [digit]]
             | [
               [["G" "D"] | ["H" "A"]] 3 [digit]
             ]
@@ -321,6 +318,30 @@ valid-vat: context [
         return [11 [digit]]
     ]
 
+    /local generate-rule-bolivia: does [
+        return [7 [digit]]
+    ]
+
+    ; CNPJ format '11.111.111/0001-55'
+    ; CPF format '123.456.789-00'
+    /local generate-rule-brazil: does [
+        return [
+            ; same digits
+            [14 [digit]]
+            | [11 [digit]]
+            ; CNPJ
+            | [
+                2 [digit] dot 3 [digit] dot 3 [digit] 
+                slash 
+                4 [digit] dash 2 [digit]
+            ]
+            ; CPF
+            | [
+                3 [digit] dot 3 [digit] dot 3 [digit] dash 2 [digit]
+            ]
+        ]
+    ]
+
     /local generate-rule-chile: does [
         return [
             8 [digit] dash digit
@@ -329,6 +350,18 @@ valid-vat: context [
 
     /local generate-rule-colombia: does [
         return [10 [digit]]
+    ]
+
+    /local generate-rule-costa-rica: does [
+        return [
+            [12 [digit]]
+            ; DIMEX
+            | [11 [digit]]
+            ; NITE
+            | [10 [digit]]
+            ; person's national identification number
+            | [9 [digit]]
+        ]
     ]
 
     /local generate-rule-ecuador: does [
@@ -344,6 +377,34 @@ valid-vat: context [
     /local generate-rule-mexico: does [
         return [
             3 [digit] space 6 [digit] space 3 [digit]
+        ]
+    ]
+
+    /local generate-rule-nicaragua: does [
+        return [
+            3 [digit] dash 6 [digit] dash 4 [digit] letter
+        ]
+    ]
+
+    /local generate-rule-paraguay: does [
+        return [
+            6 [digit] dash digit
+        ]
+    ]
+
+    /local generate-rule-peru: does [
+        return [11 [digit]]
+    ]
+
+    /local generate-rule-dominican-republic: does [
+        return [
+            [11 [digit]] | [9 [digit]]
+        ]
+    ]
+
+    /local generate-rule-uruguay: does [
+        return [
+            digit dot 3 [digit] dot 3 [digit] dash digit
         ]
     ]
 
@@ -376,6 +437,38 @@ valid-vat: context [
         ]
     ]
 
+    /local generate-rule-iceland: does [
+        return [
+            [7 [digit]]
+            | [6 [digit]]
+            | [5 [digit]]
+        ]
+    ]
+
+    /local generate-rule-india: does [
+        return [
+            11 [digit] ["V" | "C"]
+        ]
+    ]
+
+    /local generate-rule-indonesia: does [
+        return [
+            [15 [digit]]
+            | [
+                2 [digit] dot 3 [digit] dot 3 [digit] dot digit
+                dash 3 [digit] dot 3 [digit]
+            ]
+        ]
+    ]
+
+    /local generate-rule-israel: does [
+        return [9 [digit]]
+    ]
+
+    /local generate-rule-new-zealand: does [
+        return [13 [digit]]
+    ]
+
     /local generate-rule-norway: does [
         return [9 [digit] "M" "V" "A"]
     ]
@@ -389,6 +482,14 @@ valid-vat: context [
             [10 [digit]]
             | [12 [digit]]
         ]
+    ]
+
+    /local generate-rule-san-marino: does [
+        return [5 [digit]]
+    ]
+
+    /local generate-rule-serbia: does [
+        return [9 [digit]]
     ]
 
     /local generate-rule-switzerland: does [
@@ -412,5 +513,9 @@ valid-vat: context [
 
     /local generate-rule-ukraine: does [
         return [12 [digit]]
+    ]
+
+    /local generate-rule-uzbekistan: does [
+        return [9 [digit]]
     ]
 ]
