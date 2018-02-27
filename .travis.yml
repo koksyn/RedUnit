@@ -1,0 +1,20 @@
+#-----------------------------------------
+# Continuous integration with Travis CI
+# http://docs.travis-ci.com/
+#	
+# Configuration file
+#-----------------------------------------
+
+dist: trusty
+
+os: linux
+
+branches: 
+  only: 
+    - master
+
+# overwriting default 'Ruby' by 'C' environment
+# which does not affect Red language script execution
+language: c
+
+script: ./red-063-linux -s run-all-tests.red
