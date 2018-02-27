@@ -1,80 +1,116 @@
-# Red particles
-
-Pack of varied **tools** for **Red** language.
-
-### Tools
-
-- **POC** - Prototype objects container 
-- **Tester** - Testing tool
-
-### Tests for tools
-
-To run tests simply execute script `run-all-tests.red` from project main directory through **Red** binary.
-This script will detect and execute all test files like `***-tests.red` under `/tests` directory.
-
-```bash
-./red -s run-all-tests.red
-```
-
 ## Prototype objects container 
 
-`src/poc.red`
+File: [poc.red](../src/poc.red)
+
+Tests: [poc-tests.red](../tests/poc-tests.red)
+
+Code examples: [poc-examples.red](../examples/poc-examples.red)
 
 #### Purpose
 
-Ability to store objects safely in a *key-value* map, with access control and type checking. Currently `map!` can store anything, so *POC* will guarantee, that only objects will be stored. Fetching chosen element will return a clone of object prototype. 
+Ability to store objects safely in a *key-value* map, with access control and type checking. 
 
-## "Tester" testing tool 
+Currently `map!` can store anything, so *POC* will guarantee, that only objects with type `object!` will be stored. 
 
-`src/tester.red`
+#### Usage
 
-#### Purpose
-
-Tool for running tests of Red language scripts inspired by *PhpUnit*, *xUnit*, *nUnit* and other similar libraries.
-
-#### Description
-
-"Tester" expects that you will give him a `object!`, which will contain test methods. Each test method name should be started with `test-`. Optionally `setup` method will be executed before each test separately (only if `object!` consist method with name `setup`).
-
-#### Example:
+##### Example 1: Adding and getting book by ISBN
 
 ```red
-Red [
-    File: %test.red
-]
 
-do %src/tester.red
+ISBN: "999-8-76-543210-1"
+book: object [title: "Red cookbook"]
 
-tests: context [
-    setup: func [
-        "Initialize/Reload context before each test"
-    ] [
-        do %src/poc.red
-    ]
+poc/register ISBN book
 
-    test-registered-item: func [
-        "Testing that item was successfully registered"
-    ] [
-        book: object [title: "Red cookbook"]
-        poc/register "my-book" book
-        
-        result: poc/registered "my-book"
-        tester/assert-true result
-    ]
-]
+result: poc/resolve ISBN
+probe result/title
 
-tester/run tests
 ```
 
-Console output:
+Output:
 
 ```bash
-./red -s test.red 
---------- Tester ----------
-Version 0.0.5
-
-[test] test-registered-item [Success]
-
-Execution time: 0.004187 sec
----------------------------
+"Red cookbook"
 ```
+
+##### Example 2: Replacing book by the same ISBN
+
+```red
+
+green-book: object [title: "Green book"]
+
+poc/replace ISBN green-book
+
+result: poc/resolve ISBN
+probe result/title
+
+```
+
+Output:
+
+```bash
+"Red cookbook"
+```
+
+#### Methods
+
+##### **Register** - put object to the container, identified by name
+
+```red
+poc/register <name> <prototype> 
+```
+
+Params:
+
+* `name` - type: `string!`, unique identifier (case sensitive)
+* `prototype` - type: `object!`, object, which will be stored in the container
+
+##### **Registered** - check, that identifier is already registered
+
+```red
+poc/registered <name> 
+```
+
+Params:
+
+* `name` - type: `string!`, unique identifier (case sensitive)
+
+Returns:
+
+* `logic!` - is true when identifier already exists, false otherwise
+
+##### **Replace** - replace object in the container
+
+```red
+poc/replace <name> <prototype>
+```
+
+Params:
+
+* `name` - type: `string!`, unique identifier (case sensitive)
+* `prototype` - type: `object!`, object, which will be stored in the container
+
+##### **Resolve** - get a clone of object prototype from container
+
+```red
+poc/resolve <name>
+```
+
+Params:
+
+* `name` - type: `string!`, unique identifier (case sensitive)
+
+Returns:
+
+* `object!` - a clone of object prototype
+
+##### **Remove** - remove object and identifier from container
+
+```red
+poc/resolve <name>
+```
+
+Params:
+
+* `name` - type: `string!`, unique identifier (case sensitive)
