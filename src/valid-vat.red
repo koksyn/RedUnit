@@ -77,6 +77,7 @@ valid-vat: context [
         "RU" generate-rule-russia
         "SM" generate-rule-san-marino
         "RS" generate-rule-serbia
+        "ZA" generate-rule-south-africa
         "CH" generate-rule-switzerland
         "TR" generate-rule-turkey
         "UA" generate-rule-ukraine
@@ -125,6 +126,7 @@ valid-vat: context [
 
     ;---------------- RULES GENERATORS -------------------
     /local whitespace: charset reduce [space tab cr lf]
+    /local not-whitespace: charset reduce ['not space tab cr lf]
     /local letter: charset [#"A" - #"Z"]
     /local digit: charset "0123456789"
     /local alphanum: union letter digit
@@ -140,7 +142,9 @@ valid-vat: context [
 
     /local generate-rule-belgium: does [
         return [
-            "0" 9 [digit]
+            ["0" 9 [digit]]
+            ; old format
+            | [9 [digit]]
         ]
     ]
 
@@ -183,8 +187,7 @@ valid-vat: context [
 
     /local generate-rule-france-monaco: does [
         return [
-            [2 [letter] | 2 [digit]]
-            9 [digit]
+            2 [alphanum] 9 [digit]
         ]
     ]
 
@@ -201,11 +204,17 @@ valid-vat: context [
     ]
 
     /local generate-rule-ireland: func [
-        "7 digits + letter OR digit + letter + 5 digits + letter"
+        "(7 digits + letter) OR (digit + letter + 5 digits + letter)"
     ] [
         return [
-            [7 [digit] letter]
-            | [digit letter 5 [digit] letter]
+            [7 [digit] 2 [letter]]
+            | [7 [digit] letter]
+            | [
+                digit 
+                [letter | "+" | "*"] 
+                5 [digit] 
+                letter
+            ]
         ]
     ]
 
@@ -376,7 +385,9 @@ valid-vat: context [
 
     /local generate-rule-mexico: does [
         return [
-            3 [digit] space 6 [digit] space 3 [digit]
+            [3 [digit] 6 [digit] 3 [digit]]
+            | [4 [not-whitespace] 6 [digit] 3 [not-whitespace]]
+            | [3 [not-whitespace] 6 [digit] 3 [not-whitespace]]
         ]
     ]
 
@@ -409,9 +420,16 @@ valid-vat: context [
     ]
 
     /local generate-rule-venezuela: does [
+        /local JGVE: charset "JGVE"
+
         return [
-            "JGVE" dash 
-            [9 [digit]] | [8 [digit] dash digit]
+            JGVE 
+            [
+                [9 [digit]]
+                | [8 [digit] "-" digit]
+                | [dash 9 [digit]]
+                | [dash 8 [digit] dash digit]
+            ]
         ]
     ]
 
@@ -419,7 +437,7 @@ valid-vat: context [
 
     /local generate-rule-albania: does [
         return [
-            "KJ" 8 [digit] letter
+            ["K" | "J"] 8 [digit] letter
         ]
     ]
 
@@ -479,8 +497,8 @@ valid-vat: context [
 
     /local generate-rule-russia: does [
         return [
-            [10 [digit]]
-            | [12 [digit]]
+            [12 [digit]]
+            | [10 [digit]]
         ]
     ]
 
@@ -490,6 +508,17 @@ valid-vat: context [
 
     /local generate-rule-serbia: does [
         return [9 [digit]]
+    ]
+
+    ; https://www.etl-tools.com/regular-expressions/is-south-african-vat-number.html
+    /local generate-rule-south-africa: does [
+        return [
+            ["3" | "4"] 
+            [
+                [10 [digit]]
+                | [9 [digit]]
+            ]
+        ]
     ]
 
     /local generate-rule-switzerland: does [
@@ -512,10 +541,19 @@ valid-vat: context [
     ]
 
     /local generate-rule-ukraine: does [
-        return [12 [digit]]
+        return [
+            [12 [digit]]
+            | [10 [digit]]
+        ]
     ]
 
     /local generate-rule-uzbekistan: does [
-        return [9 [digit]]
+        return [
+            ["2" 8 [digit]]
+            | [
+                ["4" | "5" | "6" | "7"] 
+                8 [digit]
+            ]
+        ]
     ]
 ]
