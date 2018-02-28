@@ -17,66 +17,54 @@ Optionally `setup` method will be executed before each test separately (only if 
 
 ## Methods
 
-* **Register** - put object to the container, identified by name
+* **Run** - Run all tests from provided object, which should consist at least one test method
 
 ```red
-poc/register <name> <object> 
-```
-
-* **Registered** - check, that identifier is already registered. Returns `logic!`
-
-```red
-poc/registered <name>
-```
-
-* **Replace** - replace object in the container to another
-
-```red
-poc/replace <name> <object>
-```
-
-* **Resolve** - get a clone of object prototype from container
-
-```red
-poc/resolve <name>
-```
-
-* **Remove** - removes object and identifier from container
-
-```red
-poc/remove <name>
+tester/run <object> 
 ```
 
 ## Assertions
 
-* **Register** - put object to the container, identified by name
+* **Expect error** - mark that actually executed test should throw an error, other tests will not be affected
 
 ```red
-poc/register <name> <object> 
+tester/expect-error
 ```
 
-* **Registered** - check, that identifier is already registered. Returns `logic!`
+* **Assert true** - test will fail, when value is not `true`
 
 ```red
-poc/registered <name>
+tester/assert-true <value>
 ```
 
-* **Replace** - replace object in the container to another
+* **Assert false** - test will fail, when value is not `false`
 
 ```red
-poc/replace <name> <object>
+tester/assert-false <value>
 ```
 
-* **Resolve** - get a clone of object prototype from container
+* **Assert equals** - test will fail, when values of arguments are not equivalent
 
 ```red
-poc/resolve <name>
+tester/assert-equals <expected> <actual>
 ```
 
-* **Remove** - removes object and identifier from container
+* **Assert not equals** - test will fail, when values of arguments are equivalent
 
 ```red
-poc/remove <name>
+tester/assert-not-equals <expected> <actual>
+```
+
+* **Assert identical** - test will fail, when values have not identical address in memory
+
+```red
+tester/assert-identical <expected> <actual>
+```
+
+* **Assert not identical** - test will fail, when values have identical address in memory
+
+```red
+tester/assert-not-identical <expected> <actual>
 ```
 
 ## Usage

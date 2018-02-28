@@ -11,7 +11,7 @@ do %tester/modules.red
 
 tester: make tester-modules context [
     run: func [
-        "Run all tests from provided object, should consist at least one test method"
+        "Run all tests from provided object, which should consist at least one test method"
         testable[object!]
     ] [
         buffer/clear
