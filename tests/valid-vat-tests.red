@@ -16,7 +16,7 @@ tests: context [
 
     /local valid-vat-numbers: [
         ;-- austria
-        "ATU13585627"
+        "xATU13585627"
         "ATU13585626"
         ;-- belgium
         "BE0428759497"
