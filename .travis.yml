@@ -5,6 +5,7 @@
 # Configuration file
 #-----------------------------------------
 
+sudo: required
 dist: trusty
 os: linux
 
@@ -16,4 +17,13 @@ branches:
 # which does not affect Red language script execution
 language: c
 
-script: bash travis.sh
+before_install:
+  - sudo dpkg --add-architecture i386
+  - sudo apt-get update
+
+install: 
+  - sudo apt-get install -y libc6:i386 libcurl3:i386
+  - sudo chmod +x red-063-linux
+
+script: ./red-063-linux -s run-all-tests.red
+
