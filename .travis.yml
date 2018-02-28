@@ -6,7 +6,6 @@
 #-----------------------------------------
 
 dist: trusty
-
 os: linux
 
 branches: 
@@ -17,5 +16,4 @@ branches:
 # which does not affect Red language script execution
 language: c
 
-script: ls -la
-#script: red-063-linux -s run-all-tests.red
+script: bash travis.sh
