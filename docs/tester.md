@@ -1,14 +1,10 @@
 # Tester 
 
-File: [tester.red](../src/tester.red)
-
-Usage: TODO
-
 Version: **0.0.6**
 
 | File                       | Description  |
 | ----------------------------- | ------------------------ |
-| [tester.red](../src/tester.red) | xxx |
+| [tester.red](../src/tester.red) | Load this file in your application to use this tool |
 
 ## Description
 
