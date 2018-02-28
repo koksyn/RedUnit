@@ -593,3 +593,19 @@ tests: context [
 ]
 
 tester/run tests
+
+; "Poland"
+probe valid-vat/check "PL1234567890"
+
+; "Switzerland"
+probe valid-vat/check "CHE123456788"
+
+; "Netherlands"
+probe valid-vat/check "NL123456789X90"
+
+; "Chile"
+probe valid-vat/check "CL214721495X"
+
+; "Unknown values and countries"
+probe valid-vat/check "xy987654321"
+probe valid-vat/check "123456789"
