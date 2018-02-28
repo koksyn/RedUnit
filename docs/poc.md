@@ -2,7 +2,7 @@
 
 | File                       | Description  |
 | ----------------------------- | ------------------------ |
-| [poc.red](../src/poc.red) | To use this tool - load that file in your application |
+| [poc.red](../src/poc.red) | Main file - use it in your application |
 | [poc-tests.red](../tests/poc-tests.red) | Tests |
 | [poc-examples.red](../examples/poc-examples.red) | Example usage as Red script |
 
