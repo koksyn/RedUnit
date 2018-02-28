@@ -4,14 +4,14 @@ File: [tester.red](../src/tester.red)
 
 Usage: TODO
 
-Version: 0.0.6
+Version: **0.0.6**
 
 ## Description
 
-Tool for running tests of Red language scripts inspired by *PhpUnit*, *xUnit*, *nUnit* and other similar libraries.
+Test framework for running tests of Red language scripts. Inspired by *PhpUnit*, *xUnit*, *nUnit* and other similar libraries.
 
 "Tester" expects that you will give him a `object!`, which will contain test methods.
-Each test method name should be started with `test-`. 
+Each test method name should be started with word `test`. 
 
 Optionally `setup` method will be executed before each test separately (only if `object!` consist method with name `setup`).
 
