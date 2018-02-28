@@ -17,7 +17,67 @@ Optionally `setup` method will be executed before each test separately (only if 
 
 ## Methods
 
-TODO
+* **Register** - put object to the container, identified by name
+
+```red
+poc/register <name> <object> 
+```
+
+* **Registered** - check, that identifier is already registered. Returns `logic!`
+
+```red
+poc/registered <name>
+```
+
+* **Replace** - replace object in the container to another
+
+```red
+poc/replace <name> <object>
+```
+
+* **Resolve** - get a clone of object prototype from container
+
+```red
+poc/resolve <name>
+```
+
+* **Remove** - removes object and identifier from container
+
+```red
+poc/remove <name>
+```
+
+## Assertions
+
+* **Register** - put object to the container, identified by name
+
+```red
+poc/register <name> <object> 
+```
+
+* **Registered** - check, that identifier is already registered. Returns `logic!`
+
+```red
+poc/registered <name>
+```
+
+* **Replace** - replace object in the container to another
+
+```red
+poc/replace <name> <object>
+```
+
+* **Resolve** - get a clone of object prototype from container
+
+```red
+poc/resolve <name>
+```
+
+* **Remove** - removes object and identifier from container
+
+```red
+poc/remove <name>
+```
 
 ## Usage
 
