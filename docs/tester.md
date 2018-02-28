@@ -16,22 +16,22 @@ Each test method name should be started with `test-`.
 Optionally `setup` method will be executed before each test separately (only if `object!` consist method with name `setup`).
 
 ## Features (Roadmap)
-- [x] [v 1.1.1] special assertion for expected errors (v 0.0.2)
-- [x] logic assertions for tests (v 0.0.3)
-- [x] reducing tests execution time, using string buffer instead of console output (v 0.0.4)
-- [x] splitting script into modules (v 0.0.5)
-- [ ] adding original error trace when assertion failed (v 0.0.7)
-- [ ] running tests from many files at once (v 0.0.8)
-- [ ] redesigning the console output for statuses of tests (v 0.0.9)
-- [ ] data providers for testing a huge sets of data (v 0.1)
-- [ ] extending expected-error assertion by defining a type of error we expect (v 0.1.1)
-- [ ] simple mocks for objects and methods (v 0.1.2)
-- [ ] 'method' assertions for mocks - checking/expecting the mock method was executed (v 0.1.3)
-- [ ] 'argument' assertions for mock methods - checking/expecting an arguments of mock methods (v 0.1.4)
-- [ ] 'return' assertions for mock methods - forcing/expecting that mock method will return specific value (v 0.1.5)
-- [ ] refactoring, goal: increase execution time and readability (v 0.1.6)
-- [ ] redesigning an API of all public methods - goal: cohesion (v 0.2)
-- [ ] module to detect code coverage of tested objects (v 0.3)
+- [x] **v 0.0.2** special assertion for expected error
+- [x] **v 0.0.3** logic assertions for tests
+- [x] **v 0.0.4** reducing tests execution time, using string buffer instead of console output
+- [x] **v 0.0.5-6** splitting script into modules
+- [ ] **v 0.0.7** adding original error trace when assertion failed
+- [ ] **v 0.0.8** running tests from many files at once
+- [ ] **v 0.0.9** redesigning the console output for statuses of tests
+- [ ] **v 0.1.0** data providers for testing a huge sets of data
+- [ ] **v 0.1.1** extending expected-error assertion by defining a type of error we expect
+- [ ] **v 0.1.2** simple mocks for objects and methods
+- [ ] **v 0.1.3** 'method' assertions for mocks - checking/expecting the mock method was executed
+- [ ] **v 0.1.4** 'argument' assertions for mock methods - checking/expecting an arguments of mock methods
+- [ ] **v 0.1.5** 'return' assertions for mock methods - forcing/expecting that mock method will return specific value
+- [ ] **v 0.1.6-9** refactoring, goal: increase execution time and readability
+- [ ] **v 0.2.0** redesigning an API of all public methods - goal: cohesion
+- [ ] **v 0.3.0** module to detect code coverage of tested objects
 
 ## Methods
 
