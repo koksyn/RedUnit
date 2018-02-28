@@ -4,7 +4,7 @@ Version: **0.0.6**
 
 | File                       | Description  |
 | ----------------------------- | ------------------------ |
-| [tester.red](../src/tester.red) | Load this file in your application to use this tool |
+| [tester.red](../src/tester.red) |  To use this tool - load this file in your application |
 
 ## Description
 
