@@ -6,6 +6,10 @@ Usage: TODO
 
 Version: **0.0.6**
 
+| File                       | Description  |
+| ----------------------------- | ------------------------ |
+| [tester.red](../src/tester.red) | xxx |
+
 ## Description
 
 Test framework for running tests of Red language scripts. Inspired by *PhpUnit*, *xUnit*, *nUnit* and other similar libraries.
