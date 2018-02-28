@@ -1,30 +1,11 @@
-# Validators 
+Red [
+    Title: "VAT validator examples"
+    Description: "Usage of Value Added Tax (VAT) validator"
+    Author: "Mateusz Palichleb"
+    File: %valid-vat-examples.red
+]
 
-| File                       | Description  |
-| ----------------------------- | ------------------------ |
-| [valid-vat.red](../src/valid-vat.red) | VAT validator |
-| [valid-vat-tests.red](../tests/valid-vat-tests.red) | Tests for VAT validator |
-| [valid-vat-examples.red](../examples/valid-vat-examples.red) | Example usage of VAT validator as Red script |
-
-## Description
-
-Validators for various ISO codes, tax numbers, phones, goverment numbers, book industry and more.
-
-All validators returns `logic!`. `True` on validation success, `false` otherwise.
-
-## Methods
-
-* **Check valid VAT** - is value a valid VAT (Value Added Tax) number? (European Union, Latin American and other countries)
-
-```red
-valid-vat/check <value>
-```
-
-## Usage
-
-```red
-
-do %src/valid-vat.red
+do %../src/valid-vat.red
 
 ; ------------------------------------------------------
 ; Example 1: Valid VAT numbers for several countries
@@ -79,5 +60,3 @@ probe valid-vat/check "123456789"
 ; false
 ; false
 ; false
-
-```
