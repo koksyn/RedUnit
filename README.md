@@ -23,6 +23,8 @@ By using **validators** for specific data you don't need to create them on you o
 
 ## Running the tests
 
+The **Tester** test framework was used to test these tools, so obviously it can't test itself - that's the only tool without tests.
+
 ### All tools at once
 
 To run tests simply execute script `run-all-tests.red` from project main directory through **Red** binary.

@@ -1,10 +1,10 @@
 # Prototype objects container 
 
-File: [poc.red](../src/poc.red)
-
-Tests: [poc-tests.red](../tests/poc-tests.red)
-
-Usage: [poc-examples.red](../examples/poc-examples.red)
+| File                       | Description  |
+| ----------------------------- | ------------------------ |
+| [poc.red](../src/poc.red) | Main file - use it in your application |
+| [poc-tests.red](../tests/poc-tests.red) | Tests for this tool |
+| [poc-examples.red](../examples/poc-examples.red) | Example usage as Red script |
 
 ## Description
 
