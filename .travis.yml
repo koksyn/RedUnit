@@ -26,7 +26,6 @@ install:
   - sudo chmod +x red-063-linux
   - ./red-063-linux --compile --release --output travis-tests run-all-tests.red
 
-
 # CLI red console always returns EXIT code: 0
 # so the only way to catch EXIT code is running a compiled version of run-all-tests.red
 # compiled binary works as expected (0 - success, 1 - failure)
