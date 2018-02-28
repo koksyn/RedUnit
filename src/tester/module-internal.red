@@ -110,6 +110,13 @@ tester-internal: context [
         ]
     ]
 
+    ;-- Returns EXIT CODE 1 - when there were some failed tests 
+    /local quit-when-errors: does [
+        if (length? errors) > 0 [
+            quit-return 1
+        ]
+    ]
+
     /local fail-test: func [
         "Cause actual test failure - internally from assertions"
         message[string!] assertion[string!]

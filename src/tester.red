@@ -34,5 +34,8 @@ tester: make tester-modules context [
 
         buffer/put "---------------------------"
         print buffer/flush
+
+        ; EXIT codes for continuous integration
+        quit-when-errors
     ]
 ]
