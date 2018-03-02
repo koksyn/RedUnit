@@ -2,7 +2,7 @@ Red [
     Title: "VAT validator tests"
     Description: "Testing functionality of VAT validator using Tester script"
     Author: "Mateusz Palichleb"
-    File: %valid-vat-tests.red
+    File: %validator-vat-tests.red
 ]
 
 do %../src/tester.red
@@ -11,7 +11,7 @@ tests: context [
     setup: func [
         "Initialize/Reload context before each test"
     ] [
-        do %../src/valid-vat.red
+        do %../src/validator.red
     ]
 
     /local valid-vat-numbers: [
@@ -570,11 +570,11 @@ tests: context [
     ] [
         foreach vat valid-vat-numbers [
             ; for debugging
-            ;if (false == valid-vat/check vat) [
+            ;if (false == valid/vat vat) [
             ;    print rejoin [ "Failure: " vat ]
             ;]
 
-            tester/assert-true valid-vat/check vat
+            tester/assert-true valid/vat vat
         ]
     ]
 
@@ -583,11 +583,11 @@ tests: context [
     ] [
         foreach vat invalid-vat-numbers [
             ; for debugging
-            ;if (true == valid-vat/check vat) [
+            ;if (true == valid/vat vat) [
             ;    print rejoin [ "Failure: " vat ]
             ;]
 
-            tester/assert-false valid-vat/check vat
+            tester/assert-false valid/vat vat
         ]
     ]
 ]
