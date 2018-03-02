@@ -1,18 +1,44 @@
 Red [
+    Package: "Validator"
     Title: "VAT validator"
     Description: "The Value Added Tax (VAT) in European Union, Latin American countries, and other countries."
     Purpose: "Checking, that VAT number is valid for specific country"
     Author: "Mateusz Palichleb"
-    File: %valid-vat.red
+    File: %vat.red
 ]
 
 comment {
+    Internal file as part of Validator tool
+
     Script based on:
     - http://en.wikipedia.org/wiki/VAT_identification_number
     - http://ec.europa.eu/taxation_customs/vies/faq.html
 }
 
-valid-vat: context [
+return context [
+    validate: func [
+        "Check, that provided string is a valid VAT number"
+        vat[string!]
+    ] [
+        if (empty? vat) or ((length? vat) < 3) [return false]
+
+        ; country code validation
+        country-code: copy/part vat 2
+        if is-invalid-country-code country-code [return false]
+
+        ; vat tail without country code
+        numbers-amount: -1 * (length? vat) + 2
+        vat-tail: at tail vat numbers-amount
+
+        remove-whitespaces vat-tail
+
+        ; generate rule
+        rule: do (select rules country-code)
+
+        ; execute rule
+        return parse vat-tail rule
+    ]
+
     /local rules: make map![
         ; ------ European Union (EU) countries
         "AT" generate-rule-austria
@@ -82,29 +108,6 @@ valid-vat: context [
         "TR" generate-rule-turkey
         "UA" generate-rule-ukraine
         "UZ" generate-rule-uzbekistan
-    ]
-
-    check: func [
-        "Check, that provided string is a valid VAT EU number"
-        vat[string!]
-    ] [
-        if (empty? vat) or ((length? vat) < 3) [return false]
-
-        ; country code validation
-        country-code: copy/part vat 2
-        if is-invalid-country-code country-code [return false]
-
-        ; vat tail without country code
-        numbers-amount: -1 * (length? vat) + 2
-        vat-tail: at tail vat numbers-amount
-
-        remove-whitespaces vat-tail
-
-        ; generate rule
-        rule: do (select rules country-code)
-
-        ; execute rule
-        return parse vat-tail rule
     ]
 
     /local is-invalid-country-code: func [

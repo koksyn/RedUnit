@@ -2,9 +2,9 @@
 
 | File                       | Description  |
 | ----------------------------- | ------------------------ |
-| [valid-vat.red](../src/valid-vat.red) | VAT validator |
-| [valid-vat-tests.red](../tests/valid-vat-tests.red) | Tests for VAT validator |
-| [valid-vat-examples.red](../examples/valid-vat-examples.red) | Example usage of VAT validator as Red script |
+| [validator.red](../src/validator.red) | General validator. Contains all validators. |
+| [validator-vat-tests.red](../tests/validator-vat-tests.red) | Tests for VAT validation |
+| [validator-vat-examples.red](../examples/validator-vat-examples.red) | Example usage of VAT validation as Red script |
 
 ## Description
 
@@ -17,33 +17,33 @@ All validators returns `logic!`. `True` on validation success, `false` otherwise
 * **Check valid VAT** - is value a valid VAT (Value Added Tax) number? (European Union, Latin American and other countries)
 
 ```red
-valid-vat/check <value>
+valid/vat <value>
 ```
 
-## Usage
+## Usage of several validators
 
 ```red
 
-do %src/valid-vat.red
+do %src/validator.red
 
 ; ------------------------------------------------------
 ; Example 1: Valid VAT numbers for several countries
 ; ------------------------------------------------------
 
 ; "Poland"
-probe valid-vat/check "PL8567346215"
+probe valid/vat "PL8567346215"
 
 ; "Switzerland"
-probe valid-vat/check "CHE162856788TVA"
+probe valid/vat "CHE162856788TVA"
 
 ; "Netherlands"
-probe valid-vat/check "NL004495445B01"
+probe valid/vat "NL004495445B01"
 
 ; "Chile"
-probe valid-vat/check "CL21472149-5"
+probe valid/vat "CL21472149-5"
 
 ; "Australia"
-probe valid-vat/check "ALJ52263223X"
+probe valid/vat "ALJ52263223X"
 
 ; Output:
 ; true
@@ -57,20 +57,20 @@ probe valid-vat/check "ALJ52263223X"
 ; ------------------------------------------------------
  
 ; "Poland"
-probe valid-vat/check "PL1234567890"
+probe valid/vat "PL1234567890"
 
 ; "Switzerland"
-probe valid-vat/check "CHE123456788"
+probe valid/vat "CHE123456788"
 
 ; "Netherlands"
-probe valid-vat/check "NL123456789X90"
+probe valid/vat "NL123456789X90"
 
 ; "Chile"
-probe valid-vat/check "CL214721495X"
+probe valid/vat "CL214721495X"
 
 ; "Unknown values and countries"
-probe valid-vat/check "xy987654321"
-probe valid-vat/check "123456789"
+probe valid/vat "xy987654321"
+probe valid/vat "123456789"
 
 ; Output:
 ; false
