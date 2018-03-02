@@ -7,16 +7,14 @@ Red [
     File: %module-internal.red
 ]
 
-do %string-buffer.red
-
 ;-- Please do NOT use that in your tests
 
-tester-internal: context [
+return context [
     /local errors: make map![]
     /local setup-detected: false
     /local error-expected: false
     /local actual-test-name: ""
-    /local buffer: string-buffer
+    /local buffer: do %string-buffer.red
 
     /local process-testable-methods: func [
         "Will detect 'setup' and 'test***' methods - and prepare them to execution"

@@ -9,7 +9,7 @@ Red [
 
 ;-- You can use this assertions to test your code
 
-tester-assertions: context [
+return context [
     expect-error: does [
         "Mark that actually executed test should throw an error. Other tests will not be affected."
         error-expected: true
