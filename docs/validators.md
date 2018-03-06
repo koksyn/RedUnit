@@ -4,7 +4,9 @@
 | ----------------------------- | ------------------------ |
 | [validator.red](../src/validator.red) | General validator. Contains all validators. |
 | [validator-vat-tests.red](../tests/validator-vat-tests.red) | Tests for VAT validation |
+| [validator-mac-tests.red](../tests/validator-mac-tests.red) | Tests for MAC address validation |
 | [validator-vat-examples.red](../examples/validator-vat-examples.red) | Example usage of VAT validation as Red script |
+| [validator-mac-examples.red](../examples/validator-mac-examples.red) | Example usage of MAC address validation as Red script |
 
 ## Description
 
@@ -14,10 +16,16 @@ All validators returns `logic!`. `True` on validation success, `false` otherwise
 
 ## Methods
 
-* **Check valid VAT** - is value a valid VAT (Value Added Tax) number? (European Union, Latin American and other countries)
+* **Check valid VAT** - is value a valid VAT number? (European Union, Latin American and other countries)
 
 ```red
 valid/vat <value>
+```
+
+* **Check valid MAC address** - is value a valid MAC address?
+
+```red
+valid/mac <value>
 ```
 
 ## Usage of several validators
@@ -76,6 +84,28 @@ probe valid/vat "123456789"
 ; false
 ; false
 ; false
+; false
+; false
+; false
+
+; ------------------------------------------------------
+; Example 3: MAC addresses
+; ------------------------------------------------------
+ 
+; valid
+probe valid/mac "01ff.fa12.89ab"
+probe valid/mac "00:09:3D:12:33:33"
+probe valid/mac "01-23-45-67-89-ab"
+
+; invalid
+probe valid/mac "01.23:45-67:89:FF"
+probe valid/mac "01-23AB-67-89-AB"
+probe valid/mac "0123.456789ab"
+
+; Output:
+; true
+; true
+; true
 ; false
 ; false
 ; false
