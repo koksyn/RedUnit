@@ -20,7 +20,7 @@ By using **validators** for specific data you don't need to create them on you o
 #### Validators
 
 * [VAT](docs/validators.md) - Value Added Tax (VAT) in European Union, Latin American and other countries.
-* [MAC](docs/validators.md) - Media access control (MAC) address is a unique identifier assigned to network interface controllers
+* [MAC](docs/validators.md) - Media access control (MAC) address
 
 ## Running the tests
 
