@@ -1,7 +1,7 @@
 Red [
     Package: "Validator"
     Title: "48-bit MAC address validator"
-    Description: "The media access control address (MAC address) of a device is a unique identifier assigned to network interface controllers"
+    Description: "The media access control (MAC) address is a unique identifier assigned to network interface controllers"
     Author: "Mateusz Palichleb"
     File: %mac.red
 ]
