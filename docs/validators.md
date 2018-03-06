@@ -16,13 +16,13 @@ All validators returns `logic!`. `True` on validation success, `false` otherwise
 
 ## Methods
 
-* **Check valid VAT** - is value a valid VAT (Value Added Tax) number? (European Union, Latin American and other countries)
+* **Check valid VAT** - is value a valid VAT number? (European Union, Latin American and other countries)
 
 ```red
 valid/vat <value>
 ```
 
-* **Check valid MAC address** - is value a valid MAC (media access control) address?
+* **Check valid MAC address** - is value a valid MAC address?
 
 ```red
 valid/mac <value>
