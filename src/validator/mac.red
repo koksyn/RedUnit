@@ -74,6 +74,4 @@ return context [
             ]
         ]
     ]
-    
-    
 ]
