@@ -133,7 +133,7 @@ return context [
     /local letter: charset [#"A" - #"Z"]
     /local digit: charset "0123456789"
     /local alphanum: union letter digit
-    /local dash: charset "-"
+    /local dash: charset "‐-"
 
     ; ------ European Union (EU) countries
 

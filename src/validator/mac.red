@@ -22,7 +22,7 @@ return context [
     /local upper: charset [#"A" - #"F"]
     /local lower-hex: union lower digit
     /local upper-hex: union upper digit
-    /local dash: charset "-"
+    /local dash: charset "-‐"
     /local colon: charset ":"
 
     validate: func [
