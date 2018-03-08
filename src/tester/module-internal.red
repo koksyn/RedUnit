@@ -9,7 +9,7 @@ Red [
 
 ;-- Please do NOT use that in your tests
 
-return context [
+context [
     /local errors: make map![]
     /local setup-detected: false
     /local error-expected: false

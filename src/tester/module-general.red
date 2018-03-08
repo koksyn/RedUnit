@@ -8,7 +8,7 @@ Red [
 
 ;-- You can use that to run an object! with tests
 
-return context [
+context [
     run: func [
         "Run all tests from provided object, which should consist at least one test method"
         testable[object!]

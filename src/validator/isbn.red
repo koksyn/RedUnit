@@ -15,7 +15,7 @@ comment {
     Compatible with IEEE 802 standard and other conventions
 }
 
-return context [
+context [
     /local whitespace: charset reduce [space tab cr lf]
     /local digit: charset "0123456789"
     /local x: charset "xX"
@@ -28,17 +28,28 @@ return context [
     ] [
         if (empty? isbn) [return false]
 
+        before: copy isbn
         remove-whitespaces isbn
         remove-dashes isbn
 
         case [
             (length? isbn) == 13 [
+                print "--- 13 ---"
+                probe before
+                probe isbn
+
                 return parse isbn generate-isbn13-rule
             ]
             (length? isbn) == 10 [
+                print "--- 10 ---"
+                probe before
+                probe isbn
+
                 return parse isbn generate-isbn10-rule
             ]
         ]
+
+        print rejoin [ "--- " (length? isbn) " ---" ]
 
         return false
     ]

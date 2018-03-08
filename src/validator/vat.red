@@ -15,7 +15,7 @@ comment {
     - http://ec.europa.eu/taxation_customs/vies/faq.html
 }
 
-return context [
+context [
     validate: func [
         "Check, that provided string is a valid VAT number"
         vat[string!]

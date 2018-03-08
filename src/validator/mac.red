@@ -15,7 +15,7 @@ comment {
     Compatible with IEEE 802 standard and other conventions
 }
 
-return context [
+context [
     /local whitespace: charset reduce [space tab cr lf]
     /local digit: charset "0123456789"
     /local lower: charset [#"a" - #"f"]
