@@ -19,8 +19,8 @@ context [
     /local whitespace: charset reduce [space tab cr lf]
     /local digit: charset "0123456789"
     /local x-letter: charset "xX"
+    /local x-digit: union digit x-letter
     /local dash: charset "-‐"
-    /local xyz: charset reduce ['not space tab cr lf]
 
     validate: func [
         "Is provided string a valid ISBN number?"
@@ -42,9 +42,6 @@ context [
             ]
             (length? isbn) == 10 [
                 print "--- 10 ---"
-                probe before
-                probe isbn
-
                 return parse isbn generate-isbn10-rule
             ]
         ]
@@ -81,7 +78,7 @@ context [
         ]
 
         calculate-iteration: [
-            (actual: to integer! actual)
+            (actual: to-integer actual)
             (sum: sum + (actual * weight))
             (iteration: iteration + 1)
         ]
@@ -90,39 +87,20 @@ context [
             9 [
                 copy actual digit 
                 calculate-weight
-                (prin actual)
                 calculate-iteration
             ]
-            ;(comment {
-            [ 
-                copy actual digit 
-                (print actual)
-                calculate-weight
-            ] 
-            | [
-                copy actual xyz
-                (print actual)
-                calculate-weight
+            
+            copy actual x-digit 
+            calculate-weight
+            (actual: uppercase actual)
+            
+            any [
+                if(actual == "X") 
                 (sum: sum + (10 * weight))
+                (actual: 88) ; ASCII code for character 'X'
             ]
-            calculate-iteration;})
 
-            if((sum % 11) == 0)
-        ]
-    ]
-
-    /local old-generate-isbn10-rule: does [
-        iteration: 1
-        sum: 0
-
-        return [
-            10 [
-                copy actual 
-                digit (actual: to integer! actual)          
-                (weight: 10 - iteration)
-                (sum: sum + (actual * weight))
-                (iteration: iteration + 1)
-            ]
+            calculate-iteration
 
             if((sum % 11) == 0)
         ]
