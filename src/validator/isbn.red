@@ -18,9 +18,9 @@ comment {
 context [
     /local whitespace: charset reduce [space tab cr lf]
     /local digit: charset "0123456789"
-    /local x: charset "xX"
-    /local x-digit: union x digit
+    /local x-letter: charset "xX"
     /local dash: charset "-‐"
+    /local xyz: charset reduce ['not space tab cr lf]
 
     validate: func [
         "Is provided string a valid ISBN number?"
@@ -73,6 +73,45 @@ context [
     ]
 
     /local generate-isbn10-rule: does [
+        iteration: 0
+        sum: 0
+
+        calculate-weight: [
+            (weight: 10 - iteration)
+        ]
+
+        calculate-iteration: [
+            (actual: to integer! actual)
+            (sum: sum + (actual * weight))
+            (iteration: iteration + 1)
+        ]
+
+        return [
+            9 [
+                copy actual digit 
+                calculate-weight
+                (prin actual)
+                calculate-iteration
+            ]
+            ;(comment {
+            [ 
+                copy actual digit 
+                (print actual)
+                calculate-weight
+            ] 
+            | [
+                copy actual xyz
+                (print actual)
+                calculate-weight
+                (sum: sum + (10 * weight))
+            ]
+            calculate-iteration;})
+
+            if((sum % 11) == 0)
+        ]
+    ]
+
+    /local old-generate-isbn10-rule: does [
         iteration: 1
         sum: 0
 

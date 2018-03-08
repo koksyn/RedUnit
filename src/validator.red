@@ -48,7 +48,7 @@ probe valid/isbn "978-2-7605-1028-9"
 probe valid/isbn "978-83-283-1401-6"
 }
 probe valid/isbn "888 18 3 7 1-88"
-probe valid/isbn "2-7605-1028-X"
+probe valid/isbn "1-7605-1028-X"
 probe valid/isbn "2266111566"
 probe valid/isbn "2123456802"
 probe valid/isbn "8881837188"
