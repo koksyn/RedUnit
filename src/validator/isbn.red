@@ -41,12 +41,9 @@ context [
                 return parse isbn generate-isbn13-rule
             ]
             (length? isbn) == 10 [
-                print "--- 10 ---"
                 return parse isbn generate-isbn10-rule
             ]
         ]
-
-        print rejoin [ "--- " (length? isbn) " ---" ]
 
         return false
     ]
@@ -65,8 +62,25 @@ context [
         parse subject [any [to dash change dash ""]]
     ]
 
+    /local ascii-to-integer: func [
+        "Converts ASCII character to integer!"
+        ascii[string!]
+    ] [
+        case [
+            (empty? ascii) [
+                cause-error 'user 'message "Cannot convert empty ASCII string to integer" 
+            ]
+            (length? ascii) > 1 [
+                cause-error 'user 'message "Only one character is allowed" 
+            ]
+        ]
+        
+        ascii-char: to char! ascii
+        return to integer! ascii-char
+    ]
+
     /local generate-isbn13-rule: does [
-        return [dash]
+        return [dash] ;TODO
     ]
 
     /local generate-isbn10-rule: does [
@@ -97,7 +111,8 @@ context [
             any [
                 if(actual == "X") 
                 (sum: sum + (10 * weight))
-                (actual: 88) ; ASCII code for character 'X'
+                 ; ASCII integer! code
+                (actual: ascii-to-integer actual)
             ]
 
             calculate-iteration
