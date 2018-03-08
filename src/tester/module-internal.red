@@ -64,7 +64,7 @@ context [
             result: try [do test] 
         ]
 
-        if not none? result [
+        unless none? result [
             case [
                 was-error and (not error-expected) [
                     put errors test result

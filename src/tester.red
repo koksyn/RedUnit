@@ -26,7 +26,7 @@ tester-modules-builder: context [
     ] [
         /local loaded: do filepath
 
-        if not object? loaded [
+        unless object? loaded [
             print rejoin ["[Error] Loaded file '" (to string! filepath) "' does not contain an object!"]
             halt
         ]

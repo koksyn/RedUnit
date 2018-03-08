@@ -19,7 +19,7 @@ context [
         "Value is true?"
         value[logic!] 
     ] [
-        if not value [
+        unless value [
             message: "Expected value was 'true', but 'false' given."
             fail-test message "true"
         ]
