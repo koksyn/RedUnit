@@ -34,8 +34,7 @@ context [
 
         case [
             (length? isbn) == 13 [
-                probe isbn
-                return validate-isbn13 isbn ;"9784567890981"
+                return validate-isbn13 isbn
             ]
             (length? isbn) == 10 [
                 return validate-isbn10 isbn
@@ -62,6 +61,8 @@ context [
     /local validate-isbn13: func [
         isbn[string!]
     ] [
+        print isbn
+
         if bad-prefix isbn [ return false ]
 
         return luhn/validate isbn 13 
