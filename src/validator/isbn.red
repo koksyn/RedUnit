@@ -14,6 +14,9 @@ comment {
 }
 
 context [
+    ;-- Validators
+    /local luhn: do %luhn.red
+    ;-- Charsets 
     /local whitespace: charset reduce [space tab cr lf]
     /local digit: charset "0123456789"
     /local x-letter: charset "xX"
@@ -32,13 +35,10 @@ context [
         case [
             (length? isbn) == 13 [
                 probe isbn
-
-                if bad-prefix isbn [ return false ]
-
-                return parse isbn generate-isbn13-rule
+                return validate-isbn13 isbn ;"9784567890981"
             ]
             (length? isbn) == 10 [
-                return parse isbn generate-isbn10-rule
+                return validate-isbn10 isbn
             ]
         ]
 
@@ -59,6 +59,14 @@ context [
         parse subject [any [to dash change dash ""]]
     ]
 
+    /local validate-isbn13: func [
+        isbn[string!]
+    ] [
+        if bad-prefix isbn [ return false ]
+
+        return luhn/validate isbn 13 
+    ]
+
     /local bad-prefix: func [
         "Checks the prefix of ISBN13 code is incorrect. Return logic!"
         code[string!]
@@ -69,13 +77,9 @@ context [
         ]
     ]
 
-    /local generate-isbn13-rule: does [
-        return [dash] ;TODO
-
-        ; LUHN algorithm here
-    ]
-
-    /local generate-isbn10-rule: does [
+    /local validate-isbn10: func [
+        isbn[string!]
+    ] [
         iteration: 0
         sum: 0
 
@@ -89,7 +93,7 @@ context [
             (iteration: iteration + 1)
         ]
 
-        return [
+        rule: [
             9 [
                 copy actual digit 
                 calculate-weight
@@ -111,6 +115,8 @@ context [
 
             if((sum % 11) == 0)
         ]
+
+        return parse isbn rule
     ]
 
     /local ascii-to-integer: func [
