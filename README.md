@@ -19,8 +19,9 @@ By using **validators** for specific data you don't need to create them on you o
 
 #### Validators
 
-* [VAT](docs/validators.md) - Value Added Tax (VAT) in European Union, Latin American and other countries.
-* [MAC](docs/validators.md) - Media access control (MAC) address
+* [VAT](docs/validators.md) - Value Added Tax in European Union, Latin American and other countries.
+* [MAC](docs/validators.md) - Media access control address (for network interface controllers)
+* [ISBN](docs/validators.md) - International Standard Book Number
 
 ## Running the tests
 

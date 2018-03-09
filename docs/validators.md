@@ -3,10 +3,12 @@
 | File                       | Description  |
 | ----------------------------- | ------------------------ |
 | [validator.red](../src/validator.red) | General validator. Contains all validators. |
-| [validator-vat-tests.red](../tests/validator-vat-tests.red) | Tests for VAT validation |
-| [validator-mac-tests.red](../tests/validator-mac-tests.red) | Tests for MAC address validation |
-| [validator-vat-examples.red](../examples/validator-vat-examples.red) | Example usage of VAT validation as Red script |
-| [validator-mac-examples.red](../examples/validator-mac-examples.red) | Example usage of MAC address validation as Red script |
+| [validator-vat-tests.red](../tests/validator-vat-tests.red) | Tests for VAT |
+| [validator-mac-tests.red](../tests/validator-mac-tests.red) | Tests for MAC |
+| [validator-isbn-tests.red](../tests/validator-isbn-tests.red) | Tests for ISBN |
+| [validator-vat-examples.red](../examples/validator-vat-examples.red) | Example usage of VAT |
+| [validator-mac-examples.red](../examples/validator-mac-examples.red) | Example usage of MAC |
+| [validator-isbn-examples.red](../examples/validator-isbn-examples.red) | Example usage of ISBN |
 
 ## Description
 
@@ -28,6 +30,12 @@ valid/vat <value>
 valid/mac <value>
 ```
 
+* **Check valid ISBN number** - is value a valid ISBN (10 or 13 digits) number?
+
+```red
+valid/isbn <value>
+```
+
 ## Usage of several validators
 
 ```red
@@ -35,7 +43,7 @@ valid/mac <value>
 do %src/validator.red
 
 ; ------------------------------------------------------
-; Example 1: Valid VAT numbers for several countries
+; Valid VAT numbers for several countries
 ; ------------------------------------------------------
 
 ; "Poland"
@@ -61,7 +69,7 @@ probe valid/vat "ALJ52263223X"
 ; true
 
 ; ------------------------------------------------------
-; Example 2: Invalid VAT numbers
+; Invalid VAT numbers
 ; ------------------------------------------------------
  
 ; "Poland"
@@ -89,7 +97,7 @@ probe valid/vat "123456789"
 ; false
 
 ; ------------------------------------------------------
-; Example 3: MAC addresses
+; MAC addresses
 ; ------------------------------------------------------
  
 ; valid
@@ -107,6 +115,28 @@ probe valid/mac "0123.456789ab"
 ; true
 ; true
 ; false
+; false
+; false
+
+; ------------------------------------------------------
+; International Standard Book Number (ISBN)
+; ------------------------------------------------------
+ 
+; valid
+probe valid/isbn "0-9752298-0-X" ; English-speaking area
+probe valid/isbn "9971-5-0210-0" ; Singapore
+probe valid/isbn "80-902734-1-6" ; Czech Republic
+probe valid/isbn "85-359-0277-5" ; Brazil
+
+; invalid
+probe valid/isbn "978-3-16-148410-X" ; Forbidden character for ISBN-13
+probe valid/isbn "978-88-8183-7-1-8-8" ; Invalid checksum digit
+
+; Output:
+; true
+; true
+; true
+; true
 ; false
 ; false
 

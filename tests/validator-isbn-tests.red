@@ -66,9 +66,9 @@ tests: context [
     ] [
         foreach isbn valid-isbn-numbers [
             ; for debugging
-            if (false == valid/isbn isbn) [
-                print rejoin [ "Failure: " isbn ]
-            ]
+            ;if (false == valid/isbn isbn) [
+            ;    print rejoin [ "Failure: " isbn ]
+            ;]
 
             tester/assert-true valid/isbn isbn
         ]
@@ -79,9 +79,9 @@ tests: context [
     ] [
         foreach isbn invalid-isbn-numbers [
             ; for debugging
-            if (true == valid/isbn isbn) [
-                print rejoin [ "Failure: " isbn ]
-            ]
+            ;if (true == valid/isbn isbn) [
+            ;    print rejoin [ "Failure: " isbn ]
+            ;]
 
             tester/assert-false valid/isbn isbn
         ]
