@@ -16,7 +16,7 @@ comment {
 x: context [
     /local digit: charset "0123456789"
 
-    validate2: func [
+    validate: func [
         "Is provided string a valid Luhn number?"
         luhn[string!]
         "Expected length of digits"
@@ -52,51 +52,6 @@ x: context [
         print luhn
 
         return (sum % 10) == 0
-    ]
-
-    validate: func [
-        "Is provided string a valid Luhn number?"
-        luhn[string!]
-        "Expected length of digits"
-        quantity[integer!]
-    ] [
-        if (length? luhn) <> quantity [return false]
-
-        unless parse luhn [quantity [digit]] [return false]
-
-        sum: 0
-        iteration: 1
-
-        while [iteration < quantity] [
-            actual: to integer! (copy/part at luhn iteration 1)
-
-            ;print rejoin ["Act: " actual]
-
-            if (iteration % 2) == 0 [
-                actual: (3 * actual)
-            ]
-
-            ;print rejoin ["'" actual "' "]
-
-            sum: sum + actual
-            iteration: iteration + 1
-        ]
-
-        ;print rejoin ["Sum: " sum]
-
-        mo: (sum % 10)
-
-        ;print rejoin ["Modulo: " mo]
-
-        if mo <> 0 [
-            mo: 10 - mo
-        ]
-
-        ;print rejoin ["Check digit: " mo]
-
-        last-digit: to integer! (copy/part at luhn iteration 1)
-
-        return mo == last-digit
     ]
 ]
 comment {

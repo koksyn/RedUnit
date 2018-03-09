@@ -14,9 +14,6 @@ comment {
 }
 
 context [
-    ;-- Validators
-    /local luhn: do %luhn.red
-    ;-- Charsets 
     /local whitespace: charset reduce [space tab cr lf]
     /local digit: charset "0123456789"
     /local x-letter: charset "xX"
@@ -59,30 +56,45 @@ context [
     ]
 
     /local validate-isbn13: func [
+        "Validates 13-digit ISBN number"
         isbn[string!]
     ] [
-        ;print isbn
+        bad-prefix: not parse isbn ["9" "7" ["8"|"9"] to end]
+        only-digits: parse isbn [13 [digit]]
 
-        if bad-prefix isbn [ return false ]
+        if bad-prefix or (not only-digits) [return false]
+        
+        checksum: 0
+        iteration: 1
 
-        return luhn/validate isbn 13 
-    ]
+        while [iteration < 13] [
+            current-digit: to integer! (copy/part at isbn iteration 1)
 
-    /local bad-prefix: func [
-        "Checks the prefix of ISBN13 code is incorrect. Return logic!"
-        code[string!]
-    ] [
-        return not parse code [
-            "9" "7" ["8" | "9"]
-            to end
+            if (iteration % 2) == 0 [
+                current-digit: (3 * current-digit)
+            ]
+
+            checksum: checksum + current-digit
+            iteration: iteration + 1
         ]
+
+        last-digit: to integer! (copy/part at isbn iteration 1)
+
+        ; calculating check digit
+        check-digit: (checksum % 10)
+        if check-digit <> 0 [
+            check-digit: 10 - check-digit
+        ]
+
+        return check-digit == last-digit
     ]
 
     /local validate-isbn10: func [
+        "Validates 10-digit ISBN number"
         isbn[string!]
     ] [
         iteration: 0
-        sum: 0
+        checksum: 0
 
         calculate-weight: [
             (weight: 10 - iteration)
@@ -90,7 +102,7 @@ context [
 
         calculate-iteration: [
             (actual: to-integer actual)
-            (sum: sum + (actual * weight))
+            (checksum: checksum + (actual * weight))
             (iteration: iteration + 1)
         ]
 
@@ -107,14 +119,14 @@ context [
             
             any [
                 if(actual == "X") 
-                (sum: sum + (10 * weight))
+                (checksum: checksum + (10 * weight))
                  ; ASCII integer! code
                 (actual: ascii-to-integer actual)
             ]
 
             calculate-iteration
 
-            if((sum % 11) == 0)
+            if((checksum % 11) == 0)
         ]
 
         return parse isbn rule
@@ -134,6 +146,7 @@ context [
         ]
         
         ascii-char: to char! ascii
+
         return to integer! ascii-char
     ]
 ]
