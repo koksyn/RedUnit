@@ -1,18 +1,16 @@
 Red [
     Package: "Validator"
-    Title: "48-bit MAC address validator"
-    Description: "The media access control (MAC) address is a unique identifier assigned to network interface controllers"
+    Title: "ISBN validator"
+    Description: "International Standard Book Number (ISBN) validation for 10 and 13 digits standard"
     Author: "Mateusz Palichleb"
-    File: %mac.red
+    File: %isbn.red
 ]
 
 comment {
     Internal file as part of Validator tool
 
     Script based on:
-    - http://en.wikipedia.org/wiki/MAC_address#Notational_conventions
-
-    Compatible with IEEE 802 standard and other conventions
+    - https://en.wikipedia.org/wiki/International_Standard_Book_Number
 }
 
 context [
@@ -28,15 +26,14 @@ context [
     ] [
         if (empty? isbn) [return false]
 
-        before: copy isbn
         remove-whitespaces isbn
         remove-dashes isbn
 
         case [
             (length? isbn) == 13 [
-                print "--- 13 ---"
-                probe before
                 probe isbn
+
+                if bad-prefix isbn [ return false ]
 
                 return parse isbn generate-isbn13-rule
             ]
@@ -62,25 +59,20 @@ context [
         parse subject [any [to dash change dash ""]]
     ]
 
-    /local ascii-to-integer: func [
-        "Converts ASCII character to integer!"
-        ascii[string!]
+    /local bad-prefix: func [
+        "Checks the prefix of ISBN13 code is incorrect. Return logic!"
+        code[string!]
     ] [
-        case [
-            (empty? ascii) [
-                cause-error 'user 'message "Cannot convert empty ASCII string to integer" 
-            ]
-            (length? ascii) > 1 [
-                cause-error 'user 'message "Only one character is allowed" 
-            ]
+        return not parse code [
+            "9" "7" ["8" | "9"]
+            to end
         ]
-        
-        ascii-char: to char! ascii
-        return to integer! ascii-char
     ]
 
     /local generate-isbn13-rule: does [
         return [dash] ;TODO
+
+        ; LUHN algorithm here
     ]
 
     /local generate-isbn10-rule: does [
@@ -119,5 +111,22 @@ context [
 
             if((sum % 11) == 0)
         ]
+    ]
+
+    /local ascii-to-integer: func [
+        "Converts ASCII character to integer!"
+        ascii[string!]
+    ] [
+        case [
+            (empty? ascii) [
+                cause-error 'user 'message "Cannot convert empty ASCII string to integer" 
+            ]
+            (length? ascii) > 1 [
+                cause-error 'user 'message "Only one character is allowed" 
+            ]
+        ]
+        
+        ascii-char: to char! ascii
+        return to integer! ascii-char
     ]
 ]
