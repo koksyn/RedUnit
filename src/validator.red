@@ -10,7 +10,8 @@ Red [
 valid: context [
     /local validators: context [
         vat: do %validator/vat.red
-        mac: do %mac.red
+        mac: do %validator/mac.red
+        isbn: do %validator/isbn.red
     ]
     
     vat: func [
@@ -25,5 +26,12 @@ valid: context [
         text[string!]
     ] [
         return validators/mac/validate text
+    ]
+
+    isbn: func [
+        "Is provided string a valid ISBN?"
+        text[string!]
+    ] [
+        return validators/isbn/validate text
     ]
 ]

@@ -9,7 +9,7 @@ Red [
 
 ;-- You can use this assertions to test your code
 
-return context [
+context [
     expect-error: does [
         "Mark that actually executed test should throw an error. Other tests will not be affected."
         error-expected: true
@@ -19,7 +19,7 @@ return context [
         "Value is true?"
         value[logic!] 
     ] [
-        if not value [
+        unless value [
             message: "Expected value was 'true', but 'false' given."
             fail-test message "true"
         ]

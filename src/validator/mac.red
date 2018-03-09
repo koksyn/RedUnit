@@ -15,14 +15,14 @@ comment {
     Compatible with IEEE 802 standard and other conventions
 }
 
-return context [
+context [
     /local whitespace: charset reduce [space tab cr lf]
     /local digit: charset "0123456789"
     /local lower: charset [#"a" - #"f"]
     /local upper: charset [#"A" - #"F"]
     /local lower-hex: union lower digit
     /local upper-hex: union upper digit
-    /local dash: charset "-"
+    /local dash: charset "-‐"
     /local colon: charset ":"
 
     validate: func [

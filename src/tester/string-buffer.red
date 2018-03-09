@@ -7,7 +7,7 @@ Red [
     File: %string-buffer.red
 ]
 
-return context [
+context [
     /local buffer: ""
 
     put: func [

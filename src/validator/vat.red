@@ -15,7 +15,7 @@ comment {
     - http://ec.europa.eu/taxation_customs/vies/faq.html
 }
 
-return context [
+context [
     validate: func [
         "Check, that provided string is a valid VAT number"
         vat[string!]
@@ -133,7 +133,7 @@ return context [
     /local letter: charset [#"A" - #"Z"]
     /local digit: charset "0123456789"
     /local alphanum: union letter digit
-    /local dash: charset "-"
+    /local dash: charset "‐-"
 
     ; ------ European Union (EU) countries
 

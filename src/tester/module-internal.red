@@ -9,7 +9,7 @@ Red [
 
 ;-- Please do NOT use that in your tests
 
-return context [
+context [
     /local errors: make map![]
     /local setup-detected: false
     /local error-expected: false
@@ -64,7 +64,7 @@ return context [
             result: try [do test] 
         ]
 
-        if not none? result [
+        unless none? result [
             case [
                 was-error and (not error-expected) [
                     put errors test result

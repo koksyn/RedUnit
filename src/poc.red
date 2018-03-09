@@ -26,7 +26,7 @@ poc: context [
     ] [
         identifiers: words-of registry
 
-        if not empty? identifiers [
+        unless empty? identifiers [
             found: find/case identifiers name
             return not empty? found
         ]
@@ -38,7 +38,7 @@ poc: context [
         "Replace object in container"
         name[string!] prototype[object!]
     ] [
-        if not registered name [
+        unless registered name [
             user-error "Can not replace an unregistered object"
         ]
 
@@ -49,7 +49,7 @@ poc: context [
         "Get object from container"
         name[string!]
     ] [
-        if not registered name [
+        unless registered name [
             user-error "Can not resolve an unregistered object"
         ]
 
@@ -61,7 +61,7 @@ poc: context [
         "Remove object from container"
         name[string!]
     ] [
-        if not registered name [
+        unless registered name [
             user-error "Can not remove an unregistered object"
         ]
 
