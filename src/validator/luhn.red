@@ -67,23 +67,36 @@ x: context [
         sum: 0
         iteration: 1
 
-        while [iteration <= quantity] [
+        while [iteration < quantity] [
             actual: to integer! (copy/part at luhn iteration 1)
 
-            prin actual
+            ;print rejoin ["Act: " actual]
 
-            either((quantity % 2) == 0) [
-                sum: sum + (3 * actual)
-            ] [
-                sum: sum + actual
+            if (iteration % 2) == 0 [
+                actual: (3 * actual)
             ]
 
+            ;print rejoin ["'" actual "' "]
+
+            sum: sum + actual
             iteration: iteration + 1
         ]
 
-        print ""
+        ;print rejoin ["Sum: " sum]
 
-        return (sum % 10) == 0
+        mo: (sum % 10)
+
+        ;print rejoin ["Modulo: " mo]
+
+        if mo <> 0 [
+            mo: 10 - mo
+        ]
+
+        ;print rejoin ["Check digit: " mo]
+
+        last-digit: to integer! (copy/part at luhn iteration 1)
+
+        return mo == last-digit
     ]
 ]
 comment {

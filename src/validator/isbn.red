@@ -61,7 +61,7 @@ context [
     /local validate-isbn13: func [
         isbn[string!]
     ] [
-        print isbn
+        ;print isbn
 
         if bad-prefix isbn [ return false ]
 
