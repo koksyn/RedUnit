@@ -11,20 +11,11 @@ do %../src/validator.red
 ; Example 1: Valid VAT numbers for several countries
 ; ------------------------------------------------------
 
-; "Poland"
-probe valid/vat "PL8567346215"
-
-; "Switzerland"
-probe valid/vat "CHE162856788TVA"
-
-; "Netherlands"
-probe valid/vat "NL004495445B01"
-
-; "Chile"
-probe valid/vat "CL21472149-5"
-
-; "Australia"
-probe valid/vat "ALJ52263223X"
+probe valid/vat "PL8567346215" ; Poland
+probe valid/vat "CHE162856788TVA" ; Switzerland
+probe valid/vat "NL004495445B01" ; Netherlands
+probe valid/vat "CL21472149-5" ; Chile
+probe valid/vat "ALJ52263223X" ; Australia
 
 ; Output:
 ; true
@@ -37,17 +28,10 @@ probe valid/vat "ALJ52263223X"
 ; Example 2: Invalid VAT numbers
 ; ------------------------------------------------------
  
-; "Poland"
-probe valid/vat "PL1234567890"
-
-; "Switzerland"
-probe valid/vat "CHE123456788"
-
-; "Netherlands"
-probe valid/vat "NL123456789X90"
-
-; "Chile"
-probe valid/vat "CL214721495X"
+probe valid/vat "PL1234567890" ; Poland
+probe valid/vat "CHE123456788" ; Switzerland
+probe valid/vat "NL123456789X90" ; Netherlands
+probe valid/vat "CL214721495X" ; Chile
 
 ; "Unknown values and countries"
 probe valid/vat "xy987654321"
