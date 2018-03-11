@@ -6,9 +6,11 @@
 | [validator-vat-tests.red](../tests/validator-vat-tests.red) | Tests for VAT |
 | [validator-mac-tests.red](../tests/validator-mac-tests.red) | Tests for MAC |
 | [validator-isbn-tests.red](../tests/validator-isbn-tests.red) | Tests for ISBN |
+| [validator-credit-card-tests.red](../tests/validator-credit-card-tests.red) | Tests for Credit Card |
 | [validator-vat-examples.red](../examples/validator-vat-examples.red) | Example usage of VAT |
 | [validator-mac-examples.red](../examples/validator-mac-examples.red) | Example usage of MAC |
 | [validator-isbn-examples.red](../examples/validator-isbn-examples.red) | Example usage of ISBN |
+| [validator-credit-card-examples.red](../examples/validator-credit-card-examples.red) | Example usage of Credit Card |
 
 ## Description
 
@@ -36,6 +38,12 @@ valid/mac <value>
 valid/isbn <value>
 ```
 
+* **Check valid Credit Card number** - is value a valid Credit Card number?
+
+```red
+valid/credit-card <value>
+```
+
 ## Usage of several validators
 
 ```red
@@ -46,20 +54,11 @@ do %src/validator.red
 ; Valid VAT numbers for several countries
 ; ------------------------------------------------------
 
-; "Poland"
-probe valid/vat "PL8567346215"
-
-; "Switzerland"
-probe valid/vat "CHE162856788TVA"
-
-; "Netherlands"
-probe valid/vat "NL004495445B01"
-
-; "Chile"
-probe valid/vat "CL21472149-5"
-
-; "Australia"
-probe valid/vat "ALJ52263223X"
+probe valid/vat "PL8567346215" ; Poland
+probe valid/vat "CHE162856788TVA" ; Switzerland
+probe valid/vat "NL004495445B01" ; Netherlands
+probe valid/vat "CL21472149-5" ; Chile
+probe valid/vat "ALJ52263223X" ; Australia
 
 ; Output:
 ; true
@@ -72,17 +71,10 @@ probe valid/vat "ALJ52263223X"
 ; Invalid VAT numbers
 ; ------------------------------------------------------
  
-; "Poland"
-probe valid/vat "PL1234567890"
-
-; "Switzerland"
-probe valid/vat "CHE123456788"
-
-; "Netherlands"
-probe valid/vat "NL123456789X90"
-
-; "Chile"
-probe valid/vat "CL214721495X"
+probe valid/vat "PL1234567890" ; Poland
+probe valid/vat "CHE123456788" ; Switzerland
+probe valid/vat "NL123456789X90" ; Netherlands
+probe valid/vat "CL214721495X" ; Chile
 
 ; "Unknown values and countries"
 probe valid/vat "xy987654321"
@@ -133,6 +125,30 @@ probe valid/isbn "978-3-16-148410-X" ; Forbidden character for ISBN-13
 probe valid/isbn "978-88-8183-7-1-8-8" ; Invalid checksum digit
 
 ; Output:
+; true
+; true
+; true
+; true
+; false
+; false
+
+; ------------------------------------------------------
+; Credit Card numbers
+; ------------------------------------------------------
+ 
+; valid
+probe valid/credit-card "2223 0031 2200 3222" ; Mastercard
+probe valid/credit-card "4000 0566 5566 5556" ; Visa
+probe valid/credit-card "4111 1111 1111 1111" ; Visa
+probe valid/credit-card "3714 496353 98431" ; American Express
+probe valid/credit-card "3714 496353 98431" ; UnionPay
+
+; invalid
+probe valid/credit-card "3530 1113 3330 000"
+probe valid/credit-card "4111111111111112" ; invalid check-digit for VISA
+
+; Output:
+; true
 ; true
 ; true
 ; true

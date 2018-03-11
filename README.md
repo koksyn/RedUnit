@@ -22,6 +22,7 @@ By using **validators** for specific data you don't need to create them on you o
 * [VAT](docs/validators.md) - Value Added Tax in European Union, Latin American and other countries.
 * [MAC](docs/validators.md) - Media access control address (for network interface controllers)
 * [ISBN](docs/validators.md) - International Standard Book Number
+* [Credit Card](docs/validators.md) - Credit Card numbers for several banks (VISA, Mastercard, etc.)
 
 ## Running the tests
 

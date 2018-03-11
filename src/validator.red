@@ -12,6 +12,7 @@ valid: context [
         vat: do %validator/vat.red
         mac: do %validator/mac.red
         isbn: do %validator/isbn.red
+        credit-card: do %validator/credit-card.red
     ]
     
     vat: func [
@@ -33,5 +34,12 @@ valid: context [
         text[string!]
     ] [
         return validators/isbn/validate text
+    ]
+
+    credit-card: func [
+        "Is provided string a valid Credit Card number?"
+        text[string!]
+    ] [
+        return validators/credit-card/validate text
     ]
 ]
