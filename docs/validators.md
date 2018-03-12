@@ -8,11 +8,13 @@
 | [validator-isbn-tests.red](../tests/validator-isbn-tests.red) | Tests for ISBN |
 | [validator-credit-card-tests.red](../tests/validator-credit-card-tests.red) | Tests for Credit Card |
 | [validator-sedol-tests.red](../tests/validator-sedol-tests.red) | Tests for SEDOL |
+| [validator-swift-bic-tests.red](../tests/validator-swift-bic-tests.red) | Tests for SWIFT/BIC |
 | [validator-vat-examples.red](../examples/validator-vat-examples.red) | Example usage of VAT |
 | [validator-mac-examples.red](../examples/validator-mac-examples.red) | Example usage of MAC |
 | [validator-isbn-examples.red](../examples/validator-isbn-examples.red) | Example usage of ISBN |
 | [validator-credit-card-examples.red](../examples/validator-credit-card-examples.red) | Example usage of Credit Card |
 | [validator-sedol-examples.red](../examples/validator-sedol-examples.red) | Example usage of SEDOL |
+| [validator-swift-bic-examples.red](../examples/validator-swift-bic-examples.red) | Example usage of SWIFT/BIC |
 
 ## Description
 
@@ -50,6 +52,12 @@ valid/credit-card <value>
 
 ```red
 valid/sedol <value>
+```
+
+* **Check valid SWIFT/BIC code** - is value a valid Business Identifier Code ?
+
+```red
+valid/swift-bic <value>
 ```
 
 ## Usage of several validators
@@ -185,6 +193,26 @@ probe valid/sedol "0123456" ; invalid check-digit
 ; true
 ; true
 ; false
+; false
+; false
+
+; ------------------------------------------------------
+; SWIFT/BIC codes
+; ------------------------------------------------------
+ 
+; valid
+probe valid/swift-bic "UBSWCHZH80A" ; Switzerland
+probe valid/swift-bic "GENODEF1JEV" ; Germany
+probe valid/swift-bic "RZTIAT22263" ; Austria
+
+; invalid
+probe valid/swift-bic "MARK-DEF1"
+probe valid/swift-bic "RBOS GGSX"
+
+; Output:
+; true
+; true
+; true
 ; false
 ; false
 

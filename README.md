@@ -24,6 +24,7 @@ By using **validators** for specific data you don't need to create them on you o
 * [ISBN](docs/validators.md) - International Standard Book Number
 * [Credit Card](docs/validators.md) - Credit Card numbers for several banks (VISA, Mastercard, etc.)
 * [SEDOL](docs/validators.md) - Stock Exchange identifiers used in the United Kingdom and Ireland
+* [SWIFT/BIC](docs/validators.md) - Business Identifier Codes for both financial or not-financial institutions
 
 ## Running the tests
 

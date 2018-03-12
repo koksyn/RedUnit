@@ -14,6 +14,7 @@ valid: context [
         isbn: do %validator/isbn.red
         credit-card: do %validator/credit-card.red
         sedol: do %validator/sedol.red
+        swift-bic: do %validator/swift-bic.red
     ]
     
     vat: func [
@@ -49,5 +50,12 @@ valid: context [
         text[string!]
     ] [
         return validators/sedol/validate text
+    ]
+
+    swift-bic: func [
+        "Is provided string a valid SWIFT or BIC code?"
+        text[string!]
+    ] [
+        return validators/swift-bic/validate text
     ]
 ]
