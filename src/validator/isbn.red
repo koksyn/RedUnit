@@ -8,9 +8,7 @@ Red [
 
 comment {
     Internal file as part of Validator tool
-
-    Script based on:
-    - https://en.wikipedia.org/wiki/International_Standard_Book_Number
+    Script based on: https://en.wikipedia.org/wiki/International_Standard_Book_Number
 }
 
 context [
@@ -78,7 +76,7 @@ context [
             iteration: iteration + 1
         ]
 
-        last-digit: to integer! (copy/part at isbn iteration 1)
+        last-digit: to integer! (at tail isbn -1)
 
         ; calculating check digit
         check-digit: (checksum % 10)

@@ -7,10 +7,12 @@
 | [validator-mac-tests.red](../tests/validator-mac-tests.red) | Tests for MAC |
 | [validator-isbn-tests.red](../tests/validator-isbn-tests.red) | Tests for ISBN |
 | [validator-credit-card-tests.red](../tests/validator-credit-card-tests.red) | Tests for Credit Card |
+| [validator-sedol-tests.red](../tests/validator-sedol-tests.red) | Tests for SEDOL |
 | [validator-vat-examples.red](../examples/validator-vat-examples.red) | Example usage of VAT |
 | [validator-mac-examples.red](../examples/validator-mac-examples.red) | Example usage of MAC |
 | [validator-isbn-examples.red](../examples/validator-isbn-examples.red) | Example usage of ISBN |
 | [validator-credit-card-examples.red](../examples/validator-credit-card-examples.red) | Example usage of Credit Card |
+| [validator-sedol-examples.red](../examples/validator-sedol-examples.red) | Example usage of SEDOL |
 
 ## Description
 
@@ -42,6 +44,12 @@ valid/isbn <value>
 
 ```red
 valid/credit-card <value>
+```
+
+* **Check valid SEDOL code** - is value a valid Stock Exchange identifier ?
+
+```red
+valid/sedol <value>
 ```
 
 ## Usage of several validators
@@ -153,6 +161,30 @@ probe valid/credit-card "4111111111111112" ; invalid check-digit for VISA
 ; true
 ; true
 ; true
+; false
+; false
+
+; ------------------------------------------------------
+;  Stock Exchange Daily Official List (SEDOL)
+; ------------------------------------------------------
+ 
+; valid
+probe valid/sedol "7108899"
+probe valid/sedol "B0YBKT7"
+probe valid/sedol "2282765"
+probe valid/sedol "B0WNLY7"
+
+; invalid
+probe valid/sedol "71088990" ; more than 7 characters
+probe valid/sedol "B0WNLLN" ; character instead of digit at the end
+probe valid/sedol "0123456" ; invalid check-digit
+
+; Output:
+; true
+; true
+; true
+; true
+; false
 ; false
 ; false
 

@@ -8,11 +8,7 @@ Red [
 
 comment {
     Internal file as part of Validator tool
-
-    Script based on:
-    - http://en.wikipedia.org/wiki/MAC_address#Notational_conventions
-
-    Compatible with IEEE 802 standard and other conventions
+    Script based on: http://en.wikipedia.org/wiki/MAC_address#Notational_conventions
 }
 
 context [
