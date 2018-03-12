@@ -78,7 +78,7 @@ context [
             iteration: iteration + 1
         ]
 
-        last-digit: to integer! (copy/part at isbn iteration 1)
+        last-digit: to integer! (at tail isbn -1)
 
         ; calculating check digit
         check-digit: (checksum % 10)
