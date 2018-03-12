@@ -8,9 +8,7 @@ Red [
 
 comment {
     Internal file as part of Validator tool
-
-    Script based on:
-    - https://en.wikipedia.org/wiki/International_Standard_Book_Number
+    Script based on: https://en.wikipedia.org/wiki/International_Standard_Book_Number
 }
 
 context [

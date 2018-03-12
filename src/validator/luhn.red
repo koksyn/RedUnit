@@ -8,9 +8,7 @@ Red [
 
 comment {
     Internal file as part of Validator tool
-
-    Script based on:
-    - https://en.wikipedia.org/wiki/Luhn_algorithm
+    Script based on: https://en.wikipedia.org/wiki/Luhn_algorithm
 }
 
 context [
