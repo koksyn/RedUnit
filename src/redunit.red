@@ -3,18 +3,18 @@ Red [
     Description: "Tool for running tests of Red scripts like in xUnit, nUnit and other similar libs."
     Purpose: "Be able to test Red language scripts"
     Author: "Mateusz Palichleb"
-    File: %tester.red
-    Version: "0.0.1-SNAPSHOT"
+    File: %redunit.red
+    Version: "0.0.1"
 ]
 
-tester-modules-builder: context [
+redunit-modules-builder: context [
     ; build and merge all of the modules into one merged object!
     build: does [
         /local modules: context []
 
-        modules: add-object-from-file %tester/module-internal.red modules
-        modules: add-object-from-file %tester/module-assertions.red modules
-        modules: add-object-from-file %tester/module-general.red modules
+        modules: add-object-from-file %modules/internal.red modules
+        modules: add-object-from-file %modules/assertions.red modules
+        modules: add-object-from-file %modules/general.red modules
 
         return modules
     ]
@@ -35,4 +35,4 @@ tester-modules-builder: context [
     ]
 ]
 
-tester: tester-modules-builder/build
+redunit: redunit-modules-builder/build

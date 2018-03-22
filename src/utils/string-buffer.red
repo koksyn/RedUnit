@@ -1,5 +1,4 @@
 Red [
-    Package: "Tester"
     Title: "String Buffer"
     Description: "Buffer for string! values."
     Purpose: "Reducing tests execution time. Using string buffer instead of console output will speed up execution."

@@ -5,13 +5,13 @@ Red [
     File: %poc-tests.red
 ]
 
-do %../src/tester.red
+do %../src/redunit.red
 
 tests: context [
     setup: func [
         "Initialize/Reload context before each test"
     ] [
-        do %../src/poc.red
+        do %../src/utils/poc.red
         point: context [ x:1 y:2 z:3 ]
     ]
 
@@ -27,7 +27,7 @@ tests: context [
     ] [
         poc/register "twice" point
 
-        tester/expect-error
+        redunit/expect-error
         poc/register "twice" point
     ]
 
@@ -57,7 +57,7 @@ tests: context [
             name: append "name-" counter
             counter: counter + 1
 
-            tester/expect-error
+            redunit/expect-error
             poc/register name not-allowed-type
         ]
     ]
@@ -65,9 +65,9 @@ tests: context [
     test-was-registered: func [
         "Checking name was registered before and after registration"
     ] [
-        tester/assert-false poc/registered "my-point"
+        redunit/assert-false poc/registered "my-point"
         poc/register "my-point" point
-        tester/assert-true poc/registered "my-point"
+        redunit/assert-true poc/registered "my-point"
     ]
 
     test-replace-registered-name: func [
@@ -80,7 +80,7 @@ tests: context [
     test-replace-unregistered-name: func [
         "Replacing unregistered name is forbidden"
     ] [
-        tester/expect-error
+        redunit/expect-error
         poc/replace "unknown" point
     ]
 
@@ -105,7 +105,7 @@ tests: context [
     test-resolve-unregistered-name: func [
         "Resolving unregistered name is forbidden"
     ] [
-        tester/expect-error
+        redunit/expect-error
         poc/resolve "unknown" point
     ]
 
@@ -115,26 +115,26 @@ tests: context [
         poc/register "my-point" point
         result: poc/resolve "my-point"
 
-        tester/assert-equals point result
-        tester/assert-not-identical point result
+        redunit/assert-equals point result
+        redunit/assert-not-identical point result
     ]
 
     test-remove-registered-name: func [
         "Removing registered name should be possible"
     ] [
         poc/register "my-point" point
-        tester/assert-true poc/registered "my-point"
+        redunit/assert-true poc/registered "my-point"
 
         poc/remove "my-point"
-        tester/assert-false poc/registered "my-point"
+        redunit/assert-false poc/registered "my-point"
     ]
 
     test-remove-unregistered-name: func [
         "Removing unregistered name is forbidden"
     ] [
-        tester/expect-error
+        redunit/expect-error
         poc/remove "unknown"
     ]
 ]
 
-tester/run tests
+redunit/run tests

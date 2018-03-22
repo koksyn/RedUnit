@@ -1,9 +1,9 @@
 Red [
-    Package: "Tester"
+    Package: "RedUnit"
     Title: "General module"
     Description: "Public interface, to be used globally."
     Author: "Mateusz Palichleb"
-    File: %module-general.red
+    File: %general.red
 ]
 
 ;-- You can use that to run an object! with tests
@@ -15,7 +15,7 @@ context [
     ] [
         buffer/clear
         buffer/putline "--------- RedUnit ----------"
-        buffer/putline "Version 0.0.1-SNAPSHOT^/"
+        buffer/putline "Version 0.0.1^/"
 
         tests: process-testable-methods testable
         

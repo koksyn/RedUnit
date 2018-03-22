@@ -1,10 +1,10 @@
 Red [
-    Package: "Tester"
+    Package: "RedUnit"
     Title: "Internal"
-    Description: "Internal methods and fields for Tester tool."
-    Purpose: "Encapsulating internal source of Tester."
+    Description: "Internal methods and fields for RedUnit tool."
+    Purpose: "Encapsulating internal source of RedUnit."
     Author: "Mateusz Palichleb"
-    File: %module-internal.red
+    File: %internal.red
 ]
 
 ;-- Please do NOT use that in your tests
@@ -14,7 +14,7 @@ context [
     /local setup-detected: false
     /local error-expected: false
     /local actual-test-name: ""
-    /local buffer: do %string-buffer.red
+    /local buffer: do %../utils/string-buffer.red
 
     /local process-testable-methods: func [
         "Will detect 'setup' and 'test***' methods - and prepare them to execution"
