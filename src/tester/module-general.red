@@ -14,8 +14,8 @@ context [
         testable[object!]
     ] [
         buffer/clear
-        buffer/putline "--------- Tester ----------"
-        buffer/putline "Version 0.0.6^/"
+        buffer/putline "--------- RedUnit ----------"
+        buffer/putline "Version 0.0.1-SNAPSHOT^/"
 
         tests: process-testable-methods testable
         

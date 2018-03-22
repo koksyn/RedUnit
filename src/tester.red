@@ -1,10 +1,10 @@
 Red [
-    Title: "Tester"
+    Title: "RedUnit"
     Description: "Tool for running tests of Red scripts like in xUnit, nUnit and other similar libs."
     Purpose: "Be able to test Red language scripts"
     Author: "Mateusz Palichleb"
     File: %tester.red
-    Version: "0.0.6"
+    Version: "0.0.1-SNAPSHOT"
 ]
 
 tester-modules-builder: context [

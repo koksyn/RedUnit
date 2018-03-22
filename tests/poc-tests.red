@@ -1,6 +1,6 @@
 Red [
     Title: "POC Tests"
-    Description: "Testing functionality of POC using Tester script"
+    Description: "Testing functionality of POC using RedUnit script"
     Author: "Mateusz Palichleb"
     File: %poc-tests.red
 ]
