@@ -1,10 +1,10 @@
 Red [
-    Package: "Tester"
+    Package: "RedUnit"
     Title: "Assertions"
     Description: "Available assertions to test your code."
     Purpose: "Registering errors from failed assertions"
     Author: "Mateusz Palichleb"
-    File: %module-assertions.red
+    File: %assertions.red
 ]
 
 ;-- You can use this assertions to test your code
