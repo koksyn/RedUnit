@@ -11,7 +11,7 @@ The TDD (test driven-development) approach is now possible using the **RedUnit**
 
 ## Docs 
 
-* [Getting started](docs/getting-started.md) Usage, assertions and error handling
+* [Getting started](docs/getting-started.md) - usage, assertions and error handling
 
 ## Running the tests
 
