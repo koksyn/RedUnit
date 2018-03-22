@@ -25,4 +25,4 @@ Project was created and tested under **0.6.3** version of Red. Older versions we
 
 ### Historical note
 
-This tool was earlier part of various tools, that I created for Red language. When project became bigger, it was divided into a independent repositories.
+This tool was earlier a part of various tools, that I created for Red language. When project became bigger, it was divided into a independent repositories.
