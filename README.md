@@ -22,10 +22,10 @@ The **RedUnit** unit test framework obviously can't test itself - so for now it 
 Project was created and tested under **0.6.3** version of Red. Older versions were not tested.
 
 ## Features (Roadmap)
-- [x] v **0.0.1-SNAPSHOT** special assertion for expected error
-- [x] v **0.0.1-SNAPSHOT** logic assertions for tests
-- [x] v **0.0.1-SNAPSHOT** reducing tests execution time, using string buffer instead of console output
-- [x] v **0.0.1-SNAPSHOT** splitting script into modules
+- [x] v **0.0.1-Snapshot** special assertion for expected error
+- [x] v **0.0.1-Alpha1** logic assertions for tests
+- [x] v **0.0.1-Alpha2** reducing tests execution time, using string buffer instead of console output
+- [x] v **0.0.1-RC** splitting script into modules
 - [x] v **0.0.1** Rebuilding whole project, because of dividing project into more repositories
 - [ ] v **0.0.2** adding original error trace when assertion failed
 - [ ] v **0.0.3** running tests from many files at once
