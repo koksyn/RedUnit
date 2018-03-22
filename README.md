@@ -1,6 +1,7 @@
 # RedUnit
 
-RedUnit is a free, open source **unit testing framework** for **Red** language.
+RedUnit is a free, open source **unit testing framework** for **Red** language. 
+Inspired by xUnit, nUnit, PhpUnit and other similar libraries.
 
 ### Motivation
 
@@ -12,7 +13,7 @@ The TDD (test driven-development) approach is now possible using the **RedUnit**
 
 More content coming soon...
 
-* [Tester](docs/tester.md) - Test framework with assertions and error handling. Inspired by xUnit, PhpUnit and other similar libraries.
+* [Get started](docs/get-started.md) - assertions and error handling
 
 ## Running the tests
 
@@ -21,3 +22,7 @@ The **RedUnit** unit test framework obviously can't test itself - so for now it 
 ## Compatibility
 
 Project was created and tested under **0.6.3** version of Red. Older versions were not tested.
+
+### Historical note
+
+This tool was earlier part of various tools, that I created for Red language. When project became bigger, it was divided into a independent repositories.
