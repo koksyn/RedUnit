@@ -11,6 +11,7 @@ Red [
 
 context [
     /local errors: make map![]
+    /local tests: copy []
     /local setup-detected: false
     /local error-expected: false
     /local actual-test-name: ""
@@ -21,8 +22,8 @@ context [
         testable[object!]
     ] [
         setup-detected: false
-        tests: []
-                
+        tests: copy []
+
         methods: words-of testable  
 
         foreach method methods [
@@ -42,8 +43,6 @@ context [
             print "[Error] Provided object does not have any test method!"
             halt
         ]
-
-        return tests
     ]
 
     /local execute-test: func [
@@ -110,9 +109,11 @@ context [
 
     ;-- Returns EXIT CODE 1 - when there were some failed tests 
     /local quit-when-errors: does [
-        if (length? errors) > 0 [
-            quit-return 1
-        ]
+        were-errors: (length? errors) > 0
+
+        clear-context
+
+        if were-errors [ quit-return 1 ]
     ]
 
     /local fail-test: func [
@@ -131,5 +132,15 @@ context [
         issue-key: rejoin [actual-test-name "-" assertion "-" issue-number]
 
         put errors issue-key issue
+    ]
+
+    ; clears the whole context (can be used to re-run tests)
+    /local clear-context: does [
+        buffer/clear
+        errors: make map![]
+        tests: copy []
+        setup-detected: false
+        error-expected: false
+        actual-test-name: ""
     ]
 ]
