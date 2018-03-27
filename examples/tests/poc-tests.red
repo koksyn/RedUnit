@@ -9,7 +9,6 @@ context [
     setup: func [
         "Initialize/Reload context before each test"
     ] [
-        ;probe pwd
         do %../../src/utils/poc.red
         point: context [ x:1 y:2 z:3 ]
     ]
