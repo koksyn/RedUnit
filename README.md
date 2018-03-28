@@ -27,10 +27,10 @@ Project was created and tested under **0.6.3** version of Red. Older versions we
 - [x] v **0.0.1-Alpha2** reducing tests execution time, using string buffer instead of console output
 - [x] v **0.0.1-RC** splitting script into modules
 - [x] v **0.0.1** Rebuilding whole project, because of dividing project into more repositories
-- [ ] v **0.0.2** adding original error trace when assertion failed
-- [ ] v **0.0.3** running tests from many files at once
-- [ ] v **0.0.4** redesigning the console output for statuses of tests
-- [ ] v **0.0.5** data providers for testing a huge sets of data
+- [x] v **0.0.2** running tests from many files at once
+- [ ] v **0.0.3** redesigning the console output for statuses of tests
+- [ ] v **0.0.4** data providers for testing a huge sets of data
+- [ ] v **0.0.5** tests execution from compiled lib as CLI
 - [ ] v **0.0.6** extending expected-error assertion by defining a type of error we expect
 - [ ] v **0.0.7** simple mocks for objects and methods
 - [ ] v **0.0.8** 'method' assertions for mocks - checking/expecting the mock method was executed

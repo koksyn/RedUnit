@@ -6,35 +6,45 @@ Red [
     File: %general.red
 ]
 
-;-- You can use that to run an object! with tests
+; you should use that public interface to test your code
 
 context [
     run: func [
-        "Run all tests from provided object, which should consist at least one test method"
-        testable[object!]
+        path[file!]
     ] [
-        buffer/clear
-        buffer/putline "--------- RedUnit ----------"
-        buffer/putline "Version 0.0.1^/"
+        require-path-exist path
+        clear-context
 
-        tests: process-testable-methods testable
-        
-        started: now/time/precise/utc
+        print "--------- RedUnit ----------"
+        print "Version 0.0.2"
 
-        foreach test tests [
-            if setup-detected [do testable/setup]
-            execute-test test
+        case [
+            dir? path [ run-dir path ]
+            file? path [ run-file path ]
         ]
 
-        ended: now/time/precise/utc
+        attach-catched-errors
+        attach-execution-time
 
-        show-execution-time started ended
-        show-catched-errors
-
-        buffer/put "---------------------------"
         print buffer/flush
+        print "---------------------------"
 
-        ; EXIT codes for continuous integration
+        comment {
+            CLI exit code for continuous integration 
+            (0 - success, 1 - failure)
+        }
         quit-when-errors
+    ]
+
+    set-test-filename-prefix: func [ 
+        text[string!]
+    ] [
+        prefix: text
+    ]
+
+    set-test-filename-postfix: func [ 
+        text[string!]
+    ] [
+        postfix: text
     ]
 ]
