@@ -7,7 +7,7 @@ Red [
 ]
 
 context [
-    /local buffer: ""
+    /local buffer: copy ""
 
     put: func [
         "Will append value to the buffer tail"
@@ -31,5 +31,7 @@ context [
     ]
 
     ;-- "Clear the buffer"
-    clear: does [buffer: ""]
+    clear: does [
+        buffer: copy ""
+    ]
 ]

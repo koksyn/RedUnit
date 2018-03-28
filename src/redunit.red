@@ -4,7 +4,7 @@ Red [
     Purpose: "Be able to test Red language scripts"
     Author: "Mateusz Palichleb"
     File: %redunit.red
-    Version: "0.0.1"
+    Version: "0.0.2"
 ]
 
 redunit-modules-builder: context [

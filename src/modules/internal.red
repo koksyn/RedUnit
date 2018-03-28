@@ -7,15 +7,73 @@ Red [
     File: %internal.red
 ]
 
-;-- Please do NOT use that in your tests
-
 context [
     /local errors: make map![]
     /local tests: copy []
     /local setup-detected: false
     /local error-expected: false
-    /local actual-test-name: ""
+    /local actual-test-name: copy ""
     /local buffer: do %../utils/string-buffer.red
+    /local execution-time: 0.0
+    /local prefix: copy ""
+    /local postfix: copy "-tests"
+
+    /local run-dir: func [
+        "Will detect and execute all '<prefix>***<postfix>.red' test objects under '<dir>' directory"
+        dir[file!]
+    ] [
+        files: read dir
+
+        foreach file files [
+            path: rejoin [dir file]
+
+            case [
+                valid-filename file [
+                    run-file path
+                ]
+                dir? file [ ;-- recursion on subdirectory
+                    run-dir path
+                ]
+            ]
+        ]
+    ]
+
+    /local run-file: func [
+        "Run all tests from provided object (loaded from filepath), which should consist at least one test method"
+        filepath[file!]
+    ] [
+        buffer/put rejoin [ "^/[FILE] " filepath "^/"]
+
+        file-dir: pick (split-path filepath) 1
+
+        ; load testable file
+        boot-dir: what-dir
+        code: read filepath
+        change-dir file-dir
+        testable: do code
+
+        run-object testable
+        
+        ; revert boot directory
+        change-dir boot-dir
+    ]
+
+    /local run-object: func [
+        testable[object!]
+    ] [
+        process-testable-methods testable
+        
+        started: now/time/precise/utc
+
+        foreach test tests [
+            if setup-detected [do testable/setup]
+            execute-test test
+        ]
+
+        ended: now/time/precise/utc
+
+        add-execution-time started ended
+    ]
 
     /local process-testable-methods: func [
         "Will detect 'setup' and 'test***' methods - and prepare them to execution"
@@ -84,17 +142,23 @@ context [
         ]
     ]
 
-    /local show-execution-time: func [
-        "Print interval of execution time (in seconds) in Console"
+    /local add-execution-time: func [
+        "Adds new execution time to existing time"
         started[time!] ended[time!]
     ] [
         interval: to float! ended - started
 
-        buffer/putline rejoin ["^/Execution time: " interval " sec"] 
+        execution-time: execution-time + interval
+    ]
+
+    ; Print interval of execution time (in seconds) in Console
+    /local attach-execution-time: does [
+        ms: execution-time * 1000
+        buffer/put rejoin ["^/Time: " ms " ms"] 
     ]
 
     ;-- Print all catched errors in Console
-    /local show-catched-errors: does [
+    /local attach-catched-errors: does [
         were-errors: (length? errors) > 0
 
         if were-errors [
@@ -109,11 +173,9 @@ context [
 
     ;-- Returns EXIT CODE 1 - when there were some failed tests 
     /local quit-when-errors: does [
-        were-errors: (length? errors) > 0
-
-        clear-context
-
-        if were-errors [ quit-return 1 ]
+        if (length? errors) > 0 [
+            quit-return 1
+        ]
     ]
 
     /local fail-test: func [
@@ -141,6 +203,46 @@ context [
         tests: copy []
         setup-detected: false
         error-expected: false
-        actual-test-name: ""
+        actual-test-name: copy ""
+        execution-time: 0.0
+    ]
+
+    /local require-path-exist: func [
+        path[file!]
+    ] [
+        unless exists? path [
+            cause-error 'user 'message [
+                arg1: rejoin [
+                    "Provided path '" path "' does not exist! "
+                    "File or directory not found."
+                ]
+            ]
+        ]
+    ]
+
+    /local valid-filename: func [
+        "Checks that filename match a pattern '<prefix>***<postfix>.red'"
+        file[file!]
+    ] [
+        suffix: suffix? file
+
+        if suffix <> ".red" [
+            return false
+        ]
+
+        filename-length: (length? file) - (length? suffix)
+        filename: to string! (copy/part file filename-length)
+
+        pre-length: length? prefix
+        post-length: length? postfix
+        
+        if filename-length < (pre-length + post-length) [
+            return false
+        ]
+
+        filename-head: copy/part filename pre-length
+        filename-tail: at tail filename (-1 * post-length)
+
+        return (filename-head == prefix) and (filename-tail == postfix)
     ]
 ]
