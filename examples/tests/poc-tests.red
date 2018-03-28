@@ -5,13 +5,11 @@ Red [
     File: %poc-tests.red
 ]
 
-do %../src/redunit.red
-
-tests: context [
+context [
     setup: func [
         "Initialize/Reload context before each test"
     ] [
-        do %../src/utils/poc.red
+        do %../../src/utils/poc.red
         point: context [ x:1 y:2 z:3 ]
     ]
 
@@ -136,5 +134,3 @@ tests: context [
         poc/remove "unknown"
     ]
 ]
-
-redunit/run tests
