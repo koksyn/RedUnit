@@ -30,12 +30,13 @@ Project was created and tested under **0.6.3** version of Red. Older versions we
 - [x] v **0.0.2** running tests from many files at once
 - [ ] v **0.0.3** redesigning the console output for statuses of tests
 - [ ] v **0.0.4** data providers for testing a huge sets of data
-- [ ] v **0.0.5** extending expected-error assertion by defining a type of error we expect
-- [ ] v **0.0.6** simple mocks for objects and methods
-- [ ] v **0.0.7** 'method' assertions for mocks - checking/expecting the mock method was executed
-- [ ] v **0.0.8** 'argument' assertions for mock methods - checking/expecting an arguments of mock methods
-- [ ] v **0.0.9** 'return' assertions for mock methods - forcing/expecting that mock method will return specific value
-- [ ] v **0.1.0 - 0.1.9** refactoring, goal: increase execution time and readability
+- [ ] v **0.0.5** tests execution from compiled lib as CLI
+- [ ] v **0.0.6** extending expected-error assertion by defining a type of error we expect
+- [ ] v **0.0.7** simple mocks for objects and methods
+- [ ] v **0.0.8** 'method' assertions for mocks - checking/expecting the mock method was executed
+- [ ] v **0.0.9** 'argument' assertions for mock methods - checking/expecting an arguments of mock methods
+- [ ] v **0.1.0** 'return' assertions for mock methods - forcing/expecting that mock method will return specific value
+- [ ] v **0.1.1 - 0.1.9** refactoring, goal: increase execution time and readability
 - [ ] v **0.2.0** redesigning an API of all public methods - goal: cohesion
 - [ ] v **0.3.0** module to detect code coverage of tested objects
 
