@@ -16,15 +16,15 @@ context [
         clear-context
 
         print "--------- RedUnit ----------"
-        print "Version 0.0.2"
+        print "Version 0.0.3^/"
 
         case [
             dir? path [ run-dir path ]
             file? path [ run-file path ]
         ]
 
-        attach-catched-errors
         attach-execution-time
+        attach-summary
 
         print buffer/flush
         print "---------------------------"

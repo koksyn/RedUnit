@@ -42,7 +42,7 @@ context [
         "Run all tests from provided object (loaded from filepath), which should consist at least one test method"
         filepath[file!]
     ] [
-        buffer/put rejoin [ "^/[FILE] " filepath "^/"]
+        ;prin rejoin [ "^/[File] " filepath "^/"]
 
         file-dir: pick (split-path filepath) 1
 
@@ -107,8 +107,6 @@ context [
         "Executes one test method"
         test
     ] [
-        buffer/put rejoin ["[test] " test " "]
-
         ; reset context of expected error for each test
         error-expected: false
         result: none
@@ -135,11 +133,20 @@ context [
 
         errors-after: length? errors
 
+        ; Disable time for printing the console output 
+        printing-started: now/time/precise/utc
+
+        ;buffer/put rejoin ["[test] " test " "]
+
         either errors-before <> errors-after [
-            buffer/putline "[Failure]"
+            prin "F"
         ] [
-            buffer/putline "[Success]"
+            prin "."
         ]
+
+        printing-ended: now/time/precise/utc
+
+        subtract-execution-time printing-started printing-ended
     ]
 
     /local add-execution-time: func [
@@ -151,24 +158,35 @@ context [
         execution-time: execution-time + interval
     ]
 
+    /local subtract-execution-time: func [
+        "Removes execution time from existing time"
+        started[time!] ended[time!]
+    ] [
+        interval: to float! ended - started
+
+        execution-time: execution-time - interval
+    ]
+
     ; Print interval of execution time (in seconds) in Console
     /local attach-execution-time: does [
         ms: execution-time * 1000
-        buffer/put rejoin ["^/Time: " ms " ms"] 
+        prin rejoin ["^/^/Time: " ms " ms^/^/"] 
     ]
 
-    ;-- Print all catched errors in Console
-    /local attach-catched-errors: does [
+    ;-- Print summary with all catched errors in Console
+    /local attach-summary: does [
         were-errors: (length? errors) > 0
 
         if were-errors [
-            buffer/putline "^/---- Errors ----^/"
+            prin "^/---- Errors ----^/"
 
             keys: reflect errors 'words
             foreach key keys [
-                buffer/putline rejoin [key ":^/" select errors key "^/"]
+                prin rejoin [key ":^/" select errors key "^/"]
             ]
         ]
+
+        print rejoin ["[" 2 " tests, " 4 " assertions" "]"]
     ]
 
     ;-- Returns EXIT CODE 1 - when there were some failed tests 
