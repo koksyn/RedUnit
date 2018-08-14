@@ -132,7 +132,9 @@ context [
         ]
 
         errors-after: length? errors
-
+        
+        wait 1
+        
         ; Disable time for printing the console output 
         printing-started: now/time/precise/utc
 
@@ -167,14 +169,24 @@ context [
         execution-time: execution-time - interval
     ]
 
-    ; Print interval of execution time (in seconds) in Console
-    /local attach-execution-time: does [
-        ms: execution-time * 1000
-        prin rejoin ["^/^/Time: " ms " ms^/^/"] 
+    ; Print interval of execution time in Console
+    /local print-execution-time: does [
+        prin "^/^/Time: "
+
+        either execution-time >= 1 [
+            sec: round/to execution-time 0.0001
+            prin rejoin [sec " s"] ; in seconds
+        ] [
+            ms: execution-time * 1000
+            ms: round/to ms 0.0001
+            prin rejoin [ms " ms"]  ; in miliseconds
+        ]
+
+        prin "^/^/"
     ]
 
     ;-- Print summary with all catched errors in Console
-    /local attach-summary: does [
+    /local print-summary: does [
         were-errors: (length? errors) > 0
 
         if were-errors [
@@ -186,7 +198,7 @@ context [
             ]
         ]
 
-        print rejoin ["[" 2 " tests, " 4 " assertions" "]"]
+        prin rejoin ["Success [" length? tests " tests, " assertions-count " assertions" "]"]
     ]
 
     ;-- Returns EXIT CODE 1 - when there were some failed tests 
@@ -223,6 +235,7 @@ context [
         error-expected: false
         actual-test-name: copy ""
         execution-time: 0.0
+        assertions-count: 0
     ]
 
     /local require-path-exist: func [

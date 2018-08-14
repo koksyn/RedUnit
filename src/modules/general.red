@@ -15,19 +15,19 @@ context [
         require-path-exist path
         clear-context
 
-        print "--------- RedUnit ----------"
-        print "Version 0.0.3^/"
+        print "┌────────────────┐"
+        print "│ RedUnit v0.0.3 │"
+        print "└────────────────┘^/"
 
         case [
             dir? path [ run-dir path ]
             file? path [ run-file path ]
         ]
 
-        attach-execution-time
-        attach-summary
+        print-execution-time
+        print-summary
 
         print buffer/flush
-        print "---------------------------"
 
         comment {
             CLI exit code for continuous integration 
