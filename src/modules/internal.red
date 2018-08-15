@@ -133,7 +133,7 @@ context [
 
         errors-after: length? errors
         
-        wait 1
+        ;wait 1
         
         ; Disable time for printing the console output 
         printing-started: now/time/precise/utc
@@ -171,7 +171,7 @@ context [
 
     ; Print interval of execution time in Console
     /local print-execution-time: does [
-        prin "^/^/Time: "
+        prin "Time: "
 
         either execution-time >= 1 [
             sec: round/to execution-time 0.0001
@@ -182,23 +182,43 @@ context [
             prin rejoin [ms " ms"]  ; in miliseconds
         ]
 
-        prin "^/^/"
+        prin "^/"
     ]
 
     ;-- Print summary with all catched errors in Console
     /local print-summary: does [
-        were-errors: (length? errors) > 0
+        error-count: (length? errors)
+        were-errors: (error-count > 0)
 
-        if were-errors [
-            prin "^/---- Errors ----^/"
+        either were-errors [
+            print "^/^/┌─      ─┐"
+            print "│ Errors │"
+            print "└─      ─┘"
 
             keys: reflect errors 'words
             foreach key keys [
                 prin rejoin [key ":^/" select errors key "^/"]
             ]
+
+            print "┌─               ─┐"
+            print "│ Status: Failure │"
+            print "└─               ─┘"
+        ] [
+            prin "Success"
         ]
 
-        prin rejoin ["Success [" length? tests " tests, " assertions-count " assertions" "]"]
+
+        print-execution-time
+
+        prin rejoin [
+            length? tests " tests" 
+            ", " assertions-count " assertions" 
+        ]
+
+        if were-errors [
+            prin rejoin [", " error-count " error"]
+            if error-count > 1 [ prin "s" ]
+        ]
     ]
 
     ;-- Returns EXIT CODE 1 - when there were some failed tests 

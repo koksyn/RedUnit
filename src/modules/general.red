@@ -24,7 +24,7 @@ context [
             file? path [ run-file path ]
         ]
 
-        print-execution-time
+        
         print-summary
 
         print buffer/flush

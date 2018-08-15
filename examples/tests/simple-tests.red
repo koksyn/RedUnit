@@ -16,6 +16,6 @@ context [
         "Expecting error"
     ] [
         redunit/expect-error
-        x: 1 / 0
+        x: 1 / 1
     ]
 ]
