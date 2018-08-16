@@ -9,7 +9,7 @@ context [
     test-different-values: func [
         "Checking different values"
     ] [
-        redunit/assert-not-equals 1 2
+        redunit/assert-not-equals 1 1
     ]
 
     test-error-thrown: func [

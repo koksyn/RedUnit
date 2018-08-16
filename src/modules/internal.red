@@ -12,6 +12,7 @@ context [
     /local tests: copy []
     /local setup-detected: false
     /local error-expected: false
+    /local actual-filepath: copy ""
     /local actual-test-name: copy ""
     /local buffer: do %../utils/string-buffer.red
     /local execution-time: 0.0
@@ -42,8 +43,7 @@ context [
         "Run all tests from provided object (loaded from filepath), which should consist at least one test method"
         filepath[file!]
     ] [
-        ;prin rejoin [ "^/[File] " filepath "^/"]
-
+        actual-filepath: filepath
         file-dir: pick (split-path filepath) 1
 
         ; load testable file
@@ -122,7 +122,13 @@ context [
         unless none? result [
             case [
                 was-error and (not error-expected) [
-                    put errors test result
+                    error-header: rejoin [
+                        "│ File   : " actual-filepath "^/"
+                        "│ Method : " test "^/"
+                        "│ Body   : "
+                    ]
+
+                    put errors error-header result
                 ]
                 (not was-error) and error-expected [
                     message: "Expected error, but nothing happen."
@@ -133,17 +139,13 @@ context [
 
         errors-after: length? errors
         
-        ;wait 1
-        
         ; Disable time for printing the console output 
         printing-started: now/time/precise/utc
 
-        ;buffer/put rejoin ["[test] " test " "]
-
         either errors-before <> errors-after [
-            prin "F"
+            prin "F" ; Failure
         ] [
-            prin "."
+            prin "." ; Success
         ]
 
         printing-ended: now/time/precise/utc
@@ -191,18 +193,27 @@ context [
         were-errors: (error-count > 0)
 
         either were-errors [
-            print "^/^/┌─      ─┐"
-            print "│ Errors │"
-            print "└─      ─┘"
+            print rejoin [ 
+                "^/^/"
+                "┌─      ─┐^/"
+                "│ Errors │^/"
+                "└─      ─┘^/" 
+            ]
 
             keys: reflect errors 'words
             foreach key keys [
-                prin rejoin [key ":^/" select errors key "^/"]
+                prin rejoin [
+                    key "^/" 
+                    select errors key 
+                    "^/^/"
+                ]
             ]
 
-            print "┌─               ─┐"
-            print "│ Status: Failure │"
-            print "└─               ─┘"
+            prin rejoin [
+                "┌─               ─┐^/"
+                "│ Status: Failure │^/"
+                "└─               ─┘^/"
+            ]
         ] [
             prin "Success"
         ]
@@ -232,18 +243,13 @@ context [
         "Cause actual test failure - internally from assertions"
         message[string!] assertion[string!]
     ] [
-        issue: make error! [
-            code: none
-            type: 'user
-            id: 'message
-            arg1: message
-            where: append "assert-" assertion
+        error-header: rejoin [
+            "│ File      : " actual-filepath "^/"
+            "│ Method    : " actual-test-name "^/"
+            "│ Assertion : " assertion "^/"
         ]
 
-        issue-number: (length? errors) + 1
-        issue-key: rejoin [actual-test-name "-" assertion "-" issue-number]
-
-        put errors issue-key issue
+        put errors error-header message
     ]
 
     ; clears the whole context (can be used to re-run tests)
