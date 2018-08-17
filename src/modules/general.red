@@ -24,10 +24,7 @@ context [
             file? path [ run-file path ]
         ]
 
-        
         print-summary
-
-        print buffer/flush
 
         comment {
             CLI exit code for continuous integration 

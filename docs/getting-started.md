@@ -152,31 +152,90 @@ Then you can run tests on this file from another place
 
 ```red
 Red [
-    File: %examples/run-single.red
+    File: %run-one-file.red
 ]
 
-; load RedUnit
 do %../src/redunit.red
 
-; Execute tests
 redunit/run %tests/poc-tests.red
 ```
 
 Console output:
 
 ```bash
-./red-063-linux -s examples/run-single.red 
---------- RedUnit ----------
-Version 0.0.2
+./red-063-linux -s examples/run-one-file.red 
+┌────────────────┐
+│ RedUnit v0.0.3 │
+└────────────────┘
 
-[FILE] tests/poc-tests.red
-[test] test-register-same-object-twice [Success]
-[test] test-register-same-name-twice [Success]
-[test] test-was-registered [Success]
-[test] test-resolve-unregistered-name [Success]
-[test] test-resolve-returned-prototype-clone [Success]
+.............
 
-Time: 20.358 ms
----------------------------
+┌─               ─┐
+│ Status: Success │
+└─               ─┘
+Time: 79.855 ms
+13 tests, 11 assertions
+
+```
+
+### Example of failed tests
+
+```bash
+./red-063-linux examples/run-directory.red 
+┌────────────────┐
+│ RedUnit v0.0.3 │
+└────────────────┘
+
+FF.............
+
+┌─      ─┐
+│ Errors │
+└─      ─┘
+
+│ File      : tests/simple-tests.red
+│ Method    : test-different-values
+│ Assertion : not-equals
+
+Expected different values, but they are equivalent.
+
+│ File      : tests/simple-tests.red
+│ Method    : test-error-thrown
+│ Assertion : error-expected
+
+Expected error, but nothing happen.
+
+┌─               ─┐
+│ Status: Failure │
+└─               ─┘
+Time: 84.951 ms
+13 tests, 13 assertions, 2 errors
+
+```
+
+```bash
+┌────────────────┐
+│ RedUnit v0.0.3 │
+└────────────────┘
+
+............F
+
+┌─      ─┐
+│ Errors │
+└─      ─┘
+
+│ File      : tests/poc-tests.red
+│ Method    : test-remove-unregistered-name
+
+Runtime error detected, but there wasn't any assertion dedicated for expecting error. 
+
+*** User Error: "Can not remove an unregistered object"
+*** Where: do
+*** Stack: rejoin first first cause-error 
+
+┌─               ─┐
+│ Status: Failure │
+└─               ─┘
+Time: 80.257 ms
+13 tests, 10 assertions, 1 error
 
 ```

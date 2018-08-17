@@ -14,7 +14,6 @@ context [
     /local error-expected: false
     /local actual-filepath: copy ""
     /local actual-test-name: copy ""
-    /local buffer: do %../utils/string-buffer.red
     /local execution-time: 0.0
     /local prefix: copy ""
     /local postfix: copy "-tests"
@@ -122,10 +121,11 @@ context [
         unless none? result [
             case [
                 was-error and (not error-expected) [
+
                     error-header: rejoin [
-                        "│ File   : " actual-filepath "^/"
-                        "│ Method : " test "^/"
-                        "│ Body   : "
+                        "│ File      : " actual-filepath "^/"
+                        "│ Method    : " actual-test-name "^/"
+                        "^/Runtime error detected, but there wasn't any assertion dedicated for expecting error. ^/"
                     ]
 
                     put errors error-header result
@@ -192,9 +192,10 @@ context [
         error-count: (length? errors)
         were-errors: (error-count > 0)
 
+        prin "^/^/"
+
         either were-errors [
-            print rejoin [ 
-                "^/^/"
+            print rejoin [
                 "┌─      ─┐^/"
                 "│ Errors │^/"
                 "└─      ─┘^/" 
@@ -215,7 +216,11 @@ context [
                 "└─               ─┘^/"
             ]
         ] [
-            prin "Success"
+            prin rejoin [
+                "┌─               ─┐^/"
+                "│ Status: Success │^/"
+                "└─               ─┘^/"
+            ]
         ]
 
 
@@ -230,6 +235,8 @@ context [
             prin rejoin [", " error-count " error"]
             if error-count > 1 [ prin "s" ]
         ]
+
+        prin "^/"
     ]
 
     ;-- Returns EXIT CODE 1 - when there were some failed tests 
@@ -254,7 +261,6 @@ context [
 
     ; clears the whole context (can be used to re-run tests)
     /local clear-context: does [
-        buffer/clear
         errors: make map![]
         tests: copy []
         setup-detected: false
