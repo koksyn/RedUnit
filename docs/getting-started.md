@@ -152,11 +152,13 @@ Then you can run tests on this file from another place
 
 ```red
 Red [
-    File: %run-one-file.red
+    File: %examples/run-one-file.red
 ]
 
+; load RedUnit
 do %../src/redunit.red
 
+; Execute tests
 redunit/run %tests/poc-tests.red
 ```
 
@@ -178,7 +180,27 @@ Time: 79.855 ms
 
 ```
 
-### Example of failed tests
+## Failed tests
+
+### Signs
+
+In the console output you will see a sequence of characters, whose are eqivalent of current tests execution status.
+
+* **. (dot)** - actually executed single test passed checking without errors
+
+Example (10 successful tests = 10 dots)
+```red
+..........
+```
+
+* **F (letter)** - actually executed single test failed and contain errors
+
+Example (6 successful tests - 6 dots, 4 failed tests - 4 "F" letters)
+```red
+FF...F...F
+```
+
+#### Failure caused by assertions (example 1)
 
 ```bash
 ./red-063-linux examples/run-directory.red 
@@ -212,30 +234,32 @@ Time: 84.951 ms
 
 ```
 
+#### Failure caused by unexpected user errors (example 2)
+
 ```bash
 ┌────────────────┐
 │ RedUnit v0.0.3 │
 └────────────────┘
 
-............F
+........F......
 
 ┌─      ─┐
 │ Errors │
 └─      ─┘
 
 │ File      : tests/poc-tests.red
-│ Method    : test-remove-unregistered-name
+│ Method    : test-replace-unregistered-name
 
-Runtime error detected, but there wasn't any assertion dedicated for expecting error. 
+Runtime error detected, but there was not any assertion dedicated for expecting error. 
 
-*** User Error: "Can not remove an unregistered object"
+*** User Error: "Can not replace an unregistered object"
 *** Where: do
-*** Stack: rejoin first first cause-error 
+*** Stack: rejoin first last cause-error 
 
 ┌─               ─┐
 │ Status: Failure │
 └─               ─┘
-Time: 80.257 ms
-13 tests, 10 assertions, 1 error
+Time: 80.88 ms
+13 tests, 12 assertions, 1 error
 
 ```

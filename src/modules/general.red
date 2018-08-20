@@ -15,9 +15,8 @@ context [
         require-path-exist path
         clear-context
 
-        print "┌────────────────┐"
-        print "│ RedUnit v0.0.3 │"
-        print "└────────────────┘^/"
+        print-bordered-header "RedUnit v0.0.3"
+        prin newline
 
         case [
             dir? path [ run-dir path ]

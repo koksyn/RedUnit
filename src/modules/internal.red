@@ -109,6 +109,7 @@ context [
         ; reset context of expected error for each test
         error-expected: false
         result: none
+
         ; define actually executed test name
         actual-test-name: to string! test
 
@@ -139,6 +140,12 @@ context [
 
         errors-after: length? errors
         
+        print-last-test-status errors-before errors-after
+    ]
+
+    /local print-last-test-status: func [
+        errors-before[integer!] errors-after[integer!]
+    ][
         ; Disable time for printing the console output 
         printing-started: now/time/precise/utc
 
@@ -184,60 +191,88 @@ context [
             prin rejoin [ms " ms"]  ; in miliseconds
         ]
 
-        prin "^/"
+        prin newline
     ]
 
     ;-- Print summary with all catched errors in Console
     /local print-summary: does [
-        error-count: (length? errors)
-        were-errors: (error-count > 0)
+        were-errors: (length? errors) > 0
 
-        prin "^/^/"
+        print newline
 
         either were-errors [
-            print rejoin [
-                "┌─      ─┐^/"
-                "│ Errors │^/"
-                "└─      ─┘^/" 
-            ]
+            print-cornered-header "Errors"
+            prin newline
 
             keys: reflect errors 'words
             foreach key keys [
                 prin rejoin [
-                    key "^/" 
+                    key 
+                    newline 
                     select errors key 
-                    "^/^/"
+                    newline 
+                    newline
                 ]
             ]
 
-            prin rejoin [
-                "┌─               ─┐^/"
-                "│ Status: Failure │^/"
-                "└─               ─┘^/"
-            ]
+            print-cornered-header "Status: Failure"
         ] [
-            prin rejoin [
-                "┌─               ─┐^/"
-                "│ Status: Success │^/"
-                "└─               ─┘^/"
-            ]
+            print-cornered-header "Status: Success"
+        ]
+        
+        print-execution-time
+        print-counters
+    ]
+
+    /local print-cornered-header: func [
+        "Prints header with corners in the console"
+        header[string!]
+    ] [
+        print-decorated-header header #" "
+    ]
+
+    /local print-bordered-header: func [
+        "Prints header with borders in the console"
+        header[string!]
+    ] [
+        print-decorated-header header #"─"
+    ]
+
+    /local print-decorated-header: func [
+        "Prints header with decorations in the console"
+        header[string!] space-char[char!]
+    ] [
+        steps: (length? header)
+        space: ""
+
+        loop steps [ 
+            space: rejoin [space space-char] 
         ]
 
+        prin rejoin [
+            "┌─" space  "─┐^/"
+            "│ " header " │^/"
+            "└─" space  "─┘^/"
+        ]
+    ]
 
-        print-execution-time
+    ;-- Prints number of tests, assertions and (optionally) catched errors
+    /local print-counters: does [
+        error-count: (length? errors)
 
         prin rejoin [
             length? tests " tests" 
             ", " assertions-count " assertions" 
         ]
 
-        if were-errors [
+        if (error-count > 0) [
             prin rejoin [", " error-count " error"]
             if error-count > 1 [ prin "s" ]
         ]
 
-        prin "^/"
+        prin newline
     ]
+
 
     ;-- Returns EXIT CODE 1 - when there were some failed tests 
     /local quit-when-errors: does [
