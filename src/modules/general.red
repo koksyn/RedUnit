@@ -15,19 +15,15 @@ context [
         require-path-exist path
         clear-context
 
-        print "--------- RedUnit ----------"
-        print "Version 0.0.2"
+        print-bordered-header "RedUnit v0.0.3"
+        prin newline
 
         case [
             dir? path [ run-dir path ]
             file? path [ run-file path ]
         ]
 
-        attach-catched-errors
-        attach-execution-time
-
-        print buffer/flush
-        print "---------------------------"
+        print-summary
 
         comment {
             CLI exit code for continuous integration 
