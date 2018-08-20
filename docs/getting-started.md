@@ -1,6 +1,6 @@
 # RedUnit - Getting Started
 
-Version: **0.0.2**
+Version: **0.0.3**
 
 | File                       | Description  |
 | ----------------------------- | ------------------------ |
@@ -152,7 +152,7 @@ Then you can run tests on this file from another place
 
 ```red
 Red [
-    File: %examples/run-single.red
+    File: %examples/run-one-file.red
 ]
 
 ; load RedUnit
@@ -165,18 +165,101 @@ redunit/run %tests/poc-tests.red
 Console output:
 
 ```bash
-./red-063-linux -s examples/run-single.red 
---------- RedUnit ----------
-Version 0.0.2
+./red-063-linux -s examples/run-one-file.red 
+┌────────────────┐
+│ RedUnit v0.0.3 │
+└────────────────┘
 
-[FILE] tests/poc-tests.red
-[test] test-register-same-object-twice [Success]
-[test] test-register-same-name-twice [Success]
-[test] test-was-registered [Success]
-[test] test-resolve-unregistered-name [Success]
-[test] test-resolve-returned-prototype-clone [Success]
+.............
 
-Time: 20.358 ms
----------------------------
+┌─               ─┐
+│ Status: Success │
+└─               ─┘
+Time: 79.855 ms
+13 tests, 11 assertions
+
+```
+
+## Console output sequence of characters
+
+In the console output you will see a sequence of characters, whose are eqivalent of current tests execution status.
+
+* **. (dot)** - actually executed single test passed checking without errors
+
+Example (10 successful tests = 10 dots)
+```red
+..........
+```
+
+* **F (letter)** - actually executed single test failed and contain errors
+
+Example (6 successful tests - 6 dots, 4 failed tests - 4 "F" letters)
+```red
+FF...F...F
+```
+
+## Examples of failed tests
+
+### Caused by assertions (example 1)
+
+```bash
+./red-063-linux examples/run-directory.red 
+┌────────────────┐
+│ RedUnit v0.0.3 │
+└────────────────┘
+
+FF.............
+
+┌─      ─┐
+│ Errors │
+└─      ─┘
+
+│ File      : tests/simple-tests.red
+│ Method    : test-different-values
+│ Assertion : not-equals
+
+Expected different values, but they are equivalent.
+
+│ File      : tests/simple-tests.red
+│ Method    : test-error-thrown
+│ Assertion : error-expected
+
+Expected error, but nothing happen.
+
+┌─               ─┐
+│ Status: Failure │
+└─               ─┘
+Time: 84.951 ms
+13 tests, 13 assertions, 2 errors
+
+```
+
+### Caused by unexpected user errors (example 2)
+
+```bash
+┌────────────────┐
+│ RedUnit v0.0.3 │
+└────────────────┘
+
+........F......
+
+┌─      ─┐
+│ Errors │
+└─      ─┘
+
+│ File      : tests/poc-tests.red
+│ Method    : test-replace-unregistered-name
+
+Runtime error detected, but there was not any assertion dedicated for expecting error. 
+
+*** User Error: "Can not replace an unregistered object"
+*** Where: do
+*** Stack: rejoin first last cause-error 
+
+┌─               ─┐
+│ Status: Failure │
+└─               ─┘
+Time: 80.88 ms
+13 tests, 12 assertions, 1 error
 
 ```
