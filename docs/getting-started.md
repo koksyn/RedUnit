@@ -180,9 +180,7 @@ Time: 79.855 ms
 
 ```
 
-## Failed tests
-
-### Signs
+## Console output sequence of characters
 
 In the console output you will see a sequence of characters, whose are eqivalent of current tests execution status.
 
@@ -200,7 +198,9 @@ Example (6 successful tests - 6 dots, 4 failed tests - 4 "F" letters)
 FF...F...F
 ```
 
-#### Failure caused by assertions (example 1)
+## Examples of failed tests
+
+### Caused by assertions (example 1)
 
 ```bash
 ./red-063-linux examples/run-directory.red 
@@ -234,7 +234,7 @@ Time: 84.951 ms
 
 ```
 
-#### Failure caused by unexpected user errors (example 2)
+### Caused by unexpected user errors (example 2)
 
 ```bash
 ┌────────────────┐
