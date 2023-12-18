@@ -145,7 +145,7 @@ context [
 
     /local print-last-test-status: func [
         errors-before[integer!] errors-after[integer!]
-    ][
+    ] [
         ; Disable time for printing the console output
         printing-started: now/time/precise/utc
 
