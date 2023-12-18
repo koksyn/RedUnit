@@ -40,7 +40,7 @@ context [
         "Registering not allowed types will throw an error"
     ] [
         not-allowed-types: [
-            "string" 
+            "string"
             ["list"]
             1234
             email@address.com
