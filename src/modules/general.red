@@ -26,19 +26,19 @@ context [
         print-summary
 
         comment {
-            CLI exit code for continuous integration 
+            CLI exit code for continuous integration
             (0 - success, 1 - failure)
         }
         quit-when-errors
     ]
 
-    set-test-filename-prefix: func [ 
+    set-test-filename-prefix: func [
         text[string!]
     ] [
         prefix: text
     ]
 
-    set-test-filename-postfix: func [ 
+    set-test-filename-postfix: func [
         text[string!]
     ] [
         postfix: text

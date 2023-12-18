@@ -11,7 +11,7 @@ Red [
 
 context [
     assertions-count: 0
-    
+
     increment-assertion: does [
         assertions-count: assertions-count + 1
     ]
@@ -24,7 +24,7 @@ context [
 
     assert-true: func [
         "Value is true?"
-        value[logic!] 
+        value[logic!]
     ] [
         increment-assertion
         unless value [
@@ -35,7 +35,7 @@ context [
 
     assert-false: func [
         "Value is false?"
-        value[logic!] 
+        value[logic!]
     ] [
         increment-assertion
         if value [
@@ -50,7 +50,7 @@ context [
     ] [
         increment-assertion
         different-data: not (strict-equal? expected actual)
-        
+
         if different-data [
             message: "Expected equivalent values, but they are different."
             fail-test message "equals"
@@ -63,7 +63,7 @@ context [
     ] [
         increment-assertion
         same-data: strict-equal? expected actual
-        
+
         if same-data [
             message: "Expected different values, but they are equivalent."
             fail-test message "not-equals"
@@ -76,7 +76,7 @@ context [
     ] [
         increment-assertion
         different-memory-location: not (same? expected actual)
-        
+
         if different-memory-location [
             message: "Expected identical values, regarding memory location, but they are different."
             fail-test message "identical"
@@ -89,7 +89,7 @@ context [
     ] [
         increment-assertion
         identical-memory-location: same? expected actual
-        
+
         if identical-memory-location [
             message: "Expected different values, regarding memory location, but they are identical."
             fail-test message "not-identical"

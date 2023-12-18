@@ -11,7 +11,7 @@ Version: **0.0.3**
 Test framework for running tests of Red language scripts. Inspired by *PhpUnit*, *xUnit*, *nUnit* and other similar libraries.
 
 **RedUnit** expects that you will give him a filepath (`file!`) to Red script with `object!`, which will contain test methods.
-Each test method name should be started with word `test`. 
+Each test method name should be started with word `test`.
 
 Optionally `setup` method will be executed before each test separately (only if `object!` consist method with name `setup`).
 
@@ -165,7 +165,7 @@ redunit/run %tests/poc-tests.red
 Console output:
 
 ```bash
-./red-063-linux -s examples/run-one-file.red 
+./red-063-linux -s examples/run-one-file.red
 ┌────────────────┐
 │ RedUnit v0.0.3 │
 └────────────────┘
@@ -203,7 +203,7 @@ FF...F...F
 ### Caused by assertions (example 1)
 
 ```bash
-./red-063-linux examples/run-directory.red 
+./red-063-linux examples/run-directory.red
 ┌────────────────┐
 │ RedUnit v0.0.3 │
 └────────────────┘
@@ -250,11 +250,11 @@ Time: 84.951 ms
 │ File      : tests/poc-tests.red
 │ Method    : test-replace-unregistered-name
 
-Runtime error detected, but there was not any assertion dedicated for expecting error. 
+Runtime error detected, but there was not any assertion dedicated for expecting error.
 
 *** User Error: "Can not replace an unregistered object"
 *** Where: do
-*** Stack: rejoin first last cause-error 
+*** Stack: rejoin first last cause-error
 
 ┌─               ─┐
 │ Status: Failure │

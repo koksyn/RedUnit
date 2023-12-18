@@ -52,7 +52,7 @@ context [
         testable: do code
 
         run-object testable
-        
+
         ; revert boot directory
         change-dir boot-dir
     ]
@@ -61,7 +61,7 @@ context [
         testable[object!]
     ] [
         process-testable-methods testable
-        
+
         started: now/time/precise/utc
 
         foreach test tests [
@@ -81,7 +81,7 @@ context [
         setup-detected: false
         tests: copy []
 
-        methods: words-of testable  
+        methods: words-of testable
 
         foreach method methods [
             method-name: to string! method
@@ -115,8 +115,8 @@ context [
 
         errors-before: length? errors
 
-        was-error: none? attempt [ 
-            result: try [do test] 
+        was-error: none? attempt [
+            result: try [do test]
         ]
 
         unless none? result [
@@ -139,14 +139,14 @@ context [
         ]
 
         errors-after: length? errors
-        
+
         print-last-test-status errors-before errors-after
     ]
 
     /local print-last-test-status: func [
         errors-before[integer!] errors-after[integer!]
-    ][
-        ; Disable time for printing the console output 
+    ] [
+        ; Disable time for printing the console output
         printing-started: now/time/precise/utc
 
         either errors-before <> errors-after [
@@ -207,10 +207,10 @@ context [
             keys: reflect errors 'words
             foreach key keys [
                 prin rejoin [
-                    key 
-                    newline 
-                    select errors key 
-                    newline 
+                    key
+                    newline
+                    select errors key
+                    newline
                     newline
                 ]
             ]
@@ -219,7 +219,7 @@ context [
         ] [
             print-cornered-header "Status: Success"
         ]
-        
+
         print-execution-time
         print-counters
     ]
@@ -245,8 +245,8 @@ context [
         steps: (length? header)
         space: ""
 
-        loop steps [ 
-            space: rejoin [space space-char] 
+        loop steps [
+            space: rejoin [space space-char]
         ]
 
         prin rejoin [
@@ -261,8 +261,8 @@ context [
         error-count: (length? errors)
 
         prin rejoin [
-            length? tests " tests" 
-            ", " assertions-count " assertions" 
+            length? tests " tests"
+            ", " assertions-count " assertions"
         ]
 
         if (error-count > 0) [
@@ -274,7 +274,7 @@ context [
     ]
 
 
-    ;-- Returns EXIT CODE 1 - when there were some failed tests 
+    ;-- Returns EXIT CODE 1 - when there were some failed tests
     /local quit-when-errors: does [
         if (length? errors) > 0 [
             quit-return 1
@@ -333,7 +333,7 @@ context [
 
         pre-length: length? prefix
         post-length: length? postfix
-        
+
         if filename-length < (pre-length + post-length) [
             return false
         ]
